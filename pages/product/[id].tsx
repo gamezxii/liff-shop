@@ -19,7 +19,7 @@ import Alertcart from "@/components/product/Alertcart";
 import CardItem from "@/components/Card";
 import CardRecommand from "@/components/CardRecommand";
 import { useRouter } from "next/router";
-import EditerView from "@/components/product/EditerView";
+import EditerView from "../../app/components/product/EditerView";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
