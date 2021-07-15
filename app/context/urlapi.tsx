@@ -1,1 +1,1 @@
-export const urlApi = "http://localhost:9000/";
+export const urlApi = "https://liff-shop-backend.herokuapp.com/";
