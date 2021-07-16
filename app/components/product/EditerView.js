@@ -8,30 +8,6 @@ const Editor = dynamic(
   { ssr: false }
 );
 
-const content = {
-  entityMap: {},
-  blocks: [
-    {
-      key: "637gr",
-      text: "Initialized from content state.",
-      type: "unordered-list-item",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {},
-    },
-    {
-      key: "6348gr",
-      text: "test",
-      type: "unordered-list-item",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {},
-    },
-  ],
-};
-
 const EditerView = ({ description }) => {
   const [contentstate, setContentstate] = useState(null);
 

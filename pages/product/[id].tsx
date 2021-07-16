@@ -260,7 +260,11 @@ const ProductId = ({ id }) => {
                   <Grid container spacing={1}>
                     <Grid item xs={12}>
                       <div style={{ marginLeft: 30, marginRight: 30 }}>
-                        <EditerView description={product.description} />
+                        {product.description ? (
+                          <EditerView description={product.description} />
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </Grid>
                   </Grid>
