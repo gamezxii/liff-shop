@@ -28,7 +28,7 @@ import Snackbars from "@/components/Snackbar";
 import Loading from "@/components/Loading";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import ButtonBack from "@/components/ButtonBack";
-import FormEditer from "../../../app/components/product/FormEditer";
+//import FormEditer from "../../../app/components/product/FormEditer";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -471,7 +471,7 @@ const Addproduct = () => {
               />
             </FormControl>
             <FormControl fullWidth>
-              <FormEditer content={editorState} handleEditor={handleEditor} />
+             {/*  <FormEditer content={editorState} handleEditor={handleEditor} /> */}
             </FormControl>
             <FormControl fullWidth>
               <Button onClick={onSubmit} variant="contained" color="primary">
