@@ -16,20 +16,16 @@ const EditerView = ({ description }) => {
       const parse = JSON.parse(description);
       setContentstate(parse);
     }
-  }, []);
-
-  useEffect(() => {}, [description]);
+  }, [description]);
   return (
-    <div>
-      <Editor
-        initialContentState={contentstate}
-        wrapperClassName="document-wrapper"
-        editorClassName="document-editor"
-        toolbarClassName="document-toolbar"
-        readOnly
-        toolbarHidden
-      />
-    </div>
+    <Editor
+      initialContentState={contentstate}
+      wrapperClassName="document-wrapper"
+      editorClassName="document-editor"
+      toolbarClassName="document-toolbar"
+      readOnly
+      toolbarHidden
+    />
   );
 };
 
