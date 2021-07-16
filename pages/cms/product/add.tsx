@@ -38,8 +38,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       padding: theme.spacing(2),
-      // minHeight: "80vh",
-      //color: theme.palette.text.secondary,
     },
     textfield: {
       marginBottom: theme.spacing(1),

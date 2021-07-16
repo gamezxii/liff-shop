@@ -32,21 +32,25 @@ const content = {
   ],
 };
 
-const EditerView = ({ description }) => {
+const EditerView = ({ content }) => {
   const [contentstate, setContentstate] = useState(null);
 
   useEffect(() => {
-    if (description) {
-      const parse = JSON.parse(description);
+    if (content) {
+      const parse = JSON.parse(content);
       setContentstate(parse);
     }
-  }, []);
+  }, [content]);
+  
+  const handleEditor = (contentState) => {
+    setContentstate(contentState)
+  }
 
-  useEffect(() => {}, [description]);
   return (
     <div>
       <Editor
         initialContentState={contentstate}
+        onContentStateChange={handleEditor}
         wrapperClassName="document-wrapper"
         editorClassName="document-editor"
         toolbarClassName="document-toolbar"
