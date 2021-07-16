@@ -93,6 +93,15 @@ const ProductId = ({ id }) => {
   const [quantitySelect, setQuantitySelect] = useState<number>(1);
   const [size, setSize] = useState("");
   const [visibleAlert, setVisibleAlert] = useState(false);
+  const [description, setDescription] = useState<any>(null);
+  useEffect(() => {
+    if (products.length > 0) {
+      if (products.description !== "") {
+        const parserDescription = JSON.parse(products.description);
+        setDescription(parserDescription);
+      }
+    }
+  }, [products]);
 
   const feedWithId = () => {
     dispatch(productActions.queryProductWithIdCustomer(id));
@@ -254,12 +263,12 @@ const ProductId = ({ id }) => {
 
           <br />
           {/* รายละเอียดสินค้า  */}
-          {products.length > 0 ? (
+          {description !== "" && description !== null ? (
             <Paper elevation={5}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <div style={{ marginLeft: 30, marginRight: 30 }}>
-                    <EditerView description={products[0].description} />
+                    <EditerView description={description} />
                   </div>
                 </Grid>
               </Grid>

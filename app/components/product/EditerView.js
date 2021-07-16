@@ -9,7 +9,7 @@ const Editor = dynamic(
 );
 
 const EditerView = ({ description }) => {
-  const [contentstate, setContentstate] = useState({});
+ /*  const [contentstate, setContentstate] = useState({});
 
   useEffect(() => {
     if (description) {
@@ -17,10 +17,10 @@ const EditerView = ({ description }) => {
       setContentstate(parse);
     }
     console.log(description)
-  }, [description]);
+  }, [description]); */
   return (
     <Editor
-      initialContentState={contentstate}
+      initialContentState={description}
       wrapperClassName="document-wrapper"
       editorClassName="document-editor"
       toolbarClassName="document-toolbar"
