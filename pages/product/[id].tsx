@@ -20,6 +20,7 @@ import CardItem from "@/components/Card";
 import CardRecommand from "@/components/CardRecommand";
 import { useRouter } from "next/router";
 import EditerView from "../../app/components/product/EditerView";
+import _ from 'lodash'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -269,7 +270,7 @@ const ProductId = ({ id }) => {
 
           <br />
           {/* รายละเอียดสินค้า  */}
-          {description != "" ? (
+          {!_.isEmpty(description)  ? (
             <Paper elevation={5}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
