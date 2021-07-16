@@ -17,15 +17,19 @@ const EditerView = (props) => {
     }
     console.log(description)
   }, [description]); */
-  return (
-    <Editor
+
+  {/* <Editor
       initialContentState={props.description}
       wrapperClassName="document-wrapper"
       editorClassName="document-editor"
       toolbarClassName="document-toolbar"
       readOnly
       toolbarHidden
-    />
+    /> */}
+  return (
+    <div>
+      {JSON.stringify(props.description)}
+    </div>
   );
 };
 
