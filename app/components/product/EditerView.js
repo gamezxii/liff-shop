@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-import draftToHtml from "draftjs-to-html";
+import React from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import dynamic from "next/dynamic";
 
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }
 );
 
-const EditerView = ({ description }) => {
+const EditerView = (props) => {
  /*  const [contentstate, setContentstate] = useState({});
 
   useEffect(() => {
@@ -20,7 +19,7 @@ const EditerView = ({ description }) => {
   }, [description]); */
   return (
     <Editor
-      initialContentState={description}
+      initialContentState={props.description}
       wrapperClassName="document-wrapper"
       editorClassName="document-editor"
       toolbarClassName="document-toolbar"
