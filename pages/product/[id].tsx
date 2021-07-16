@@ -264,12 +264,12 @@ const ProductId = ({ id }) => {
 
           <br />
           {/* รายละเอียดสินค้า  */}
-          {description !== "" && description !== null ? (
+          {description != null ? (
             <Paper elevation={5}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <div style={{ marginLeft: 30, marginRight: 30 }}>
-                    <EditerView description={description} />
+                   {/*  <EditerView description={description} /> */}
                   </div>
                 </Grid>
               </Grid>
