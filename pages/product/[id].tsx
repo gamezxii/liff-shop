@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import Container from "@material-ui/core/Container";
 import Appbar from "app/layouts/Appbar";
 import Typography from "@material-ui/core/Typography";
-import Banner from "@/components/Banner";
-import Grid, { GridSpacing } from "@material-ui/core/Grid";
+import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
@@ -16,11 +15,10 @@ import { useDispatch, useSelector } from "react-redux";
 import * as productActions from "@/actions/product.action";
 import { GetServerSideProps } from "next";
 import Alertcart from "@/components/product/Alertcart";
-import CardItem from "@/components/Card";
 import CardRecommand from "@/components/CardRecommand";
 import { useRouter } from "next/router";
 import EditerView from "../../app/components/product/EditerView";
-import _ from 'lodash'
+import _ from "lodash";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -100,7 +98,6 @@ const ProductId = ({ id }) => {
     setDescription(state);
   };
 
-
   const feedWithId = () => {
     dispatch(productActions.queryProductWithIdCustomer(id));
   };
@@ -125,12 +122,11 @@ const ProductId = ({ id }) => {
 
   useEffect(() => {
     if (products.length > 0) {
-      if (products.description !== "") {
+      if (products[0].description !== "") {
         const parserDescription = JSON.parse(products[0].description);
         setDescription(parserDescription);
       }
     }
-    console.log(products[0].description)
   }, [products]);
 
   const handleAddItemTobasket = (product: any) => {
@@ -271,12 +267,12 @@ const ProductId = ({ id }) => {
 
           <br />
           {/* รายละเอียดสินค้า  */}
-          {!_.isEmpty(description)  ? (
+          {!_.isEmpty(description) ? (
             <Paper elevation={5}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <div style={{ marginLeft: 30, marginRight: 30 }}>
-                    {/* <EditerView content={description}  /> */}
+                    <EditerView content={description} />
                   </div>
                 </Grid>
               </Grid>
