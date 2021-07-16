@@ -130,6 +130,8 @@ const ProductId = ({ id }) => {
         setDescription(parserDescription);
       }
     }
+    console.log(products[0].description)
+    console.log(description)
   }, [products]);
 
   const handleAddItemTobasket = (product: any) => {
@@ -275,7 +277,7 @@ const ProductId = ({ id }) => {
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <div style={{ marginLeft: 30, marginRight: 30 }}>
-                    <EditerView content={description}  />
+                    {/* <EditerView content={description}  /> */}
                   </div>
                 </Grid>
               </Grid>
