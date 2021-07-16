@@ -9,13 +9,14 @@ const Editor = dynamic(
 );
 
 const EditerView = ({ description }) => {
-  const [contentstate, setContentstate] = useState(null);
+  const [contentstate, setContentstate] = useState({});
 
   useEffect(() => {
     if (description) {
       const parse = JSON.parse(description);
       setContentstate(parse);
     }
+    console.log(description)
   }, [description]);
   return (
     <Editor
