@@ -254,19 +254,19 @@ const ProductId = ({ id }) => {
 
           <br />
           {/* รายละเอียดสินค้า  */}
-          {products.length > 0
-            ? products.map((product) => (
-                <Paper elevation={5} key={product._id}>
-                  <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                      <div style={{ marginLeft: 30, marginRight: 30 }}>
-                          <EditerView description={product.description} />                
-                      </div>
-                    </Grid>
-                  </Grid>
-                </Paper>
-              ))
-            : ""}
+          {products.length > 0 ? (
+            <Paper elevation={5}>
+              <Grid container spacing={1}>
+                <Grid item xs={12}>
+                  <div style={{ marginLeft: 30, marginRight: 30 }}>
+                    <EditerView description={products[0].description} />
+                  </div>
+                </Grid>
+              </Grid>
+            </Paper>
+          ) : (
+            ""
+          )}
           {/* รายละเอียดสินค้า relatedProducts */}
           <br />
           {products.length > 0
