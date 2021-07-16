@@ -93,7 +93,7 @@ const ProductId = ({ id }) => {
   const [quantitySelect, setQuantitySelect] = useState<number>(1);
   const [size, setSize] = useState("");
   const [visibleAlert, setVisibleAlert] = useState(false);
-  const [description, setDescription] = useState<any>(null);
+  const [description, setDescription] = useState<any>({});
 
   const feedWithId = () => {
     dispatch(productActions.queryProductWithIdCustomer(id));
@@ -264,12 +264,12 @@ const ProductId = ({ id }) => {
 
           <br />
           {/* รายละเอียดสินค้า  */}
-          {description != null ? (
+          {description != "" ? (
             <Paper elevation={5}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <div style={{ marginLeft: 30, marginRight: 30 }}>
-                   {/*  <EditerView description={description} /> */}
+                    <EditerView description={description} />
                   </div>
                 </Grid>
               </Grid>
