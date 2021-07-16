@@ -1,36 +1,30 @@
 import React from "react";
-/* import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import dynamic from "next/dynamic";
 
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }
-); */
+);
 
-const EditerView = (props) => {
- /*  const [contentstate, setContentstate] = useState({});
-
-  useEffect(() => {
-    if (description) {
-      const parse = JSON.parse(description);
-      setContentstate(parse);
-    }
-    console.log(description)
-  }, [description]); */
-
-  {/* <Editor
-      initialContentState={props.description}
-      wrapperClassName="document-wrapper"
-      editorClassName="document-editor"
-      toolbarClassName="document-toolbar"
-      readOnly
-      toolbarHidden
-    /> */}
+const EditEditer = (props) => {
   return (
-    <div>
-      {JSON.stringify(props.description)}
-    </div>
+    <Editor
+      initialContentState={props.description}
+      //onContentStateChange={props.handleEditor}
+      wrapperClassName="wrapper-class"
+      editorClassName="editor-class"
+      toolbarClassName="toolbar-class"
+      toolbar={{
+        inline: { inDropdown: true },
+        list: { inDropdown: true },
+        textAlign: { inDropdown: true },
+        link: { inDropdown: true },
+        history: { inDropdown: true },
+        image: { visible: false },
+      }}
+    />
   );
 };
 
-export default EditerView;
+export default EditEditer;
