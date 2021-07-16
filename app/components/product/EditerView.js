@@ -1,30 +1,60 @@
-import React from "react";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import draftToHtml from "draftjs-to-html";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }
 );
 
-const EditEditer = (props) => {
+const content = {
+  entityMap: {},
+  blocks: [
+    {
+      key: "637gr",
+      text: "Initialized from content state.",
+      type: "unordered-list-item",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {},
+    },
+    {
+      key: "6348gr",
+      text: "test",
+      type: "unordered-list-item",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {},
+    },
+  ],
+};
+
+const EditerView = ({ description }) => {
+  const [contentstate, setContentstate] = useState(null);
+
+  useEffect(() => {
+    if (description) {
+      const parse = JSON.parse(description);
+      setContentstate(parse);
+    }
+  }, []);
+
+  useEffect(() => {}, [description]);
   return (
-    <Editor
-      initialContentState={props.content}
-      onContentStateChange={props.handleEditor}
-      wrapperClassName="wrapper-class"
-      editorClassName="editor-class"
-      toolbarClassName="toolbar-class"
-      toolbar={{
-        inline: { inDropdown: true },
-        list: { inDropdown: true },
-        textAlign: { inDropdown: true },
-        link: { inDropdown: true },
-        history: { inDropdown: true },
-        image: { visible: false },
-      }}
-    />
+    <div>
+      <Editor
+        initialContentState={contentstate}
+        wrapperClassName="document-wrapper"
+        editorClassName="document-editor"
+        toolbarClassName="document-toolbar"
+        readOnly
+        toolbarHidden
+      />
+    </div>
   );
 };
 
-export default EditEditer;
+export default EditerView;
