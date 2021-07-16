@@ -131,7 +131,6 @@ const ProductId = ({ id }) => {
       }
     }
     console.log(products[0].description)
-    console.log(description)
   }, [products]);
 
   const handleAddItemTobasket = (product: any) => {
