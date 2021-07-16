@@ -43,7 +43,7 @@ interface Props {
 const menuItems = [
   { title: "HOME", pathname: "/" },
   { title: "PRODUCT", pathname: "/product" },
-  { title: "CATEGORY", pathname: "/category" },
+  { title: "ABOUT US", pathname: "/aboutus" },
   { title: "ORDER", pathname: "/order" },
   { title: "CART", pathname: "/cart" },
 ];
