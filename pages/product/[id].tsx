@@ -95,6 +95,11 @@ const ProductId = ({ id }) => {
   const [visibleAlert, setVisibleAlert] = useState(false);
   const [description, setDescription] = useState<any>({});
 
+  const handleEditor = (state) => {
+    setDescription(state);
+  };
+
+
   const feedWithId = () => {
     dispatch(productActions.queryProductWithIdCustomer(id));
   };
@@ -269,7 +274,7 @@ const ProductId = ({ id }) => {
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <div style={{ marginLeft: 30, marginRight: 30 }}>
-                    <EditerView description={description} />
+                    <EditerView content={description} handleEditor={handleEditor} />
                   </div>
                 </Grid>
               </Grid>

@@ -7,24 +7,19 @@ const Editor = dynamic(
   { ssr: false }
 );
 
-const EditEditer = (props) => {
+const EditerView = (props) => {
+ 
   return (
     <Editor
-      initialContentState={props.description}
-      //onContentStateChange={props.handleEditor}
-      wrapperClassName="wrapper-class"
-      editorClassName="editor-class"
-      toolbarClassName="toolbar-class"
-      toolbar={{
-        inline: { inDropdown: true },
-        list: { inDropdown: true },
-        textAlign: { inDropdown: true },
-        link: { inDropdown: true },
-        history: { inDropdown: true },
-        image: { visible: false },
-      }}
+      initialContentState={props.content}
+      onContentStateChange={props.handleEditor}
+      wrapperClassName="document-wrapper"
+      editorClassName="document-editor"
+      toolbarClassName="document-toolbar"
+      readOnly
+      toolbarHidden
     />
   );
 };
 
-export default EditEditer;
+export default EditerView;
