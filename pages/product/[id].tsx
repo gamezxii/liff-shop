@@ -94,14 +94,6 @@ const ProductId = ({ id }) => {
   const [size, setSize] = useState("");
   const [visibleAlert, setVisibleAlert] = useState(false);
   const [description, setDescription] = useState<any>(null);
-  useEffect(() => {
-    if (products.length > 0) {
-      if (products.description !== "") {
-        const parserDescription = JSON.parse(products.description);
-        setDescription(parserDescription);
-      }
-    }
-  }, [products]);
 
   const feedWithId = () => {
     dispatch(productActions.queryProductWithIdCustomer(id));
@@ -124,6 +116,15 @@ const ProductId = ({ id }) => {
   useEffect(() => {
     feedWithId();
   }, []);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      if (products.description !== "") {
+        const parserDescription = JSON.parse(products[0].description);
+        setDescription(parserDescription);
+      }
+    }
+  }, [products]);
 
   const handleAddItemTobasket = (product: any) => {
     //เพิ่มสินค้าลงตะกร้า
