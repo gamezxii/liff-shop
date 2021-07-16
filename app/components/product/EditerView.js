@@ -40,6 +40,7 @@ const EditerView = ({ content }) => {
       const parse = JSON.parse(content);
       setContentstate(parse);
     }
+    console.log(content)
   }, [content]);
   
   const handleEditor = (contentState) => {
@@ -48,7 +49,7 @@ const EditerView = ({ content }) => {
 
   return (
     <div>
-      <Editor
+      {/* <Editor
         initialContentState={contentstate}
         onContentStateChange={handleEditor}
         wrapperClassName="document-wrapper"
@@ -56,7 +57,7 @@ const EditerView = ({ content }) => {
         toolbarClassName="document-toolbar"
         readOnly
         toolbarHidden
-      />
+      /> */}
     </div>
   );
 };
