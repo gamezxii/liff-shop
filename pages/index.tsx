@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
 import Appbar from "app/layouts/Appbar";
 import Typography from "@material-ui/core/Typography";
-import Banner from "@/components/Banner";
 import Grid, { GridSpacing } from "@material-ui/core/Grid";
 import CardItem from "@/components/Card";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,6 +19,7 @@ export default function Home() {
   const { products } = useSelector(({ product }: any) => product);
   const promotionReducer = useSelector((state: any) => state.promotion);
   const bannerReducer = useSelector((state: any) => state.banner);
+  const authCustomer = useSelector((state: any) => state.authCustomer);
 
   const doFeedProduct = () => {
     dispatch(bannerActions.feedBanner());
@@ -58,6 +58,7 @@ export default function Home() {
       console.error("liff init error", error.message);
     }
     if (liff.isLoggedIn()) {
+      console.log(authCustomer.user);
       getUserProfile(liff);
     }
   };

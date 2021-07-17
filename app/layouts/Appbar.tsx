@@ -143,7 +143,7 @@ export default function PrimarySearchAppBar() {
   };
 
   React.useEffect(() => {
-    if (authCustomer.user) {
+    if (authCustomer.user.id != undefined) {
       doFeed();
     }
   }, [authCustomer.user]);
