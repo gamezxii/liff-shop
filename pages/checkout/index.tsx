@@ -161,13 +161,13 @@ const Checkout = ({ id, code }) => {
             </div>
           </Paper>
           <br />
-          <CheckoutProcress
+          {/* <CheckoutProcress
             checkouts={checkouts}
             note={note}
             openFormAddress={openFormAddress}
             setOpenFormAddress={setOpenFormAddress}
             customer={customers}
-          />
+          /> */}
         </Container>
       </div>
     </React.Fragment>
