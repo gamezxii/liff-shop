@@ -101,7 +101,7 @@ const Checkout = ({ id, code }) => {
         } else {
           router.push({ pathname: `/cart` });
         }
-      }else if (customers.tel == "") {
+      } else if (customers.tel == "") {
         const r = confirm("กรุณาเพิ่มเบอร์โทรศัพท์!");
         if (r == true) {
           router.push({ pathname: `/profile/edit/${customers._id}` });
@@ -129,10 +129,12 @@ const Checkout = ({ id, code }) => {
                 <TextField
                   fullWidth
                   variant="outlined"
-                  value={filterAddress(
+                  value={` ${customers.fullName} ${"\n"} ${
+                    customers.tel
+                  } ${"\n"} ${filterAddress(
                     customers.address,
                     customers.shippingAddress
-                  )}
+                  )}`}
                   InputProps={{
                     readOnly: true,
                   }}
