@@ -31,7 +31,7 @@ export const signinCustomer = (account: Lineuser, router: NextRouter) => {
       const { status, data } = await signin;
       if (status == 200 || status == 201) {
         console.log(data.customers);
-        saveCookieCustomer(data.customers);
+        await saveCookieCustomer(data.customers);
         loadingAuthSuccess(dispatch, data.customers);
       } else {
         loadingAuthError(dispatch, data.customers);
