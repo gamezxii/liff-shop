@@ -91,6 +91,19 @@ const Checkout = ({ id, code }) => {
   useEffect(() => {
     doFeedCheckout();
   }, []);
+
+  useEffect(() => {
+    if (Object.entries(customers).length > 0) {
+      if (
+        customers.shippingAddress == undefined &&
+        customers.shippingAddress == ""
+      ) {
+        alert("กรุณาเพิ่มที่อยู่");
+        router.push({ pathname: `/profile/edit/${customers._id}` });
+      }
+    }
+  }, []);
+
   return (
     <React.Fragment>
       <div>
