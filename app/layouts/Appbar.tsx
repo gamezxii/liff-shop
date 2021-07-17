@@ -29,6 +29,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as basketActions from "@/actions/basket.action";
 import DrawerMobile from "./Drawer";
 import * as authCustomerActions from "@/actions/authCustomer.action";
+import _ from "lodash";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -139,7 +140,10 @@ export default function PrimarySearchAppBar() {
   const authCustomer = useSelector((state: any) => state.authCustomer);
 
   const doFeed = () => {
-    dispatch(basketActions.getBaskets(authCustomer.user.id));
+    console.log(authCustomer.user)
+    if (authCustomer.user.id !== "" && authCustomer.user.id != undefined) {
+      dispatch(basketActions.getBaskets(authCustomer.user.id));
+    }
   };
 
   React.useEffect(() => {
