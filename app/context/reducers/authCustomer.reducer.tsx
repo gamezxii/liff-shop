@@ -28,6 +28,7 @@ const authCustomerReducer = (state = initialState, action) => {
         user: state.user,
       };
     case authCustomerActiontype.LOADING_AUTH_CUSTOMER_SUCCESS:
+      console.log('state uploaded...')
       console.log(state.user);
       return { ...state, isLoading: false, isError: false, user: state.user };
 
