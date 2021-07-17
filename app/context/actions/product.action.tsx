@@ -265,7 +265,6 @@ export const updateProduct = (product: any) => {
       payload: null,
     };
     dispatch(isUploading);
-    console.log(product);
     if (!Array.isArray(product.size) && product.size != "") {
       let { size } = product;
       const newArray = size.split(",");

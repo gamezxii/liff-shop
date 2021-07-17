@@ -44,7 +44,6 @@ const productReducer = (state = initialState, action) => {
       };
 
     case productActionType.LOADING_SUCCESS:
-      console.log(action);
       return {
         ...state,
         isLoading: false,
