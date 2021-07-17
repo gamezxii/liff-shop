@@ -188,8 +188,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem
         onClick={() => {
-          setAnchorEl(null);
-          handleMobileMenuClose();
+          handleMenuClose();
           if (authCustomer.user.id != undefined) {
             router.push({ pathname: `/profile/edit/${authCustomer.user.id}` });
           } else {

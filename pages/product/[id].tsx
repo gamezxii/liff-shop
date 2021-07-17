@@ -134,6 +134,10 @@ const ProductId = ({ id }) => {
     if (!authCustomer.user.id && authCustomer.user.id == undefined) {
       return router.push("/login");
     }
+
+    if (quantitySelect <= 0) {
+      if (size == "") return alert("กรุณาเลือกจำนวนสินค้าที่ต้องการซื้อ");
+    }
     if (product.size.length > 0) {
       if (size == "") return alert("กรุณาเลือก ขนาดของสินค้า");
     }
@@ -151,6 +155,9 @@ const ProductId = ({ id }) => {
     //button ซื้อสิ้นค้า
     if (!authCustomer.user.id && authCustomer.user.id == undefined) {
       return router.push("/login");
+    }
+    if (quantitySelect <= 0) {
+      if (size == "") return alert("กรุณาเลือกจำนวนสินค้าที่ต้องการซื้อ");
     }
     if (product.size.length > 0) {
       if (size == "") return alert("กรุณาเลือก ขนาดของสินค้า");
