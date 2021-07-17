@@ -131,7 +131,7 @@ const ProductId = ({ id }) => {
 
   const handleAddItemTobasket = (product: any) => {
     //เพิ่มสินค้าลงตะกร้า
-    if (!authCustomer.user.id) {
+    if (!authCustomer.user.id && authCustomer.user.id == undefined) {
       return router.push("/login");
     }
     if (product.size.length > 0) {
@@ -149,7 +149,7 @@ const ProductId = ({ id }) => {
 
   const handleBuyItemTobasket = (product: any) => {
     //button ซื้อสิ้นค้า
-    if (!authCustomer.user.id) {
+    if (!authCustomer.user.id && authCustomer.user.id == undefined) {
       return router.push("/login");
     }
     if (product.size.length > 0) {
