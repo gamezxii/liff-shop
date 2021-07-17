@@ -1,7 +1,7 @@
 import axios from "axios";
 import { urlApi } from "../urlapi";
 import cookie from "js-cookie";
-import { saveCookieCustomer, removeToken } from "@/utils/token";
+import { saveCookieCustomer, removeCustomer } from "@/utils/token";
 import { NextRouter } from "next/router";
 export enum authCustomerActiontype {
   LOADING_AUTH_CUSTOMER = "LOADING_AUTH_CUSTOMER",
@@ -47,10 +47,10 @@ export const signinCustomer = (account: Lineuser, router: NextRouter) => {
   };
 };
 
-export const signoutAdmin = (router: NextRouter) => {
+export const signoutCustomer = (router: NextRouter) => {
   return async (dispatch) => {
     try {
-      removeToken();
+      removeCustomer();
       loadingAuthSuccess(dispatch, null);
       router.push({ pathname: "/cms/signin" });
     } catch (error) {
@@ -58,6 +58,7 @@ export const signoutAdmin = (router: NextRouter) => {
     }
   };
 };
+
 
 const loadingAuth = (dispatch) => {
   const isLoadingAuth: authCustomerActionInterface = {
