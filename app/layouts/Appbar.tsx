@@ -142,11 +142,12 @@ export default function PrimarySearchAppBar() {
   };
 
   React.useEffect(() => {
-    doFeed();
+    if (authCustomer.user) {
+      doFeed();
+    }
   }, [authCustomer.user]);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

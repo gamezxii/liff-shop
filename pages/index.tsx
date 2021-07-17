@@ -40,7 +40,6 @@ export default function Home() {
           fullName: profile.displayName,
           email: liff.getDecodedIDToken().email,
         };
-        console.log(payload);
         if (profile) {
           dispatch(authCustomerActions.signinCustomer(payload, router));
         }

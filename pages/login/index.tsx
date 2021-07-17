@@ -87,9 +87,7 @@ const SignIn = () => {
     } catch (error) {
       console.error("liff init error", error.message);
     }
-    if (liff.isLoggedIn()) {
-      liff.login();
-    }
+    liff.login();
   };
 
   /* useEffect(() => {
