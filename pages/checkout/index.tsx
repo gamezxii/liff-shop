@@ -93,16 +93,8 @@ const Checkout = ({ id, code }) => {
   }, []);
 
   useEffect(() => {
-    if (Object.entries(customers).length > 0) {
-      if (
-        customers.shippingAddress == undefined &&
-        customers.shippingAddress == ""
-      ) {
-        alert("กรุณาเพิ่มที่อยู่");
-        router.push({ pathname: `/profile/edit/${customers._id}` });
-      }
-    }
-  }, []);
+    console.log(customers)
+  }, [customers]);
 
   return (
     <React.Fragment>
@@ -115,7 +107,7 @@ const Checkout = ({ id, code }) => {
               <PinDropIcon />
               <h4>ที่อยู่</h4>
             </div>
-            <div className={classes.inputAddress}>
+            {/* <div className={classes.inputAddress}>
               {Object.entries(customers).length > 0 ? (
                 <TextField
                   fullWidth
@@ -133,7 +125,7 @@ const Checkout = ({ id, code }) => {
               ) : (
                 ""
               )}
-            </div>
+            </div> */}
             <div>
               <Button
                 variant="outlined"
