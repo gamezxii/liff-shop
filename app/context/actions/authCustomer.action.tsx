@@ -27,6 +27,7 @@ export const signinCustomer = (account: Lineuser, router: NextRouter) => {
   return async (dispatch) => {
     try {
       loadingAuth(dispatch);
+      console.log(account);
       const signin = await axios.post(`${urlApi}customer`, { ...account });
       const { status, data } = await signin;
       if (status == 200) {
@@ -36,8 +37,8 @@ export const signinCustomer = (account: Lineuser, router: NextRouter) => {
           liffId: data.customers.liffId,
           fullName: data.customers.fullName,
         };
-        console.log(customer)
-        console.log('create customer')
+        console.log(customer);
+        console.log("create customer");
         loadingAuthSuccess(dispatch, customer);
         //router.reload();
       } else {
@@ -60,7 +61,6 @@ export const signoutCustomer = () => {
     }
   };
 };
-
 
 const loadingAuth = (dispatch) => {
   const isLoadingAuth: authCustomerActionInterface = {
