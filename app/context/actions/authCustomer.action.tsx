@@ -47,12 +47,12 @@ export const signinCustomer = (account: Lineuser, router: NextRouter) => {
   };
 };
 
-export const signoutCustomer = (router: NextRouter) => {
+export const signoutCustomer = () => {
   return async (dispatch) => {
     try {
       removeCustomer();
       loadingAuthSuccess(dispatch, null);
-      router.push({ pathname: "/cms/signin" });
+      //router.push({ pathname: "/cms/signin" });
     } catch (error) {
       console.log(error);
     }

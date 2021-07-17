@@ -28,6 +28,7 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import * as basketActions from "@/actions/basket.action";
 import DrawerMobile from "./Drawer";
+import * as authCustomerActions from "@/actions/authCustomer.action";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -162,6 +163,19 @@ export default function PrimarySearchAppBar() {
     handleMobileMenuClose();
   };
 
+  const handleLogout = async () => {
+    const liff = (await import("@line/liff")).default;
+    try {
+      await liff.init({ liffId: "1656163029-MZ9wqevR" });
+    } catch (error) {
+      console.error("liff init error", error.message);
+    }
+    if (liff.isLoggedIn()) {
+      liff.logout();
+      dispatch(authCustomerActions.signoutCustomer());
+    }
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -175,7 +189,7 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
