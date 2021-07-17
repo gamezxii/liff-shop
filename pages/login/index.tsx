@@ -79,8 +79,8 @@ const SignIn = () => {
     );
   }
 
-  const loginLiff = async () => {
-    //e.preventDefault();
+  const loginLiff = async (e) => {
+    e.preventDefault();
     const liff = (await import("@line/liff")).default;
     try {
       await liff.init({ liffId: "1656163029-MZ9wqevR" });
@@ -92,9 +92,9 @@ const SignIn = () => {
     }
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     loginLiff();
-  }, []);
+  }, []); */
 
   return (
     <Container component="main" maxWidth="xs">
@@ -109,7 +109,7 @@ const SignIn = () => {
               Sign in
             </Typography>
             <form className={classes.form} noValidate>
-              <TextField
+              {/* <TextField
                 variant="outlined"
                 margin="normal"
                 required
@@ -142,19 +142,19 @@ const SignIn = () => {
                 className={classes.submit}
               >
                 เข้าสู่ระบบ
-              </Button>
+              </Button> */}
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
                 className={classes.lineLogin}
-                onClick={(e) => loginLiff()}
+                onClick={(e) => loginLiff(e)}
               >
                 <img alt="line-icon" src="./icon/line.svg" width="30" />
                 เข้าสู่ระบบผ่านไลน์
               </Button>
-              <Grid container className={classes.registerSpace}>
+              {/* <Grid container className={classes.registerSpace}>
                 <Grid item xs>
                   <Link href="/forget-password" variant="body2">
                     ลืมรหัสผ่าน
@@ -165,7 +165,7 @@ const SignIn = () => {
                     {"สมัครสมาชิก"}
                   </Link>
                 </Grid>
-              </Grid>
+              </Grid> */}
             </form>
           </div>
           <Box mt={8}>

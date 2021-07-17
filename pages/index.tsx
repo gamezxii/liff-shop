@@ -60,8 +60,6 @@ export default function Home() {
     }
     if (liff.isLoggedIn()) {
       getUserProfile(liff);
-    } else {
-      //liff.login({ redirectUri: "https://6fdcc4aac9d4.ngrok.io/login/" });
     }
   };
 
