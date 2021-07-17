@@ -95,15 +95,10 @@ export default function Aboutus() {
   const { about } = useSelector((state: any) => state);
   const { abouts, isLoading, isMessage, isStatus } = about;
   useEffect(() => {
-    // dispatch(productAction.feedProduct());
     dispatch(aboutAction.feedAbout());
 
   }, []);
-  const item = [
-    "https://images.unsplash.com/photo-1625242420602-a22dd7692b82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    "https://images.unsplash.com/photo-1625153674020-a5234b66c39d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    "https://images.unsplash.com/photo-1418846531910-2b7bb1043512?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80",
-  ];
+  
 
   useEffect(() => { }, []);
 
