@@ -46,9 +46,9 @@ export const signinCustomer = (account: Lineuser, router: NextRouter) => {
 export const signoutCustomer = (router: NextRouter) => {
   return async (dispatch) => {
     try {
-      removeCustomer();
-      loadingAuthSuccess(dispatch, null);
-      router.reload();
+      await removeCustomer();
+      await loadingAuthSuccess(dispatch, null);
+      await router.reload();
     } catch (error) {
       console.log(error);
     }
