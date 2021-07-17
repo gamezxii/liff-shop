@@ -28,10 +28,8 @@ const authCustomerReducer = (state = initialState, action) => {
         user: state.user,
       };
     case authCustomerActiontype.LOADING_AUTH_CUSTOMER_SUCCESS:
-      const getUser = cookie.get("customer")
-        ? JSON.parse(cookie.get("customer"))
-        : {};
-      return { ...state, isLoading: false, isError: false, user: getUser };
+      console.log(state.user);
+      return { ...state, isLoading: false, isError: false, user: state.user };
 
     default:
       return state;
