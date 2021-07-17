@@ -43,6 +43,7 @@ export const signinCustomer = (account: Lineuser, router: NextRouter) => {
         loadingAuthError(dispatch, data.customers);
       }
     } catch (error) {
+      console.log(error);
       loadingAuthError(dispatch, "User Not found or Password Invalid !");
     }
   };
