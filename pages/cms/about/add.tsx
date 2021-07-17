@@ -29,11 +29,7 @@ import Loading from "@/components/Loading";
 import dynamic from "next/dynamic";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import ButtonBack from "@/components/ButtonBack";
-
-const Editor = dynamic(
-  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
-  { ssr: false }
-);
+import FormEditer from "../../../app/components/product/FormEditer";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -89,15 +85,15 @@ function getStyles(title: string, personName: string[], theme: Theme) {
 
 interface newProduct {
   title: string;
-  price: number;
-  saleprice: number;
-  quantity: number;
-  images: string[];
+  price: number | string;
+  saleprice: number | string;
+  quantity: number | string;
+  images: any[];
   categoriesId: string;
   relatedIds: any[];
-  ispopulated: number;
-  description: string;
-  averageRating: number;
+  ispopulated: number | string;
+  description: string | string;
+  averageRating: number | string;
   size: string;
   sku: string;
 }
@@ -179,12 +175,12 @@ const Addproduct = () => {
 
     const formData = new FormData();
     formData.append("title", product.title);
-    formData.append("price", product.price);
-    formData.append("saleprice", product.saleprice);
-    formData.append("quantity", product.quantity);
+    formData.append("price", product.price as string);
+    formData.append("saleprice", product.saleprice as string);
+    formData.append("quantity", product.quantity as string);
     formData.append("categoriesId", product.categoriesId);
-    formData.append("ispopulated", product.ispopulated);
-    formData.append("averageRating", product.averageRating);
+    formData.append("ispopulated", product.ispopulated as string);
+    formData.append("averageRating", product.averageRating as string);
     formData.append("description", JSON.stringify(editorState));
     formData.append("sku", product.sku);
     formData.append("size", product.size);
@@ -193,7 +189,7 @@ const Addproduct = () => {
     }
     //append relation ความสัมพันสินค้า
     if (product.relatedIds.length <= 0) {
-      formData.append(`relatedIds`, [null]);
+      formData.append(`relatedIds`, "");
     } else {
       for (let index = 0; index < product.relatedIds.length; index++) {
         formData.append(`relatedIds`, product.relatedIds[index]);
@@ -439,9 +435,10 @@ const Addproduct = () => {
               />
             </FormControl>
             <FormControl fullWidth>
-              <Editor
-                initialContentState={editorState}
-                onContentStateChange={handleEditor}
+              <FormEditer
+                content={editorState}
+                handleEditor={handleEditor}
+               
               />
             </FormControl>
             <FormControl fullWidth>

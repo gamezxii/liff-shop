@@ -36,11 +36,9 @@ import { urlApi } from "@/context/urlapi";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import dynamic from "next/dynamic";
 import ButtonBack from "@/components/ButtonBack";
+import FormEditer from "../../../../app/components/product/FormEditer";
 
-const Editor = dynamic(
-  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
-  { ssr: false }
-);
+
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const param = await context.query;
@@ -568,20 +566,9 @@ const Edit = ({ id }) => {
               fullWidth
               className={classes.formControl}
             >
-              <Editor
-                initialContentState={productObject.description}
-                onContentStateChange={handleEditor}
-                wrapperClassName="wrapper-class"
-                editorClassName="editor-class"
-                toolbarClassName="toolbar-class"
-                toolbar={{
-                  inline: { inDropdown: true },
-                  list: { inDropdown: true },
-                  textAlign: { inDropdown: true },
-                  link: { inDropdown: true },
-                  history: { inDropdown: true },
-                  image: { visible: false },
-                }}
+              <FormEditer
+               content={productObject.description}
+               handleEditor={handleEditor}
               />
             </FormControl>
           </Grid>

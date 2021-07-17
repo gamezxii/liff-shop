@@ -23,6 +23,6 @@
       "@/context/*": ["app/context/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "app/context/store.js", "app/components/product/EditerView.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "app/context/store.js", "app/components/product/EditerView.js", "app/components/about/EditerView.js"],
   "exclude": ["node_modules"]
 }
