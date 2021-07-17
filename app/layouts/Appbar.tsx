@@ -165,11 +165,6 @@ export default function PrimarySearchAppBar() {
 
   const handleLogout = async () => {
     const liff = (await import("@line/liff")).default;
-    try {
-      await liff.init({ liffId: "1656163029-MZ9wqevR" });
-    } catch (error) {
-      console.error("liff init error", error.message);
-    }
     if (liff.isLoggedIn()) {
       liff.logout();
       dispatch(authCustomerActions.signoutCustomer());

@@ -38,7 +38,7 @@ export default function Home() {
         const payload = {
           liffId: profile.userId,
           fullName: profile.displayName,
-          email: liff.getDecodedIDToken(),
+          email: liff.getDecodedIDToken().email,
         };
         console.log(payload);
         if (profile) {
