@@ -186,7 +186,19 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem
+        onClick={() => {
+          setAnchorEl(null);
+          handleMobileMenuClose();
+          if (authCustomer.user.id != undefined) {
+            router.push({ pathname: `/profile/edit/${authCustomer.user.id}` });
+          } else {
+            router.push({ pathname: `/login` });
+          }
+        }}
+      >
+        My account
+      </MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
