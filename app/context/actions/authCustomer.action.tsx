@@ -29,7 +29,7 @@ export const signinCustomer = (account: Lineuser, router: NextRouter) => {
       loadingAuth(dispatch);
       const signin = await axios.post(`${urlApi}customer`, { ...account });
       const { status, data } = await signin;
-      if (status == 200) {
+      if (status == 200 || status == 201) {
         saveCookieCustomer(data.customers);
         const customer = {
           id: data.customers._id,
