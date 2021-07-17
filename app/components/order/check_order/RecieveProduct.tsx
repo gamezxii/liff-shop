@@ -10,12 +10,10 @@ import CheckIcon from "@material-ui/icons/Check";
 import Divider from "@material-ui/core/Divider";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import * as historyActions from "@/actions/history.action";
 import dayjs from "dayjs";
 import copy from "copy-to-clipboard";
-import { urlApi } from "@/context/urlapi";
 import { pendingStatus } from "@/utils/constans";
 
 function getModalStyle() {
@@ -166,14 +164,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const RecieveProduct = (props: any) => {
   const classes = useStyles();
-  const [id, setId] = useState("60dc8456b6acdf24d0a806d2");
+  // const [id, setId] = useState("60dc8456b6acdf24d0a806d2");
   const dispatch = useDispatch();
   const { histories } = useSelector(({ history }: any) => history);
-
+  const { user } = useSelector(({ authCustomer }: any) => authCustomer);
   const [modalStyles] = useState(getModalStyle);
 
   const feedWithId = async () => {
-    await dispatch(historyActions.findHistoryWithCustomerId(id, 1));
+    await dispatch(historyActions.findHistoryWithCustomerId(user.id, 1));
     console.log(histories, "actions actions");
   };
 
@@ -197,7 +195,7 @@ const RecieveProduct = (props: any) => {
       alert("คัดลอกหมายเลขเรียบร้อย");
     };
     if (props.status == 3) {
-      return <div></div>
+      return <div></div>;
     } else {
       return (
         <div key={props.key}>
@@ -362,24 +360,26 @@ const RecieveProduct = (props: any) => {
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        {histories.map((item, index) => {
-          let date = new Date(item.updatedAt);
-          let transformDate = dayjs(date).format("DD/MM/YYYY");
-          return (
-            <ProductCard
-              orderNo={item._id}
-              date={transformDate}
-              quantity={item.products.length}
-              price={item.totalprice}
-              key={index}
-              product={item.products}
-              image={item.products[0].productId.images[0]}
-              sCode={item._id}
-              status={item.orderStatus}
-              discount={item.discount}
-            />
-          );
-        })}
+        {histories
+          ? histories.map((item, index) => {
+              let date = new Date(item.updatedAt);
+              let transformDate = dayjs(date).format("DD/MM/YYYY");
+              return (
+                <ProductCard
+                  orderNo={item._id}
+                  date={transformDate}
+                  quantity={item.products.length}
+                  price={item.totalprice}
+                  key={index}
+                  product={item.products}
+                  image={item.products[0].productId.images[0]}
+                  sCode={item._id}
+                  status={item.orderStatus}
+                  discount={item.discount}
+                />
+              );
+            })
+          : ""}
       </Grid>
     </Grid>
   );

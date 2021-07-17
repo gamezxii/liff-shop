@@ -144,14 +144,15 @@ const useStyles = makeStyles((theme: Theme) =>
 const cancelOrder = (props: any) => {
   console.log(props);
   const classes = useStyles();
-  const [id, setId] = useState("60dc8456b6acdf24d0a806d2");
+  // const [id, setId] = useState("60dc8456b6acdf24d0a806d2");
+  const { user } = useSelector(({ authCustomer }: any) => authCustomer);
   const dispatch = useDispatch();
   const { histories } = useSelector(({ history }: any) => history);
 
   const [modalStyles] = useState(getModalStyle);
 
   const feedWithId = async () => {
-    await dispatch(historyActions.findHistoryWithCustomerId(id, 1));
+    await dispatch(historyActions.findHistoryWithCustomerId(user.id, 1));
     console.log(histories, "actions actions");
   };
 
@@ -161,7 +162,6 @@ const cancelOrder = (props: any) => {
 
   const ProductCard = (props: any) => {
     const [open, setOpen] = useState(false);
-    const imageURL: string = `http://192.168.1.2:9000/uploads/${props.image}`;
     const copyText = () => {
       handleOpen();
     };

@@ -138,15 +138,16 @@ const useStyles = makeStyles((theme: Theme) =>
 const deliveryProduct = (props: any) => {
   console.log(props);
   const classes = useStyles();
-  const [id, setId] = useState("60dc8456b6acdf24d0a806d2");
+  // const [id, setId] = useState("60dc8456b6acdf24d0a806d2");
+  const { user } = useSelector(({ authCustomer }: any) => authCustomer);
   const dispatch = useDispatch();
   const { orders, orderAddress } = useSelector(({ orders }: any) => orders);
 
   const [modalStyles] = useState(getModalStyle);
 
   const feedWithId = async () => {
-    dispatch(orderActions.getAllShippingAddressWithId(id));
-    await dispatch(orderActions.getAllOrder(id));
+    dispatch(orderActions.getAllShippingAddressWithId(user.id));
+    await dispatch(orderActions.getAllOrder(user.id));
     console.log(orders, "actions actions");
   };
 
@@ -203,14 +204,14 @@ const deliveryProduct = (props: any) => {
     };
 
     const handleAddressSubmit = async () => {
-      console.log(id, selectedShipping, "184 send sub mit");
+      console.log(user.id, selectedShipping, "184 send sub mit");
       await dispatch(
         orderActions.updateShippingAddress(props.orderId, selectedShipping)
       );
-      await dispatch(orderActions.getAllOrder(id));
+      await dispatch(orderActions.getAllOrder(user.id));
     };
     if (props.orderStatus == 3) {
-      return <div></div>
+      return <div></div>;
     } else {
       return (
         <div key={props.key}>
