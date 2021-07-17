@@ -117,7 +117,7 @@ const Checkout = ({ id, code }) => {
               <PinDropIcon />
               <h4>ที่อยู่</h4>
             </div>
-            {/* <div className={classes.inputAddress}>
+            <div className={classes.inputAddress}>
               {Object.entries(customers).length > 0 ? (
                 <TextField
                   fullWidth
@@ -135,7 +135,7 @@ const Checkout = ({ id, code }) => {
               ) : (
                 ""
               )}
-            </div> */}
+            </div>
             <div>
               <Button
                 variant="outlined"
@@ -171,13 +171,13 @@ const Checkout = ({ id, code }) => {
             </div>
           </Paper>
           <br />
-          {/* <CheckoutProcress
+          <CheckoutProcress
             checkouts={checkouts}
             note={note}
             openFormAddress={openFormAddress}
             setOpenFormAddress={setOpenFormAddress}
             customer={customers}
-          /> */}
+          />
         </Container>
       </div>
     </React.Fragment>
