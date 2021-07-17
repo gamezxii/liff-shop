@@ -36,6 +36,7 @@ export const signinCustomer = (account: Lineuser, router: NextRouter) => {
           liffId: data.customers.liffId,
           fullName: data.customers.fullName,
         };
+        console.log(data.customers);
         loadingAuthSuccess(dispatch, customer);
         //router.reload();
       } else {
