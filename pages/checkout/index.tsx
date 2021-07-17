@@ -93,7 +93,17 @@ const Checkout = ({ id, code }) => {
   }, []);
 
   useEffect(() => {
-    console.log(customers)
+    if (customers) {
+      if (customers.shippingAddress == "") {
+        const r = confirm("กรุณาเพิ่มที่อยู่!");
+        if (r == true) {
+          router.push({ pathname: `/profile/edit/${customers._id}` });
+        } else {
+          router.push({ pathname: `/cart` });
+        }
+      }
+    }
+    console.log(customers);
   }, [customers]);
 
   return (
