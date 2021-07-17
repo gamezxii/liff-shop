@@ -101,6 +101,13 @@ const Checkout = ({ id, code }) => {
         } else {
           router.push({ pathname: `/cart` });
         }
+      }else if (customers.tel == "") {
+        const r = confirm("กรุณาเพิ่มเบอร์โทรศัพท์!");
+        if (r == true) {
+          router.push({ pathname: `/profile/edit/${customers._id}` });
+        } else {
+          router.push({ pathname: `/profile/edit/${customers._id}` });
+        }
       }
     }
     console.log(customers);
