@@ -140,7 +140,6 @@ export default function PrimarySearchAppBar() {
   const authCustomer = useSelector((state: any) => state.authCustomer);
 
   const doFeed = () => {
-    console.log(authCustomer.user)
     if (authCustomer.user.id !== "" && authCustomer.user.id != undefined) {
       dispatch(basketActions.getBaskets(authCustomer.user.id));
     }
@@ -171,7 +170,7 @@ export default function PrimarySearchAppBar() {
     const liff = (await import("@line/liff")).default;
     if (liff.isLoggedIn()) {
       liff.logout();
-      dispatch(authCustomerActions.signoutCustomer());
+      dispatch(authCustomerActions.signoutCustomer(router));
     }
   };
 
