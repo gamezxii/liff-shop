@@ -9,6 +9,7 @@ import checkoutReducer from "./checkout.reducer";
 import bankReducer from "./bank.reducer";
 import orderReducer from "./order.reducer";
 import roleReducer from "./role.reducer";
+import aboutReducer from "./about.reducer";
 import authAdminReducer from "./authAdmin.reducer";
 import authCustomerReducer from "./authCustomer.reducer";
 import permissionReducer from "./permission.reducer";
@@ -39,6 +40,7 @@ export default combineReducers({
   address: addressReducer,
   history: historiesReducer,
   dashboard: dashboardReducer,
+  about: aboutReducer,
   promotion: promotionReducer,
   banner: bannerReducer,
 });

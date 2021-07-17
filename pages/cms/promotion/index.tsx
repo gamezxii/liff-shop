@@ -40,6 +40,7 @@ interface Styles extends Partial<Record<SwitchClassKey, string>> {
   focusVisible?: string;
 }
 
+
 interface Props extends SwitchProps {
   classes: Styles;
 }

@@ -56,6 +56,7 @@ const List = () => {
   const { products, isLoading, isMessage, isStatus } = product;
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [typeSnackbar, setTypeSnackbar] = React.useState("error");
+  const { adminPermission } = useSelector(({ permission }: any) => permission);
   useEffect(() => {
     dispatch(productAction.feedProduct());
   }, []);
@@ -83,13 +84,17 @@ const List = () => {
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <Paper elevation={1} className={classes.root}>
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={() => router.push({ pathname: "/cms/product/add" })}
-            >
-              เพิ่มสินค้า
-            </Button>
+            {adminPermission[12] ? (
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => router.push({ pathname: "/cms/product/add" })}
+              >
+                เพิ่มสินค้า
+              </Button>
+            ) : (
+              ""
+            )}
             <br />
             {products ? (
               <DataTable products={products ? products : []} />

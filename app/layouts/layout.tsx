@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { GetServerSideProps } from "next";
+// import { GetServerSideProps } from "next";
 import clsx from "clsx";
 import {
   makeStyles,
@@ -46,6 +46,7 @@ import AssessmentIcon from "@material-ui/icons/Assessment";
 import HistoryIcon from "@material-ui/icons/History";
 import ContactlessIcon from "@material-ui/icons/Contactless";
 import ControlCameraIcon from "@material-ui/icons/ControlCamera";
+import ViewQuiltIcon from '@material-ui/icons/ViewQuilt';
 /*  */
 const drawerWidth = 240;
 
@@ -105,12 +106,7 @@ export default function PersistentDrawerLeft({ children }) {
   const authAdmin = useSelector((state: any) => state.authAdmin);
   const { adminPermission } = useSelector(({ permission }: any) => permission);
   const { user } = useSelector(({ authAdmin }: any) => authAdmin);
-  // const handleDrawerOpen = () => {
-  //   setOpen(true);
-  // };
-  // const handleDrawerClose = () => {
-  //   setOpen(false);
-  // };
+
   const menubars = [
     {
       name: "Dashboard",
@@ -156,6 +152,11 @@ export default function PersistentDrawerLeft({ children }) {
       name: "สิทธิ์การเข้าถึง",
       icon: <LockIcon />,
       path: "/cms/role",
+    },
+    {
+      name: "บทความ",
+      icon: <ViewQuiltIcon />,
+      path: "/cms/about",
     },
     {
       name: "แบรนเนอร์",
@@ -223,8 +224,8 @@ export default function PersistentDrawerLeft({ children }) {
         <Divider />
         <List>
           {menubars.map((text, index) => {
-            if (index > 0 && index < 9) {
-              if (adminPermission[index]) {
+            if (index > 0 && index < 10) {
+              if (adminPermission[index - 1]) {
                 return (
                   <ListItem
                     button

@@ -221,6 +221,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const handleDelete = () => {
     dispatch(productAction.deleteProduct(selectedIds));
   };
+  const { adminPermission } = useSelector(({ permission }: any) => permission);
 
   const [visibleFilter, setVisibleFilter] = React.useState(false);
   const productReducer = useSelector((state: any) => state.product);
@@ -281,7 +282,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           )}
         </React.Fragment>
       )}
-      {numSelected > 0 ? (
+      {numSelected > 0 && adminPermission[13] ? (
         <Tooltip title="Delete">
           <IconButton aria-label="delete" onClick={() => handleDelete()}>
             <DeleteIcon />
