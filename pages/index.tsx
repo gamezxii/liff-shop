@@ -40,7 +40,7 @@ export default function Home() {
           fullName: profile.displayName,
           email: "",
         };
-        if (profile) {
+        if (payload.liffId !== undefined) {
           dispatch(authCustomerActions.signinCustomer(payload, router));
         }
       })
