@@ -60,7 +60,7 @@ export function numberWithDat(number) {
 //กรองธนาคาร
 export function filterAddress(address, activeAddress) {
   const result = address.find(({ _id }) => _id === activeAddress);
-  return result.shippingAddress;
+  return result != undefined ? result.shippingAddress : "";
 }
 
 export function autoTabNumber(tel) {
