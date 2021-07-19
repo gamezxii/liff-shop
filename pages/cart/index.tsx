@@ -227,12 +227,12 @@ const Basket = () => {
 
   const handleDecrease = (objectId: objectBasket) => {
     if (objectId.quantity <= 1) {
-      let result = confirm(
+      /* let result = confirm(
         `คุณแน่ใจว่าต้องการลบหรือไม่\n${objectId.productId.title}`
       );
       if (!result) {
         return;
-      }
+      } */
       Swal.fire({
         title: "คุณแน่ใจ ?",
         text: `คุณแน่ใจว่าต้องการลบรายการ ${objectId.productId.title}`,
