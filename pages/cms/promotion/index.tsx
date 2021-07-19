@@ -197,6 +197,7 @@ const Promotion = () => {
                 className={classes.input}
                 id="contained-button-file"
                 multiple
+                type="file"
                 onChange={handleChangePhoto.bind(this)}
               />
               <label htmlFor="contained-button-file">
