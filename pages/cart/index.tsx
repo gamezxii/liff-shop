@@ -240,7 +240,8 @@ const Basket = () => {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "ตกลง",
+        cancelButtonText:"ยกเลิก",
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(basketActions.updateDecrease(objectId));

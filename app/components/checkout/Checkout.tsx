@@ -10,6 +10,7 @@ import Formcode from "./Formcode";
 import { numberWithCommas } from "@/utils/service";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,16 +67,23 @@ const Checkout = ({
   const couponReducer = useSelector((state: any) => state.coupon);
   const handleOpenCode = () => {
     if (selected.length <= 0) {
-      return alert("กรุณาเลือกรายการที่ต้องการใช้โค้ดส่วนลด");
+      Swal.fire({
+        icon: "error",
+        text: "กรุณาเลือกรายการที่ต้องการใช้โค้ดส่วนลด!",
+      });
+      return;
     }
     setOpenFormCode(!openFormCode);
-    //console.log(usecode)
   };
   setOpenFormCode;
 
   const handleCheckoutProcress = () => {
     if (selected.length <= 0) {
-      return alert("กรุณาเลือกสินค้าที่ต้องการสั่งซื้อ");
+      Swal.fire({
+        icon: "error",
+        text: "กรุณาเลือกสินค้าที่ต้องการสั่งซื้อ!",
+      });
+      return;
     }
     let newCode = "";
     const objectIds = JSON.stringify(selected);
