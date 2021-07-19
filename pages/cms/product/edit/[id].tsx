@@ -174,7 +174,7 @@ const Edit = ({ id }) => {
     categoriesId: "0",
     relatedIds: [],
     ispopulated: 0,
-    description: null,
+    description: "",
     averageRating: 0,
     size: "",
     sku: "",
@@ -554,18 +554,23 @@ const Edit = ({ id }) => {
             </Grid>
           </Grid>
           {/* Editor */}
-          <Grid item xs={12}>
-            <FormControl
-              variant="outlined"
-              fullWidth
-              className={classes.formControl}
-            >
-              <FormEditer
-                content={productObject.description}
-                handleEditor={handleEditor}
-              />
-            </FormControl>
-          </Grid>
+          {productObject.description != "" ? (
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                fullWidth
+                className={classes.formControl}
+              >
+                <FormEditer
+                  content={productObject.description}
+                  handleEditor={handleEditor}
+                />
+              </FormControl>
+            </Grid>
+          ) : (
+            ""
+          )}
+
           {/*  */}
           <Grid item xs={12}>
             <FormControl fullWidth>
