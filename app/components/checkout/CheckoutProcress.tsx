@@ -17,8 +17,8 @@ import CreditCardIcon from "@material-ui/icons/CreditCard";
 import * as bankActions from "@/actions/bank.action";
 import { useDispatch, useSelector } from "react-redux";
 import BankRadio from "./Bankradio";
-import * as checkoutActions from "@/actions/checkout.action";
 import * as orderActions from "@/actions/order.action";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,12 +54,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-interface checkOutState {
-  total: number;
-  discount: number;
-  totalprice: number;
-}
 
 interface Customer {
   _id: string;
@@ -110,7 +104,14 @@ const CheckoutProcress = ({
   };
 
   const handleSubmit = () => {
-    if (changeBank == "") return alert("กรุณาเลือกธนาคาร");
+    if (changeBank == "") {
+      Swal.fire({
+        icon: "error",
+        text: "กรุณาเลือกธนาคาร!",
+        confirmButtonText:'ตกลง'
+      });
+      return;
+    }
     const { total, discount, totalprice } = subTotal;
     const reqCreateOrder = {
       total: total,

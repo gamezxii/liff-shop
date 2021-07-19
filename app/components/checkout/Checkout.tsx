@@ -70,6 +70,7 @@ const Checkout = ({
       Swal.fire({
         icon: "error",
         text: "กรุณาเลือกรายการที่ต้องการใช้โค้ดส่วนลด!",
+        confirmButtonText:'ตกลง'
       });
       return;
     }
@@ -82,6 +83,7 @@ const Checkout = ({
       Swal.fire({
         icon: "error",
         text: "กรุณาเลือกสินค้าที่ต้องการสั่งซื้อ!",
+        confirmButtonText:'ตกลง'
       });
       return;
     }
