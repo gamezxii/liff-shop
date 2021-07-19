@@ -82,7 +82,7 @@ const EditCustomer = ({ id }) => {
   const router = useRouter();
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [typeSnackbar, setTypeSnackbar] = React.useState("error");
-  const { adminPermission } = useSelector(({ permission }:any) => )
+  const { adminPermission } = useSelector(({ permission }:any) => permission)
   const { isUploading, isStatus, isMessage, customers } = useSelector(
     ({ customer }: any) => customer
   );

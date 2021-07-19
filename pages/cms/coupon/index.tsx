@@ -162,8 +162,8 @@ const Coupon = () => {
           let newsIdsDeleted = [];
           for (let index = 0; index < rows.length; index++) {
             newsIdsDeleted.push(rows[index]._id);
+            dispatch(couponActions.deleteCoupon(newsIdsDeleted));
           }
-          // dispatch(customerActions.deleteCustomer(newsIdsDeleted));
         }
       });
     }
