@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Layout from "@/layout";
 import Paper from "@material-ui/core/Paper";
-import {
-  Theme,
-  createStyles,
-  makeStyles,
-  useTheme,
-} from "@material-ui/core/styles";
+import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import { useRouter } from "next/router";
 import Button from "@material-ui/core/Button";
-import AdminTable from "@/components/admin/tableadmin";
 import FormAdmin from "@/components/admin/formadmin";
 import { useDispatch, useSelector } from "react-redux";
 import Snackbar from "@/components/Snackbar";
@@ -21,6 +12,11 @@ import * as adminActions from "@/actions/admin.action";
 
 import { parseCookies } from "@/utils/token";
 import { wrapper } from "@/wapper/store";
+import MaterialComponent from "@/components/MaterialComponent";
+import EditIcon from "@material-ui/icons/Edit";
+import IconButton from "@material-ui/core/IconButton";
+import Swal from "sweetalert2";
+import dayjs from "dayjs";
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, req }) => {
@@ -81,8 +77,9 @@ interface adminState {
   tel: string;
 }
 
-const Coupon = () => {
+const AdminIndex = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
   const [typeSnackbar, settypeSnackbar] = useState<string>("error");
   const [openform, setOpenform] = useState<boolean>(false);
@@ -96,10 +93,12 @@ const Coupon = () => {
     email: "",
     tel: "",
   });
-  const dispatch = useDispatch();
+  const [adminData, setAdminData] = useState<any[]>([]);
+
   const { isLoading, isUploading, isMessage, isStatus, admins } = useSelector(
     ({ admin }: any) => admin
   );
+  const { adminPermission } = useSelector(({ permission }: any) => permission);
 
   const toggleCreateform = () => {
     setTitleform("เพิ่มผู้ดูแลระบบ");
@@ -119,6 +118,57 @@ const Coupon = () => {
     setTitleform("แก้ไขผู้ดูแลระบบ");
     setOpenform(!openform);
   };
+
+  const handleSelected = (rows) => {
+    if (rows.length > 0) {
+      Swal.fire({
+        title: "คุณแน่ใจ?",
+        text: "คุณแน่ใจว่าต้องการลบรายการที่เลือกทั้งหมด!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "ตกลง",
+        cancelButtonText: "ยกเลิก",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let newsIdsDeleted = [];
+          for (let index = 0; index < rows.length; index++) {
+            newsIdsDeleted.push(rows[index]._id);
+          }
+          dispatch(adminActions.deletedAdmin(newsIdsDeleted));
+        }
+      });
+    }
+  };
+
+  const dofeed = async () => {
+    await dispatch(adminActions.feedAdmins());
+  };
+
+  const EditComponent = ({ row }) => {
+    return (
+      <React.Fragment>
+        <IconButton onClick={() => toggleEditform(row)}>
+          <EditIcon />
+        </IconButton>
+      </React.Fragment>
+    );
+  };
+
+  const columns = [
+    { title: "ชื่อ-นามสกุล", field: "fullName" },
+    { title: "ชื่อผู้ใช้", field: "userName" },
+    { title: "อีเมล์", field: "email" },
+    { title: "เบอร์โทรศัพท์", field: "tel" },
+    { title: "ระดับ", field: "role" },
+    { title: "สร้างเมื่อ", field: "createdAt" },
+    { title: "แก้ไข", field: "edit" },
+  ];
+
+  useEffect(() => {
+    dofeed();
+  }, []);
 
   useEffect(() => {
     //handle upload if return status == 201 | 200 is mean create success
@@ -142,14 +192,17 @@ const Coupon = () => {
     }
   }, [isStatus]);
 
-  const dofeed = async () => {
-    await dispatch(adminActions.feedAdmins());
-  };
-
   useEffect(() => {
-    dofeed();
-  }, []);
-
+    if (admins.length > 0) {
+      setAdminData([]);
+      admins.map((row) => {
+        let newDate = dayjs(row.createdAt).format("DD-MM-YYYY HH:mm:ss");
+        row.createdAt = newDate;
+        row.edit = <EditComponent row={row} />;
+        setAdminData((pre) => [...pre, row]);
+      });
+    }
+  }, [admins]);
   return (
     <Layout>
       <Loading open={isLoading || isUploading} />
@@ -162,13 +215,17 @@ const Coupon = () => {
       <Paper className={classes.root} elevation={4}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => toggleCreateform()}
-            >
-              เพิ่มผู้ดูแลระบบ
-            </Button>
+            {adminPermission[21] ? (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => toggleCreateform()}
+              >
+                เพิ่มผู้ดูแลระบบ
+              </Button>
+            ) : (
+              ""
+            )}
             <FormAdmin
               title={titleform}
               openform={openform}
@@ -179,7 +236,15 @@ const Coupon = () => {
             />
             <br />
             <br />
-            <AdminTable handleForm={toggleEditform} admins={admins} />
+          </Grid>
+          <Grid item xs={12}>
+            <MaterialComponent
+              title={"รายการผู้ดูแลระบบ"}
+              selectionBoolean={true}
+              columns={columns}
+              rows={adminData}
+              handleDelete={handleSelected}
+            />
           </Grid>
         </Grid>
       </Paper>
@@ -187,4 +252,4 @@ const Coupon = () => {
   );
 };
 
-export default Coupon;
+export default AdminIndex;

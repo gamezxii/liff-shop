@@ -23,10 +23,10 @@ const initialState: aboutState = {
   aboutId: [],
 };
 
-const productReducer = (state = initialState, action) => {
+const aboutReducer = (state = initialState, action) => {
   switch (action.type) {
     case HYDRATE:
-      return { ...state, ...action.payload.productReducer };
+      return { ...state, ...action.payload.aboutReducer };
     case aboutActionType.LOADING_ABOUT:
       return {
         ...state,
@@ -44,7 +44,6 @@ const productReducer = (state = initialState, action) => {
       };
 
     case aboutActionType.LOADING_SUCCESS:
-      console.log(action);
       return {
         ...state,
         isLoading: false,
@@ -148,4 +147,4 @@ const productReducer = (state = initialState, action) => {
   }
 };
 
-export default productReducer;
+export default aboutReducer;

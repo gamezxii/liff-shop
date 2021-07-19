@@ -377,7 +377,7 @@ export default function EnhancedTable({ products }: Props) {
 
     setSelected(newSelected);
   };
-
+  const { adminPermission } = useSelector(({ permission }: any) => permission);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -474,12 +474,16 @@ export default function EnhancedTable({ products }: Props) {
                       </TableCell>
                       <TableCell align="center">{row.size}</TableCell>
                       <TableCell align="center">
-                        <IconButton
-                          aria-label="filter list"
-                          onClick={(e) => handleRowEdit(e, row._id)}
-                        >
-                          <EditIcon />
-                        </IconButton>
+                        {adminPermission[14] ? (
+                          <IconButton
+                            aria-label="filter list"
+                            onClick={(e) => handleRowEdit(e, row._id)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        ) : (
+                          ""
+                        )}
                       </TableCell>
                     </TableRow>
                   );

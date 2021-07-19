@@ -24,7 +24,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import { green, red } from "@material-ui/core/colors";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as adminActions from "@/actions/admin.action";
 import dayjs from "dayjs";
 
@@ -210,6 +210,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles();
   const { numSelected, selectId } = props;
   const dispatch = useDispatch();
+  const { adminPermission } = useSelector(({ permission }: any) => permission);
 
   const handleDeleted = () => {
     dispatch(adminActions.deletedAdmin(selectId));
@@ -240,7 +241,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           รายการผู้ดูแลระบบ
         </Typography>
       )}
-      {numSelected > 0 ? (
+      {numSelected > 0 && adminPermission[22] ? (
         <Tooltip title="Delete">
           <IconButton aria-label="delete" onClick={handleDeleted}>
             <DeleteIcon />
@@ -314,6 +315,7 @@ export default function CouponTable({ handleForm, admins }: props) {
   const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const { adminPermission } = useSelector(({ permission }: any) => permission);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -432,12 +434,16 @@ export default function CouponTable({ handleForm, admins }: props) {
                         {dayjs(row.createdAt).format("DD-MM-YYYY HH:mm:ss")}
                       </TableCell>
                       <TableCell align="right">
-                        <IconButton
-                          aria-label="edit"
-                          onClick={() => handleForm(row)}
-                        >
-                          <EditIcon />
-                        </IconButton>
+                        {adminPermission[23] ? (
+                          <IconButton
+                            aria-label="edit"
+                            onClick={() => handleForm(row)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        ) : (
+                          ""
+                        )}
                       </TableCell>
                     </TableRow>
                   );

@@ -216,7 +216,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const dispatch = useDispatch();
   const [visibleFilter, setVisibleFilter] = React.useState(false);
   const couponReducer = useSelector((state: any) => state.coupon);
-
+  const { adminPermission } = useSelector(({ permission }: any) => permission);
   const handleFilter = () => {
     setVisibleFilter(!visibleFilter);
   };
@@ -273,7 +273,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           )}
         </React.Fragment>
       )}
-      {numSelected > 0 ? (
+      {numSelected > 0 && adminPermission[16] ? (
         <Tooltip title="Delete" onClick={() => deleted()}>
           <IconButton aria-label="delete">
             <DeleteIcon />
@@ -357,6 +357,7 @@ export default function CouponTable({ handleForm, coupons }: data) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const dispatch = useDispatch();
+  const { adminPermission } = useSelector(({ permission }: any) => permission);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -494,12 +495,16 @@ export default function CouponTable({ handleForm, coupons }: data) {
                         {dayjs(row.createdAt).format("DD/MM/YYYY HH:mm:s")}
                       </TableCell>
                       <TableCell align="right">
-                        <IconButton
-                          aria-label="edit"
-                          onClick={() => handleForm(row as object)}
-                        >
-                          <EditIcon />
-                        </IconButton>
+                        {adminPermission[17] ? (
+                          <IconButton
+                            aria-label="edit"
+                            onClick={() => handleForm(row as object)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        ) : (
+                          ""
+                        )}
                       </TableCell>
                     </TableRow>
                   );

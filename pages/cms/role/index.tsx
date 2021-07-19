@@ -99,6 +99,7 @@ const Role = () => {
     roleName: "",
     permission: [],
   });
+  const { adminPermission } = useSelector(({ permission }: any) => permission);
   const [roleNameObject, setRoleNameObject] = useState<roleNameState>({
     _id: "",
     roleName: "",
@@ -160,13 +161,17 @@ const Role = () => {
       <Paper className={classes.root} elevation={4}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => toggleCreateform()}
-            >
-              เพิ่มตำแหน่งระดับผู้ดูแลระบบ
-            </Button>
+            {adminPermission[24] ? (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => toggleCreateform()}
+              >
+                เพิ่มตำแหน่งระดับผู้ดูแลระบบ
+              </Button>
+            ) : (
+              ""
+            )}
             <CreateRole
               openform={openform}
               handleForm={setOpenform}

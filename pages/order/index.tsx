@@ -173,11 +173,7 @@ const Edit = () => {
               </SwipeableViews>
             </div>
           </Grid>
-          {/* <Grid item xs={12}>
-            <Card>
-              <CardContent>{id}</CardContent>
-            </Card>
-          </Grid> */}
+          
         </Grid>
       </Paper>
     </>

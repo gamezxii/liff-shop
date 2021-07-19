@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import Layout from "@/layout";
-import DataTable from "@/components/order/datatable";
 import { useDispatch, useSelector } from "react-redux";
 import * as orderActions from "@/actions/order.action";
+import TableOrder from "@/components/order/TableOrder";
 const List = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const List = () => {
   return (
     <Layout>
       <div>{router.pathname}</div>
-      <DataTable orders={orders.orders ? orders.orders : []} />
+      <TableOrder orders={orders.orders ? orders.orders : []} />
     </Layout>
   );
 };

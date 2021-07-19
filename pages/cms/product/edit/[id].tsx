@@ -34,12 +34,12 @@ import { urlApi } from "@/context/urlapi";
 import ButtonBack from "@/components/ButtonBack";
 import FormEditer from "../../../../app/components/product/FormEditer";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const param = await context.query;
-  return {
-    props: { id: param.id },
-  };
-};
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const param = await context.query;
+//   return {
+//     props: { id: param.id },
+//   };
+// };
 
 const ButtonSubmit = withStyles((theme: Theme) => ({
   root: {
@@ -154,7 +154,8 @@ function getStyles(title: string, personName: string[], theme: Theme) {
   };
 }
 
-const Edit = ({ id }) => {
+const Edit = () => {
+  const id: string = "60ed3c53532f7c38ac1d7f0e";
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -187,9 +188,9 @@ const Edit = ({ id }) => {
   };
 
   const handleFeedProduct = async () => {
+    dispatch(categoriesAction.feedCategoreis());
     await dispatch(productAction.queryProductWithId(id));
     await dispatch(productAction.feedProduct());
-    dispatch(categoriesAction.feedCategoreis());
   };
 
   const handleChangeCategories = (
@@ -430,7 +431,6 @@ const Edit = ({ id }) => {
                 label="ประเภทสินค้า"
                 className={classes.textfield}
               >
-                <MenuItem value="0">โปรดเลือกรายการ</MenuItem>
                 {categories
                   ? categories.map((cate, index) => (
                       <MenuItem key={cate._id} value={cate._id}>

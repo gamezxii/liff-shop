@@ -342,7 +342,7 @@ export default function CustomerTable({ customers }: Props) {
   const { isUploading, isMessage, isStatus } = useSelector(
     ({ customer }: any) => customer
   );
-
+  const { adminPermission } = useSelector(({ permission }: any) => permission);
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof CustomerState
@@ -494,12 +494,16 @@ export default function CustomerTable({ customers }: Props) {
                           {filterAddress(row.address, row.shippingAddress)}
                         </TableCell>
                         <TableCell align="right">
-                          <IconButton
-                            aria-label="Edit"
-                            onClick={() => handleEdit(row._id as string)}
-                          >
-                            <EditIcon />
-                          </IconButton>
+                          {adminPermission[17] ? (
+                            <IconButton
+                              aria-label="Edit"
+                              onClick={() => handleEdit(row._id as string)}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          ) : (
+                            ""
+                          )}
                         </TableCell>
                       </TableRow>
                     );

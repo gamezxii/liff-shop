@@ -227,12 +227,6 @@ const Basket = () => {
 
   const handleDecrease = (objectId: objectBasket) => {
     if (objectId.quantity <= 1) {
-      /* let result = confirm(
-        `คุณแน่ใจว่าต้องการลบหรือไม่\n${objectId.productId.title}`
-      );
-      if (!result) {
-        return;
-      } */
       Swal.fire({
         title: "คุณแน่ใจ ?",
         text: `คุณแน่ใจว่าต้องการลบรายการ ${objectId.productId.title}`,
@@ -241,7 +235,7 @@ const Basket = () => {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "ตกลง",
-        cancelButtonText:"ยกเลิก",
+        cancelButtonText: "ยกเลิก",
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(basketActions.updateDecrease(objectId));
@@ -425,6 +419,22 @@ const Basket = () => {
 
         {/* render Mobile */}
         <Grid container spacing={0}>
+          <Grid item xs={4}>
+            <Checkbox
+              indeterminate={
+                selected.length > 0 && selected.length < baskets.length
+              }
+              checked={baskets.length > 0 && selected.length === baskets.length}
+              color="primary"
+              inputProps={{ "aria-label": "secondary checkbox" }}
+              onChange={handleChangeItemsAllClick}
+            />
+          </Grid>
+          <Grid item xs={8}>
+            <Typography variant="body1" gutterBottom>
+              เลือกทั้งหมด
+            </Typography>
+          </Grid>
           <Grid item xs={12}>
             {baskets.map((item, index) => {
               const isItemSelected = isSelected(item._id as string);
