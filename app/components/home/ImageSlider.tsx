@@ -7,7 +7,7 @@ const ImageSlider = ({ photos }: any) => {
   return (
     <div>
       <Carousel
-        dynamicHeight={false}
+        dynamicHeight={true}
         showArrows={false}
         autoPlay={true}
         infiniteLoop={true}
@@ -17,16 +17,9 @@ const ImageSlider = ({ photos }: any) => {
       >
         {photos.length > 0
           ? photos.map(({ photo }) => (
-              <img
-                key={photo}
-                src={`${urlApi}uploads/banner/${photo}`}
-                height="600"
-              />
+              <img key={photo} src={`${urlApi}uploads/banner/${photo}`} />
             ))
           : ""}
-        {/* <img height="600" src={`${urlApi}uploads/matial-peak.jpg`} />
-        <img height="600" src={`${urlApi}uploads/E4a4uubVoAEBUEk.jpg`} />
-        <img height="600" src={`${urlApi}uploads/ESnP-OMXgAEa6nm.jpg`} /> */}
       </Carousel>
     </div>
   );
