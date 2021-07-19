@@ -235,7 +235,7 @@ const Basket = () => {
       }
       Swal.fire({
         title: "คุณแน่ใจ ?",
-        text: "คุณแน่ใจว่าต้องการลบรายการที่เลือก!",
+        text: "คุณแน่ใจว่าต้องการลบรายการสินค้านี้!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
