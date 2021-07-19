@@ -110,7 +110,6 @@ const Checkout = ({ id, code }) => {
         }
       }
     }
-    console.log(customers);
   }, [customers]);
 
   return (

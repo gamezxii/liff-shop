@@ -20,6 +20,7 @@ import Checkout from "@/components/checkout/Checkout";
 import { parseCookiesCustomer } from "@/utils/token";
 import { wrapper } from "@/wapper/store";
 import { urlApi } from "@/context/urlapi";
+import Swal from "sweetalert2";
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, req }) => {
@@ -232,8 +233,20 @@ const Basket = () => {
       if (!result) {
         return;
       }
+      Swal.fire({
+        title: "คุณแน่ใจ ?",
+        text: "คุณแน่ใจว่าต้องการลบรายการที่เลือก!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(basketActions.updateDecrease(objectId));
+        }
+      });
     }
-    dispatch(basketActions.updateDecrease(objectId));
   };
 
   const isSelected = (_id: string) => selected.indexOf(_id) !== -1;
