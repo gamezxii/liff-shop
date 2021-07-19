@@ -19,6 +19,7 @@ import CardRecommand from "@/components/CardRecommand";
 import { useRouter } from "next/router";
 import EditerView from "../../app/components/product/EditerView";
 import _ from "lodash";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -94,10 +95,6 @@ const ProductId = ({ id }) => {
   const [visibleAlert, setVisibleAlert] = useState(false);
   const [description, setDescription] = useState<any>({});
 
-  const handleEditor = (state) => {
-    setDescription(state);
-  };
-
   const feedWithId = () => {
     dispatch(productActions.queryProductWithIdCustomer(id));
   };
@@ -136,10 +133,20 @@ const ProductId = ({ id }) => {
     }
 
     if (quantitySelect <= 0) {
-      if (size == "") return alert("กรุณาเลือกจำนวนสินค้าที่ต้องการซื้อ");
+      return Swal.fire({
+        icon: "error",
+        text: "กรุณาเลือกจำนวนสินค้าที่ต้องการซื้อ!",
+        confirmButtonText: "ตกลง",
+      });
+      // if (size == "") return alert("กรุณาเลือกจำนวนสินค้าที่ต้องการซื้อ");
     }
     if (product.size.length > 0) {
-      if (size == "") return alert("กรุณาเลือก ขนาดของสินค้า");
+      if (size == "")
+        return Swal.fire({
+          icon: "error",
+          text: "กรุณาเลือก ขนาดของสินค้า!",
+          confirmButtonText: "ตกลง",
+        });
     }
     const payload: AdditemBasket = {
       customerId: authCustomer.user.id,
