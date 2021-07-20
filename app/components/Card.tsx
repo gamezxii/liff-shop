@@ -55,6 +55,10 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: 14,
       },
     },
+    boxPriceAndstart: {
+      display: "flex",
+      justifyContent: "space-between",
+    },
   })
 );
 
@@ -79,26 +83,29 @@ const CardItem = (props) => {
         <CardContent>
           <Typography
             gutterBottom
-            variant="h5"
-            component="h2"
+            variant="subtitle1"
             className={classes.title}
           >
-            {props.title}
+            {props.title.length > 31
+              ? `${props.title.slice(0, 31)}...`
+              : props.title}
           </Typography>
-          <Rating
-            name={props.title}
-            defaultValue={props.averageRating}
-            precision={0.5}
-            readOnly
-          />
-          <Typography
-            variant="body1"
-            color="textSecondary"
-            component="p"
-            style={{ color: "red" }}
-          >
-            ฿{numberWithCommas(props.price)}
-          </Typography>
+          <div className={classes.boxPriceAndstart}>
+            <Typography
+              variant="body1"
+              color="textSecondary"
+              component="p"
+              style={{ color: "red" }}
+            >
+              ฿{numberWithCommas(props.price)}
+            </Typography>
+            <Rating
+              name={props.title}
+              defaultValue={props.averageRating}
+              precision={0.5}
+              readOnly
+            />
+          </div>
         </CardContent>
       </CardActionArea>
     </Card>
