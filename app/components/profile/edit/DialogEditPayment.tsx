@@ -200,7 +200,7 @@ export default function DialogEditPayment({
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="primary">
-            Disagree
+            ยกเลิก
           </Button>
           <ButtonSubmit handleSubmit={handleSubmit} isUploading={isUploading} />
         </DialogActions>

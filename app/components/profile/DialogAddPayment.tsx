@@ -8,8 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -20,7 +19,6 @@ import Avatar from "@material-ui/core/Avatar";
 import * as allbankActions from "@/actions/allbank.action";
 import * as paymentActions from "@/actions/payment.action";
 import ButtonSubmit from "@/components/ButtonSubmit";
-
 import { useSelector, useDispatch } from "react-redux";
 
 import { green, pink, purple } from "@material-ui/core/colors";
@@ -40,7 +38,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       "& .MuiTextField-root": {
         margin: theme.spacing(1),
-        width: "25ch",
       },
     },
     margin: {
@@ -61,13 +58,16 @@ export default function DialogAddPayment({ id }: Props) {
   const classes = useStyles();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const authCustomer = useSelector((state: any) => state.authCustomer);
   const [newPayment, setNewPayment] = useState<Payment>({
     bankId: "",
     bankAccName: "",
     bankAccNo: "",
-    customerId: "60dc8456b6acdf24d0a806d2",
+    customerId: id,
     paymentStatus: 0,
   });
+  
+
   const feedWithId = () => {
     dispatch(allbankActions.getAllbanks());
   };
@@ -127,7 +127,7 @@ export default function DialogAddPayment({ id }: Props) {
             >
               <AccountBalanceWalletIcon />
             </Avatar>
-            บัญชีชำระเงิน {id}
+            บัญชีชำระเงิน
           </Grid>
         </DialogTitle>
         <DialogContent>
@@ -139,7 +139,7 @@ export default function DialogAddPayment({ id }: Props) {
                 variant="outlined"
               >
                 <InputLabel htmlFor="outlined-adornment-amount">
-                  ชื่อบัญชี
+                  ชื่อ-นามสกุล บัญชี
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-amount"
@@ -149,23 +149,29 @@ export default function DialogAddPayment({ id }: Props) {
                   startAdornment={
                     <InputAdornment position="start"></InputAdornment>
                   }
-                  labelWidth={60}
+                  labelWidth={130}
                 />
               </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">
-                  เลขที่บัญชี
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+              <FormControl
+              
+                fullWidth
+               >
+
+                <TextField
+                  id="outlined-select-currency-native"
+                  select
                   value={bankName}
                   onChange={handleChangeBankId}
+                  SelectProps={{
+                    native: true,
+                  }}
+                  helperText="โปรดเลือกธนาคารของท่าน"
+                  variant="outlined"
                 >
                   {allbanks.map((allbank) => (
-                    <MenuItem value={allbank._id}>{allbank.bankName}</MenuItem>
+                    <option value={allbank._id}>{allbank.bankName}</option>
                   ))}
-                </Select>
+                </TextField>
               </FormControl>
               <FormControl
                 fullWidth
@@ -183,7 +189,7 @@ export default function DialogAddPayment({ id }: Props) {
                   startAdornment={
                     <InputAdornment position="start"></InputAdornment>
                   }
-                  labelWidth={60}
+                  labelWidth={100}
                 />
               </FormControl>
             </form>

@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       "& .MuiTextField-root": {
         margin: theme.spacing(1),
-        width: "25ch",
       },
     },
     margin: {
@@ -103,7 +102,7 @@ export default function DialogAddAddress({ id }: Props) {
             >
               <PersonPinCircleIcon />
             </Avatar>
-            ข้อมูลที่อยู่ {id}
+            ข้อมูลที่อยู่
           </Grid>
         </DialogTitle>
         <DialogContent>
@@ -111,7 +110,6 @@ export default function DialogAddAddress({ id }: Props) {
             <form className={classes.root} noValidate autoComplete="off">
               <FormControl
                 fullWidth
-                className={classes.margin}
                 variant="outlined"
               >
                 <InputLabel htmlFor="outlined-adornment-amount">
@@ -120,7 +118,7 @@ export default function DialogAddAddress({ id }: Props) {
                 <OutlinedInput
                   id="outlined-adornment-amount"
                   value={newAddress.addressName}
-                  placeholder="รายละเอียดข้อมูลชื่อที่อยู่"
+                  placeholder="รายละเอียดข้อมูลชื่อที่อยู่ เช่น บ้าน อพาร์ทเม้นท์"
                   startAdornment={
                     <InputAdornment position="start"></InputAdornment>
                   }
@@ -130,31 +128,25 @@ export default function DialogAddAddress({ id }: Props) {
               </FormControl>
               <br />
               <br />
-              <Grid item xs={12}>
-                <FormControl
-                  fullWidth
-                  className={classes.margin}
-                  variant="outlined"
-                >
-                  {/* <InputLabel htmlFor="standard-adornment-password">
-            ที่อยู่การจัดส่ง
-              </InputLabel> */}
 
-                  <TextField
-                    fullWidth
-                    multiline
-                    rows={5}
-                    rowsMax={5}
-                    label="ที่อยู่การจัดส่ง"
-                    placeholder="เพิ่มที่อยู่ของท่าน"
-                    id="outlined-basic"
-                    variant="outlined"
-                    value={newAddress.shippingAddress}
-                    onChange={handleShippingAddress}
-                  />
-                  <br />
-                </FormControl>
-              </Grid>
+              <FormControl
+                fullWidth
+                variant="outlined"
+              >
+
+                <TextField  
+                  multiline
+                  rows={5}
+                  rowsMax={5}
+                  label="ที่อยู่การจัดส่ง"
+                  placeholder="เพิ่มที่อยู่ของท่าน"
+                  id="outlined-basic"
+                  variant="outlined"
+                  value={newAddress.shippingAddress}
+                  onChange={handleShippingAddress}
+                />
+                <br />
+              </FormControl>
             </form>
           </DialogContentText>
         </DialogContent>

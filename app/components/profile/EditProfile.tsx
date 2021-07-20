@@ -37,12 +37,9 @@ const useStyles = makeStyles((theme: Theme) =>
     margin: {
       margin: theme.spacing(1),
     },
-    textField: {
-      width: "25ch",
-    },
     paperStyle: {
       padding: "30px 20px",
-      width: theme.spacing(80),
+      // width: theme.spacing(80),
       margin: "20px auto",
       justify: "center",
       alignItems: "center",

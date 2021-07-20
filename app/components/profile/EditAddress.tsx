@@ -32,9 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
     margin: {
       margin: theme.spacing(1),
     },
-    textField: {
-      width: "25ch",
-    },
     paperStyle: {
       padding: "30px 20px",
       width: theme.spacing(80),
@@ -115,7 +112,8 @@ export default function InputAdornments({ id }: Props) {
         message={isMessage}
         type={typeSnackbar}
       />
-      <Grid container spacing={0} direction="column">
+      <Grid container alignItems="center"
+        justify="center" spacing={0} direction="column">
         <Avatar className={classes.avatarStyle}>
           <AddCircleOutlineOutlinedIcon />
         </Avatar>
@@ -134,7 +132,9 @@ export default function InputAdornments({ id }: Props) {
           return (
             <>
               <Card className={classes.root}>
-                <Grid container spacing={3}>
+                <Grid container spacing={3}
+                alignItems="center"
+                justify="center">
                   <Grid item xs={6}>
                     {address.addressName}
                   </Grid>

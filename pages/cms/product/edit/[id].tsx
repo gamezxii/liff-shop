@@ -34,12 +34,12 @@ import { urlApi } from "@/context/urlapi";
 import ButtonBack from "@/components/ButtonBack";
 import FormEditer from "../../../../app/components/product/FormEditer";
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const param = await context.query;
-//   return {
-//     props: { id: param.id },
-//   };
-// };
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const param = await context.query;
+  return {
+    props: { id: param.id },
+  };
+};
 
 const ButtonSubmit = withStyles((theme: Theme) => ({
   root: {
@@ -125,7 +125,7 @@ interface editProduct {
   saleprice: number;
   quantity: number;
   images: any[];
-  categoriesId: string;
+  categoriesId: string | number;
   relatedIds: string[];
   ispopulated: number;
   description: any;
@@ -154,8 +154,7 @@ function getStyles(title: string, personName: string[], theme: Theme) {
   };
 }
 
-const Edit = () => {
-  const id: string = "60ed3c53532f7c38ac1d7f0e";
+const Edit = ({id}) => {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -172,7 +171,7 @@ const Edit = () => {
     saleprice: 0,
     quantity: 0,
     images: [],
-    categoriesId: "0",
+    categoriesId: 0,
     relatedIds: [],
     ispopulated: 0,
     description: "",
@@ -433,7 +432,7 @@ const Edit = () => {
               >
                 {categories
                   ? categories.map((cate, index) => (
-                      <MenuItem key={cate._id} value={cate._id}>
+                      <MenuItem key={index} value={cate._id}>
                         {cate.categoriesName}
                       </MenuItem>
                     ))

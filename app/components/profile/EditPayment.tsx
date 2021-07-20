@@ -10,6 +10,7 @@ import {
   createStyles,
   makeStyles,
 } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Loading from "@/components/Loading";
 import Button from "@material-ui/core/Button";
@@ -26,9 +27,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     margin: {
       margin: theme.spacing(1),
-    },
-    textField: {
-      width: "25ch",
     },
     paperStyle: {
       padding: "30px 20px",
@@ -99,14 +97,6 @@ export default function InputAdornments({ id }: Props) {
   const feedWithId = () => {
     dispatch(paymentActions.getPayments(id));
   };
-
-  const [values, setValues] = React.useState<State>({
-    amount: "",
-    password: "",
-    weight: "",
-    weightRange: "",
-    showPassword: false,
-  });
   const handleDelete = (id: string) => {
     dispatch(paymentActions.updateStatus({ _id: id, paymentStatus: 3 }));
   };
@@ -138,8 +128,8 @@ export default function InputAdornments({ id }: Props) {
         container
         spacing={0}
         direction="column"
-        // alignItems="center"
-        // justify="center"
+        alignItems="center"
+        justify="center"
       >
         <Avatar className={classes.avatarStyle}>
           <AddCircleOutlineOutlinedIcon />
@@ -153,37 +143,35 @@ export default function InputAdornments({ id }: Props) {
           if (payment.paymentStatus != 2) {
             return (
               <>
-                <Card className={classes.root}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={6}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {payment.bankAccName}
-                      </Typography>
-
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        {payment.bankAccNo}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                      {payment.paymentStatus == 1 && (
-                        <Chip
-                          style={{
-                            marginRight: theme.spacing(1),
-                          }}
-                          size="small"
-                          label="ตั้งเป็นค่าเริ่มต้น"
-                          color="secondary"
-                        />
-                      )}
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Button size="small" color="primary">
+               <Card className={classes.root}>
+                <Grid container spacing={3}
+                alignItems="center"
+                justify="center">
+                  <Grid item xs={6}>
+                    {payment.bankAccName}
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Box
+                      display="flex"
+                      justifyContent="flex-end"
+                      bgcolor="background.paper"
+                    >
+                      <Box>
+                        {payment.paymentStatus == 1 && (
+                          <Chip
+                            style={{
+                              marginRight: theme.spacing(5),
+                            }}
+                            size="small"
+                            label="ตั้งเป็นค่าเริ่มต้น"
+                            color="secondary"
+                          />
+                        )}
+                      </Box>
+                      <Box>
                         <DialogEditPayment {...payment} />
-                      </Button>
+                      </Box>
+                      <Box>
                       <Button
                         size="small"
                         color="primary"
@@ -191,27 +179,41 @@ export default function InputAdornments({ id }: Props) {
                       >
                         เลือก
                       </Button>
-                      {payment.paymentStatus == 1 ? (
-                        <Button
-                          size="small"
-                          color="primary"
-                          disabled
-                          onClick={() => handleDelete(payment._id)}
-                        >
-                          Remove
-                        </Button>
-                      ) : (
-                        <Button
-                          size="small"
-                          color="primary"
-                          onClick={() => handleDelete(payment._id)}
-                        >
-                          Remove
-                        </Button>
-                      )}
-                    </Grid>
+                      </Box>
+                      <Box>
+                        {payment.paymentStatus == 1 ? (
+                          <Button
+                            size="small"
+                            color="primary"
+                            disabled
+                            onClick={() => handleDelete(payment._id)}
+                          >
+                            ลบ
+                          </Button>
+                        ) : (
+                          <Button
+                            size="small"
+                            color="primary"
+                            onClick={() => handleDelete(payment._id)}
+                          >
+                            ลบ
+                          </Button>
+                        )}
+                      </Box>
+                    </Box>
                   </Grid>
-                </Card>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      {payment.bankAccNo}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Card>
+                
                 <br />
               </>
             );

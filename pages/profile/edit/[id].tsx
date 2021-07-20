@@ -154,7 +154,7 @@ const Edit = ({ id }) => {
       <Appbar />
       <Paper className={classes.root} elevation={2}>
         <Grid container spacing={10} alignItems="center" justify="center">
-        
+
           <Grid item xs={12}>
             <div className={classes.root}>
               <AppBar position="static" color="default">
@@ -166,9 +166,10 @@ const Edit = ({ id }) => {
                   variant="fullWidth"
                   aria-label="full width tabs example"
                 >
+                  <Tab label="ข้อมูลส่วนตัว" {...a11yProps(2)} />
                   <Tab label="ข้อมูลบัญชี" {...a11yProps(0)} />
                   <Tab label="ที่อยู่" {...a11yProps(1)} />
-                  <Tab label="ข้อมูลส่วนตัว" {...a11yProps(2)} />
+
                 </Tabs>
               </AppBar>
               <SwipeableViews
@@ -178,41 +179,53 @@ const Edit = ({ id }) => {
                 onChangeIndex={handleChangeIndex}
               >
                 <TabPanel value={value} index={0} dir={theme.direction}>
-                  <Box
-                    display="flex"
-                    flexDirection="row-reverse"
-                    p={1}
-                    m={1}
-                    bgcolor="background.paper"
-                  >
-
-                    <DialogAddPayment id={id} />
-                  </Box>
-
-                  <Grid item xs={12} className={classes.TabsDetail}>
-                    <EditPayment id={id} />
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                    {id ? <EditProfile id={id} /> : ""}
+                      
+                    </Grid>
                   </Grid>
+
+
+
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                  <Box
-                    display="flex"
-                    flexDirection="row-reverse"
-                    p={1}
-                    m={1}
-                    bgcolor="background.paper"
-                  >
-                    <Box p={1}>
-                    <DialogAddAddress id={id} />
-                    </Box>
-                  </Box>
-                  <Grid item xs={12}>
-                    <EditAddress id={id} />
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                    <Box
+                        display="flex"
+                        flexDirection="row-reverse"
+                        p={1}
+                        m={1}
+                        bgcolor="background.paper"
+                      >
+                        <DialogAddPayment id={id} />
+                      </Box>
+                      <Grid item xs={12} className={classes.TabsDetail}>
+                        <EditPayment id={id} />
+                      </Grid>
+                    </Grid>
                   </Grid>
+
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                  <Grid item xs={12}>
-                    
-                    {id?<EditProfile id={id} />:""}
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                    <Box
+                        display="flex"
+                        flexDirection="row-reverse"
+                        p={1}
+                        m={1}
+                        bgcolor="background.paper"
+                      >
+                        <Box p={1}>
+                          <DialogAddAddress id={id} />
+                        </Box>
+                      </Box>
+                      <Grid item xs={12}>
+                        <EditAddress id={id} />
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </TabPanel>
               </SwipeableViews>
