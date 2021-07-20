@@ -54,6 +54,8 @@ const categoriesReducer = (state = initialState, action) => {
       return {
         ...state,
         isUploading: true,
+        isStatus: 0,
+        isMessage: "",
       };
     //create categories success
     case categoriesActiontype.UPLOADING_SUCCESS:
