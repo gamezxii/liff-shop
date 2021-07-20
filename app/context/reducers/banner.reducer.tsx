@@ -4,8 +4,8 @@ import { HYDRATE } from "next-redux-wrapper";
 const initialState = {
   isLoading: false,
   isError: false,
-  photos: [],
   isUploading: false,
+  photos: [],
   message: "",
   status: 0,
 };

@@ -78,7 +78,6 @@ const BannerIndex = () => {
   const dispatch = useDispatch();
   const bannerReducer = useSelector((state: any) => state.banner);
   const [photos, setPhotos] = useState<any>([]);
-  const [previewPhoto, setPreviewPhoto] = useState(null);
 
   //upload new photo banner
   const handleChangePhoto = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,6 +124,7 @@ const BannerIndex = () => {
   return (
     <Layout>
       <Paper className={classes.root}>
+        <Loading open={bannerReducer.isLoading || bannerReducer.isUploading} />
         <Grid container justify="space-around">
           {photos.map((row, index) => (
             <Grid item xs={2} key={index}>

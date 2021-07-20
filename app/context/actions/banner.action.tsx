@@ -78,7 +78,18 @@ export const uploadImage = (photo: FormData) => {
 export const deleteImage = (objectId: string) => {
   return async (dispatch) => {
     try {
+      dispatch(setStateToUpLoading);
       const decreateBanner = await axios.delete(`${urlApi}banner/${objectId}`);
+      const { status, message, photos } = await decreateBanner.data;
+      if (status == 200) {
+        dispatch(setStateToUploadSuccess({ status, message, photos }));
+      } else {
+        dispatch(setStateToError(message));
+      }
+      const timerx = setTimeout(() => {
+        dispatch(setStateToClearSnackbar);
+        clearTimeout(timerx);
+      }, 4000);
     } catch (error) {
       dispatch(setStateToError(error));
     }
