@@ -16,6 +16,7 @@ import * as checkoutActions from "@/actions/checkout.action";
 import * as customerActtions from "@/actions/customer.action";
 import * as couponActions from "@/actions/coupon.action";
 import { filterAddress } from "@/utils/service";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -95,12 +96,22 @@ const Checkout = ({ id, code }) => {
   useEffect(() => {
     if (customers) {
       if (customers.shippingAddress == "") {
-        const r = confirm("กรุณาเพิ่มที่อยู่!");
-        if (r == true) {
-          router.push({ pathname: `/profile/edit/${customers._id}` });
-        } else {
-          router.push({ pathname: `/cart` });
-        }
+        Swal.fire({
+          title: "คุณยังไม่ได้เพิ่มที่อยู่?",
+          text: "ต้องการเพิ่มที่อยู่หรือไม่ ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "ใช่",
+          cancelButtonText: "ไม่",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            router.push({ pathname: `/profile/edit/${customers._id}` });
+          } else {
+            router.push({ pathname: `/cart` });
+          }
+        });
       } else if (customers.tel == "") {
         const r = confirm("กรุณาเพิ่มเบอร์โทรศัพท์!");
         if (r == true) {
