@@ -419,7 +419,7 @@ const Basket = () => {
 
         {/* render Mobile */}
         <Grid container spacing={0}>
-          <Grid item xs={4}>
+          {/* <Grid item xs={4}>
             <Checkbox
               indeterminate={
                 selected.length > 0 && selected.length < baskets.length
@@ -434,7 +434,7 @@ const Basket = () => {
             <Typography variant="body1" gutterBottom>
               เลือกทั้งหมด
             </Typography>
-          </Grid>
+          </Grid> */}
           <Grid item xs={12}>
             {baskets.map((item, index) => {
               const isItemSelected = isSelected(item._id as string);
