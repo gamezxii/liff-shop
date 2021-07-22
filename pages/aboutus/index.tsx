@@ -31,15 +31,17 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     contentLeft: {
+      width: "50%",
       "& img": {
         width: "100%",
-        objectFit: "cover",
+        objectFit: "contain",
         borderRadius: 5,
       },
     },
     contentRight: {
       padding: theme.spacing(2),
       textAlign: "left",
+      width: "50%",
       [theme.breakpoints.down("sm")]: {
         order: 1,
       },
@@ -47,37 +49,39 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const RenderLeft = ({ classes, photo }) => {
+const RenderLeft = ({ classes, photo, detail, title }) => {
   return (
     <Fadeinsection>
       <section className={classes.contentCon}>
         <div className={classes.contentLeft}>
-          <img src={`${urlApi}uploads/aboutus/${photo}`} alt={photo} />
+          <img
+            src={`${urlApi}uploads/aboutus/${photo}`}
+            alt={photo}
+            height="300"
+          />
         </div>
         <div className={classes.contentRight}>
-          <h2>ห้องประชุม</h2>
-          <p>
-            ห้องประชุมรองรับการประชุมได้ 100-120 ท่าน จัดประชุม/สัมมนา
-            จัดเลี้ยงสังสรรค์ มีลานด้านหน้ากว้าง จัดเลี้ยงสังสรรค์ได้
-          </p>
+          <h2>{title}</h2>
+          <p>{detail}</p>
         </div>
       </section>
     </Fadeinsection>
   );
 };
 
-const RenderRight = ({ classes, photo }) => {
+const RenderRight = ({ classes, photo, detail, title }) => {
   return (
     <section className={classes.contentCon}>
       <div className={classes.contentRight}>
-        <h2>ห้องคาราโอเกะ</h2>
-        <p>
-          ห้องคาราโอเกะสามารถรองรับได้ 10-30 ท่าน มีเบียรเยือก เบียรสด
-          จัดเลี้ยงสังสรรค์ได้
-        </p>
+        <h2>{title}</h2>
+        <p>{detail}</p>
       </div>
       <div className={classes.contentLeft}>
-        <img src={`${urlApi}uploads/aboutus/${photo}`} alt={photo} />
+        <img
+          src={`${urlApi}uploads/aboutus/${photo}`}
+          alt={photo}
+          height="300"
+        />
       </div>
     </section>
   );
@@ -91,11 +95,9 @@ export default function Aboutus() {
   const { abouts, isLoading, isMessage, isStatus } = about;
   useEffect(() => {
     dispatch(aboutAction.feedAbout());
-
   }, []);
-  
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   return (
     <React.Fragment>
@@ -103,22 +105,31 @@ export default function Aboutus() {
         <Appbar />
         <Container maxWidth="lg">
           <br />
-          {
-            abouts.length > 0
-              ? abouts.map((about, index) => {
+          {abouts.length > 0
+            ? abouts.map((about, index) => {
                 return (
                   <React.Fragment key={index}>
                     <Fadeinsection>
                       {(index + 1) % 2 == 0 ? (
-                        <RenderRight classes={classes} photo={about.image} />
+                        <RenderRight
+                          classes={classes}
+                          photo={about.image}
+                          detail={about.detail}
+                          title={about.title}
+                        />
                       ) : (
-                        <RenderLeft classes={classes} photo={about.image} />
+                        <RenderLeft
+                          classes={classes}
+                          photo={about.image}
+                          detail={about.detail}
+                          title={about.title}
+                        />
                       )}
                     </Fadeinsection>
                   </React.Fragment>
                 );
-              }) : "ไม่มีบทความ"
-          }
+              })
+            : "ไม่มีบทความ"}
 
           <br />
         </Container>
