@@ -6,11 +6,9 @@ import {
   Theme,
   createStyles,
   makeStyles,
-  useTheme,
 } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
-import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -21,14 +19,14 @@ import Typography from "@material-ui/core/Typography";
 import { useSelector, useDispatch } from "react-redux";
 import * as categoriesAction from "@/actions/categories.action";
 import FormCategoriesDialog from "@/components/product/categoriesform";
-import Input from "@material-ui/core/Input";
-import Chip from "@material-ui/core/Chip";
 import * as productAction from "@/actions/product.action";
 import Snackbars from "@/components/Snackbar";
 import Loading from "@/components/Loading";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import ButtonBack from "@/components/ButtonBack";
 import FormEditer from "../../../app/components/product/FormEditer";
+import MultipleSelect from "@/components/product/MultipleSelect";
+import InputText from "@/components/InputText";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,26 +58,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-function getStyles(title: string, personName: string[], theme: Theme) {
-  return {
-    fontWeight:
-      personName.indexOf(title) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 interface newProduct {
   title: string;
   price: number | string;
@@ -93,12 +71,12 @@ interface newProduct {
   averageRating: number | string;
   size: string;
   sku: string;
+  openNewproduct: number | string;
 }
 
 const Addproduct = () => {
   const router = useRouter();
   const classes = useStyles();
-  const theme = useTheme();
   const dispatch = useDispatch();
 
   const [categoriesv, setCategories] = React.useState("0");
@@ -115,6 +93,7 @@ const Addproduct = () => {
     averageRating: 0,
     size: "",
     sku: "",
+    openNewproduct: 0,
   });
   const [openformCategories, setOpenformCategories] = useState(false);
 
@@ -133,8 +112,7 @@ const Addproduct = () => {
   const { categorie } = useSelector((state: any) => state);
   const productReducer = useSelector(({ product }: any) => product);
   const { categories, isLoading } = categorie;
-  const productLoading: boolean = productReducer.isLoading;
-  const { isMessage, isStatus, products } = productReducer;
+  const { isMessage, isStatus, products, isUploading } = productReducer;
   /* handle function  */
 
   //handleChange categories or create categories
@@ -147,8 +125,10 @@ const Addproduct = () => {
       return setOpenformCategories(!openformCategories);
   };
 
-  const handleRelatedId = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setProduct({ ...product, relatedIds: event.target.value as string[] });
+  const handleChangeOpenNewproduct = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setProduct({ ...product, openNewproduct: event.target.value as number });
   };
 
   //change populated bool 0 or 1
@@ -159,7 +139,6 @@ const Addproduct = () => {
   //change images files limit 3
   const handleChangeFiles = (files: File[]) => {
     for (let i = 0; i < files.length; i++) {
-      console.log(files[i]);
       setProduct({
         ...product,
         images: [...product.images, ...files],
@@ -215,6 +194,7 @@ const Addproduct = () => {
     formData.append("categoriesId", product.categoriesId);
     formData.append("ispopulated", product.ispopulated as string);
     formData.append("averageRating", product.averageRating as string);
+    formData.append("statusNewProduct", product.openNewproduct as string);
     formData.append("description", JSON.stringify(editorState));
     formData.append("sku", product.sku);
     for (let index = 0; index < product.images.length; index++) {
@@ -225,7 +205,7 @@ const Addproduct = () => {
       formData.append(`relatedIds`, "");
     } else {
       for (let index = 0; index < product.relatedIds.length; index++) {
-        formData.append(`relatedIds`, product.relatedIds[index]);
+        formData.append(`relatedIds`, product.relatedIds[index]._id);
       }
     }
 
@@ -251,6 +231,7 @@ const Addproduct = () => {
         averageRating: 0,
         size: "",
         sku: "",
+        openNewproduct: 0,
       });
       setCategories("0");
       setTypeSnackbar("success");
@@ -264,13 +245,14 @@ const Addproduct = () => {
   return (
     <Layout>
       <div> {router.pathname} </div>
-      <Loading open={isLoading || productLoading} />
+      <Loading open={isLoading || isUploading} />
       <Snackbars
         open={openSnackbar}
         handleCloseSnakbar={setOpenSnackbar}
         message={isMessage}
         type={typeSnackbar}
       />
+
       <Paper className={classes.paper}>
         <FormCategoriesDialog
           open={openformCategories}
@@ -286,23 +268,17 @@ const Addproduct = () => {
             <Divider />
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
-            <FormControl fullWidth>
-              {" "}
-              <TextField
-                id="title"
-                label="ชื่อสินค้า"
-                variant="outlined"
-                className={classes.textfield}
-                size="small"
-                value={product.title}
-                onChange={(e) =>
-                  setProduct({ ...product, title: e.target.value })
-                }
-                required
-                autoComplete="off"
-              />
-            </FormControl>
-
+            <InputText
+              type="text"
+              id="title"
+              label="ชื่อสินค้า"
+              classes={classes.textfield}
+              value={product.title}
+              SetonChange={(e) =>
+                setProduct({ ...product, title: e.target.value })
+              }
+            />
+            {/*  */}
             <FormControl fullWidth variant="outlined" size="small">
               <InputLabel id="demo-simple-select-outlined-label">
                 ประเภทสินค้า
@@ -312,7 +288,7 @@ const Addproduct = () => {
                 id="demo-simple-select-outlined"
                 value={categoriesv}
                 onChange={handleChangeCategories}
-                label="Category"
+                label="ประเภทสินค้า"
                 className={classes.textfield}
               >
                 <MenuItem value="0">โปรดเลือกรายการ</MenuItem>
@@ -326,12 +302,40 @@ const Addproduct = () => {
                   : null}
               </Select>
             </FormControl>
+            {/* เปิดเป็นสินค้าไหม */}
+            <FormControl fullWidth variant="outlined" size="small">
+              <InputLabel id="open-newproduct">เปิดเป็นสินค้าใหม่</InputLabel>
+              <Select
+                labelId="open-newproduct"
+                id="item-open-newproduct"
+                value={product.openNewproduct}
+                onChange={handleChangeOpenNewproduct}
+                label="เปิดเป็นสินค้าใหม่"
+                className={classes.textfield}
+              >
+                <MenuItem value={0}>ไม่เปิด</MenuItem>
+                <MenuItem value={1}>เปิด</MenuItem>
+              </Select>
+            </FormControl>
+            {/* ให้ดาวสินค้า  */}
+            <InputText
+              type="number"
+              id="rating"
+              label="คะแนนสินค้า"
+              classes={classes.textfield}
+              value={product.averageRating}
+              SetonChange={(e) =>
+                setProduct({ ...product, averageRating: e.target.value })
+              }
+            />
+            {/*  */}
             <DropzoneArea
-              acceptedFiles={["image/*", "video/*", "application/*"]}
+              initialFiles={product.images}
+              acceptedFiles={["image/*", "application/*"]}
               onChange={handleChangeFiles.bind(this)}
               onDelete={handleDeleteFiles.bind(this)}
               showFileNames
-              dropzoneText="Drop product images"
+              dropzoneText="เพิ่มรูปภาพ"
               showAlerts={true}
               filesLimit={5}
               getFileLimitExceedMessage={(filesLimit) => {
@@ -343,101 +347,57 @@ const Addproduct = () => {
             />
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
+            <InputText
+              type="text"
+              id="sku"
+              label="รหัสสินค้า"
+              classes={classes.textfield}
+              value={product.sku}
+              SetonChange={(e) =>
+                setProduct({ ...product, sku: e.target.value })
+              }
+            />
+            <InputText
+              type="number"
+              id="quantity"
+              label="จำนวนสินค้า"
+              classes={classes.textfield}
+              value={product.quantity}
+              SetonChange={(e) =>
+                setProduct({ ...product, quantity: Number(e.target.value) })
+              }
+            />
+            <InputText
+              type="number"
+              id="price"
+              label="ราคา"
+              classes={classes.textfield}
+              value={product.price}
+              SetonChange={(e) =>
+                setProduct({ ...product, price: Number(e.target.value) })
+              }
+            />
+            <InputText
+              type="number"
+              id="saleprice"
+              label="ราคาส่วนลด"
+              classes={classes.textfield}
+              value={product.saleprice}
+              SetonChange={(e) =>
+                setProduct({ ...product, saleprice: Number(e.target.value) })
+              }
+            />
+            {/*select multiple items  */}
             <FormControl fullWidth>
-              <TextField
-                id="sku"
-                label="รหัสสินค้า"
-                variant="outlined"
+              <MultipleSelect
+                products={products.length ? products : []}
+                title="สินค้าแนะนำ"
+                value={product}
+                setValue={setProduct}
                 className={classes.textfield}
-                size="small"
-                placeholder="ABC0001"
-                value={product.sku}
-                onChange={(e) =>
-                  setProduct({ ...product, sku: e.target.value })
-                }
-                autoComplete="off"
               />
             </FormControl>
-            <FormControl fullWidth>
-              <TextField
-                id="price"
-                label="ราคา"
-                variant="outlined"
-                className={classes.textfield}
-                size="small"
-                placeholder="0"
-                value={product.price}
-                onChange={(e) =>
-                  setProduct({ ...product, price: Number(e.target.value) })
-                }
-                type="number"
-                autoComplete="off"
-              />
-            </FormControl>
-            <FormControl fullWidth>
-              <TextField
-                id="saleprice"
-                label="ราคาส่วนลด"
-                variant="outlined"
-                className={classes.textfield}
-                size="small"
-                value={product.saleprice}
-                onChange={(e) =>
-                  setProduct({
-                    ...product,
-                    saleprice: Number(e.target.value),
-                  })
-                }
-                type="number"
-                autoComplete="off"
-              />
-            </FormControl>
-            {/* select multiple items */}
-            <FormControl fullWidth>
-              <InputLabel id="demo-mutiple-chip-label">
-                สินค้าอิ่นๆที่เกี่ยวข้อง
-              </InputLabel>
-              <Select
-                labelId="demo-mutiple-chip-label"
-                id="demo-mutiple-chip"
-                multiple
-                value={product.relatedIds}
-                onChange={handleRelatedId}
-                className={classes.textfield}
-                input={<Input id="select-multiple-chip" />}
-                renderValue={(selected) => (
-                  <div className={classes.chips}>
-                    {(selected as string[]).map((value) => {
-                      const val = products.find((item) => value == item._id);
-                      return (
-                        <Chip
-                          key={value}
-                          label={val ? val.title : value}
-                          className={classes.chip}
-                        />
-                      );
-                    })}
-                  </div>
-                )}
-                MenuProps={MenuProps}
-              >
-                {products.length > 0
-                  ? products.map((product) => (
-                      <MenuItem
-                        key={product._id}
-                        value={product._id}
-                        style={getStyles(
-                          product.title,
-                          product.relatedIds,
-                          theme
-                        )}
-                      >
-                        {product.title}
-                      </MenuItem>
-                    ))
-                  : null}
-              </Select>
-            </FormControl>
+            {/*end select multiple items */}
             <FormControl fullWidth variant="outlined" size="small">
               <InputLabel id="demo-simple-select-outlined-label">
                 กำหนดเป็นสินค้ายอดนิยม
@@ -447,27 +407,24 @@ const Addproduct = () => {
                 id="demo-simple-select-outlined"
                 value={product.ispopulated}
                 onChange={handleIspopulated}
-                label="Category"
+                label="กำหนดเป็นสินค้ายอดนิยม"
                 className={classes.textfield}
               >
                 <MenuItem value="0">ปกติ</MenuItem>
                 <MenuItem value="1">นิยม</MenuItem>
               </Select>
             </FormControl>
-            <FormControl fullWidth>
-              <TextField
-                id="size"
-                label="ขนาดสินค้า"
-                variant="outlined"
-                className={classes.textfield}
-                size="small"
-                placeholder="x,m,l"
-                value={product.size}
-                onChange={(e) =>
-                  setProduct({ ...product, size: e.target.value })
-                }
-              />
-            </FormControl>
+            {/* ขนาดสินค้า , สี */}
+            <InputText
+              type="text"
+              id="size"
+              label="ขนาดสินค้า"
+              classes={classes.textfield}
+              value={product.size}
+              SetonChange={(e) =>
+                setProduct({ ...product, size: e.target.value as string })
+              }
+            />
             <FormControl fullWidth>
               <FormEditer content={editorState} handleEditor={handleEditor} />
             </FormControl>
