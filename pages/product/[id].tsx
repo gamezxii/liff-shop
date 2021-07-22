@@ -15,11 +15,11 @@ import { useDispatch, useSelector } from "react-redux";
 import * as productActions from "@/actions/product.action";
 import { GetServerSideProps } from "next";
 import Alertcart from "@/components/product/Alertcart";
-import CardRecommand from "@/components/CardRecommand";
 import { useRouter } from "next/router";
 import EditerView from "../../app/components/product/EditerView";
 import _ from "lodash";
 import Swal from "sweetalert2";
+import CardItem from "@/components/Card";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -115,7 +115,7 @@ const ProductId = ({ id }) => {
 
   useEffect(() => {
     feedWithId();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (products.length > 0) {
@@ -297,37 +297,43 @@ const ProductId = ({ id }) => {
           {/* รายละเอียดสินค้า relatedProducts */}
           <br />
           {products.length > 0
-            ? products.map((product) => (
-                <Paper elevation={0} key={product._id}>
-                  <Grid
-                    container
-                    spacing={1}
-                    direction="row"
-                    justify="center"
-                    alignItems="center"
-                  >
-                    <Grid item xs={12}>
-                      <Typography variant="h5" gutterBottom>
-                        สินค้าแนะนำ
-                      </Typography>
+            ? products.map((product) => 
+                {
+                  if(product.relatedProducts.length > 0) {
+                    return (<Paper elevation={0} key={product._id}>
                       <Grid
                         container
-                        spacing={2}
+                        spacing={1}
                         direction="row"
-                        justify="flex-start"
+                        justify="center"
                         alignItems="center"
                       >
-                        {product.relatedProducts.map((item, index) => (
-                          <Grid key={index} item xs={6} sm={6} md={3}>
-                            <CardRecommand {...item} />
+                        <Grid item xs={12}>
+                          <Typography variant="h5" gutterBottom>
+                            สินค้าแนะนำ
+                          </Typography>
+                          <Grid
+                            container
+                            spacing={2}
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center"
+                          >
+                            {product.relatedProducts.map((item, index) => (
+                              <Grid key={index} item xs={6} sm={6} md={3}>
+                                <CardItem {...item} />
+                              </Grid>
+                            ))}
                           </Grid>
-                        ))}
+                        </Grid>
                       </Grid>
-                      <div></div>
-                    </Grid>
-                  </Grid>
-                </Paper>
-              ))
+                    </Paper>)
+                  } else {
+                    return (<div></div>)
+                  }
+                  
+                }
+              )
             : ""}
 
           <br />

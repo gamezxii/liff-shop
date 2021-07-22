@@ -33,6 +33,7 @@ import Chip from "@material-ui/core/Chip";
 import { urlApi } from "@/context/urlapi";
 import ButtonBack from "@/components/ButtonBack";
 import FormEditer from "../../../../app/components/product/FormEditer";
+import InputText from "@/components/InputText";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const param = await context.query;
@@ -123,7 +124,7 @@ interface editProduct {
   title: string;
   price: number;
   saleprice: number;
-  quantity: number;
+  quantity: number | string;
   images: any[];
   categoriesId: string | number;
   relatedIds: string[];
@@ -132,6 +133,7 @@ interface editProduct {
   averageRating: number;
   size: string;
   sku: string;
+  statusNewProduct: number;
 }
 
 const ITEM_HEIGHT = 48;
@@ -154,14 +156,13 @@ function getStyles(title: string, personName: string[], theme: Theme) {
   };
 }
 
-const Edit = ({id}) => {
+const Edit = ({ id }) => {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
   const { categories } = useSelector(({ categorie }: any) => categorie);
-  const { productId, products, isStatus, isMessage, isUploading } = useSelector(
-    ({ product }: any) => product
-  );
+  const { productId, products, isStatus, isMessage, isUploading, isLoading } =
+    useSelector(({ product }: any) => product);
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [typeSnackbar, setTypeSnackbar] = React.useState("error");
   const [productObject, setProductObject] = useState<editProduct>({
@@ -171,13 +172,14 @@ const Edit = ({id}) => {
     saleprice: 0,
     quantity: 0,
     images: [],
-    categoriesId: 0,
+    categoriesId: "",
     relatedIds: [],
     ispopulated: 0,
     description: "",
     averageRating: 0,
     size: "",
     sku: "",
+    statusNewProduct: 0,
   });
 
   const handleUpdateProduct = () => {
@@ -200,6 +202,16 @@ const Edit = ({id}) => {
       categoriesId: event.target.value as string,
     });
   };
+
+  const handleChangeOpenNewproduct = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setProductObject({
+      ...productObject,
+      statusNewProduct: event.target.value as number,
+    });
+  };
+
   //เลือกเป็นสินค้านิยม
   const handleIspopulated = (event: React.ChangeEvent<{ value: unknown }>) => {
     setProductObject({
@@ -255,6 +267,7 @@ const Edit = ({id}) => {
         averageRating,
         size,
         sku,
+        statusNewProduct
       } = productId[0];
       const parserDescription = JSON.parse(description);
       setProductObject({
@@ -271,6 +284,7 @@ const Edit = ({id}) => {
         averageRating: averageRating,
         size: size,
         sku: sku,
+        statusNewProduct: statusNewProduct,
       });
       let imagesLen = productId[0].images.length;
       if (imagesLen < 5) {
@@ -290,12 +304,12 @@ const Edit = ({id}) => {
       setTypeSnackbar("error");
       setOpenSnackbar(!openSnackbar);
     }
-  }, [isStatus]);
+  }, [isStatus, categories]);
 
   return (
     <Layout>
       <Paper className={classes.root} elevation={2}>
-        <Loading open={isUploading} />
+        <Loading open={isLoading || isUploading} />
         <Snackbars
           open={openSnackbar}
           handleCloseSnakbar={setOpenSnackbar}
@@ -312,113 +326,92 @@ const Edit = ({id}) => {
             <Divider />
           </Grid>
           <Grid item xs={12}>
-            <FormControl
-              variant="outlined"
-              fullWidth
-              className={classes.formControl}
-            >
-              <InputLabel htmlFor="title-outlined">ชื่อสินค้า</InputLabel>
-              <OutlinedInput
-                id="title-outlined"
-                value={productObject.title}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setProductObject({ ...productObject, title: e.target.value })
-                }
-                label="ชื่อสินค้า"
-                autoComplete="off"
-              />
-            </FormControl>
-            <FormControl
-              variant="outlined"
-              fullWidth
-              className={classes.formControl}
-            >
-              <InputLabel htmlFor="sku-outlined">รหัสสินค้า</InputLabel>
-              <OutlinedInput
-                id="sku-outlined"
-                value={productObject.sku}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setProductObject({ ...productObject, sku: e.target.value })
-                }
-                label="รหัสสินค้า"
-                autoComplete="off"
-              />
-            </FormControl>
-            <FormControl
-              variant="outlined"
-              fullWidth
-              className={classes.formControl}
-            >
-              <InputLabel htmlFor="price-outlined">ราคา</InputLabel>
-              <OutlinedInput
-                id="price-outlined"
-                value={productObject.price}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setProductObject({
-                    ...productObject,
-                    price: Number(e.target.value),
-                  })
-                }
-                label="ราคา"
-                autoComplete="off"
-              />
-            </FormControl>
-            <FormControl
-              variant="outlined"
-              fullWidth
-              className={classes.formControl}
-            >
-              <InputLabel htmlFor="priceSale-outlined">ราคาส่วนลด</InputLabel>
-              <OutlinedInput
-                id="priceSale-outlined"
-                value={productObject.saleprice}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setProductObject({
-                    ...productObject,
-                    saleprice: Number(e.target.value),
-                  })
-                }
-                label="ราคาส่วนลด"
-                autoComplete="off"
-              />
-            </FormControl>
-            <FormControl
-              variant="outlined"
-              fullWidth
-              className={classes.formControl}
-            >
-              <InputLabel htmlFor="quantity-outlined">
-                จำนวนสินค้าในสต็อก
-              </InputLabel>
-              <OutlinedInput
-                id="quantity"
-                value={productObject.quantity}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setProductObject({
-                    ...productObject,
-                    quantity: Number(e.target.value),
-                  })
-                }
-                label="จำนวนสินค้าในสต็อก"
-                autoComplete="off"
-              />
-            </FormControl>
-            <FormControl
-              variant="outlined"
-              fullWidth
-              className={classes.formControl}
-            >
-              <InputLabel htmlFor="size-outlined">ขนาดสินค้า</InputLabel>
-              <OutlinedInput
-                id="size-outlined"
-                value={productObject.size}
-                label="ขนาดสินค้า"
-                autoComplete="off"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setProductObject({ ...productObject, size: e.target.value })
-                }
-              />
-            </FormControl>
+            <InputText
+              type="text"
+              id="title"
+              label="ชื่อสินค้า"
+              classes={classes.textfield}
+              value={productObject.title}
+              SetonChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setProductObject({ ...productObject, title: e.target.value })
+              }
+            />
+            <InputText
+              type="text"
+              id="sku-outlined"
+              label="รหัสสินค้า"
+              classes={classes.textfield}
+              value={productObject.sku}
+              SetonChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setProductObject({ ...productObject, sku: e.target.value })
+              }
+            />
+            <InputText
+              type="number"
+              id="quantity"
+              label="จำนวนสินค้า"
+              classes={classes.textfield}
+              value={productObject.quantity}
+              SetonChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setProductObject({ ...productObject, quantity: e.target.value })
+              }
+            />
+
+            <InputText
+              type="number"
+              id="price"
+              label="ราคา"
+              classes={classes.textfield}
+              value={productObject.price}
+              SetonChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setProductObject({
+                  ...productObject,
+                  price: Number(e.target.value),
+                })
+              }
+            />
+
+            <InputText
+              type="number"
+              id="priceSale"
+              label="ราคาส่วนลด"
+              classes={classes.textfield}
+              value={productObject.saleprice}
+              SetonChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setProductObject({
+                  ...productObject,
+                  saleprice: Number(e.target.value),
+                })
+              }
+            />
+
+            <InputText
+              type="text"
+              id="size"
+              label="ขนาดสินค้า"
+              classes={classes.textfield}
+              value={productObject.size}
+              SetonChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setProductObject({
+                  ...productObject,
+                  size: e.target.value as string,
+                })
+              }
+            />
+            <InputText
+              type="number"
+              id="rating"
+              label="คะแนนสินค้า"
+              classes={classes.textfield}
+              value={productObject.averageRating}
+              SetonChange={(e) =>
+                setProductObject({
+                  ...productObject,
+                  averageRating: e.target.value,
+                })
+              }
+            />
+
             {/* ประเภทสินค้า */}
             <FormControl fullWidth variant="outlined" size="small">
               <InputLabel id="categories">ประเภทสินค้า</InputLabel>
@@ -456,6 +449,22 @@ const Edit = ({id}) => {
                 <MenuItem value="1">นิยม</MenuItem>
               </Select>
             </FormControl>
+            {/*  */}
+            <FormControl fullWidth variant="outlined" size="small">
+              <InputLabel id="open-newproduct">เปิดเป็นสินค้าใหม่</InputLabel>
+              <Select
+                labelId="open-newproduct"
+                id="item-open-newproduct"
+                value={productObject.statusNewProduct}
+                onChange={handleChangeOpenNewproduct}
+                label="เปิดเป็นสินค้าใหม่"
+                className={classes.textfield}
+              >
+                <MenuItem value={0}>ไม่เปิด</MenuItem>
+                <MenuItem value={1}>เปิด</MenuItem>
+              </Select>
+            </FormControl>
+            {/*  */}
           </Grid>
           {/* สินค้าเกี่ยวข้อง || relationsIds */}
           <Grid item xs={12}>
