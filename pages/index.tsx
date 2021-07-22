@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Container from "@material-ui/core/Container";
 import Appbar from "app/layouts/Appbar";
 import Typography from "@material-ui/core/Typography";
-import Grid, { GridSpacing } from "@material-ui/core/Grid";
+import Grid from "@material-ui/core/Grid";
 import CardItem from "@/components/Card";
 import { useSelector, useDispatch } from "react-redux";
 import * as productActions from "@/actions/product.action";

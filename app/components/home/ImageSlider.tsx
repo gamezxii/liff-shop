@@ -17,7 +17,11 @@ const ImageSlider = ({ photos }: any) => {
       >
         {photos.length > 0
           ? photos.map(({ photo }) => (
-              <img key={photo} src={`${urlApi}uploads/banner/${photo}`} />
+              <img
+                key={photo}
+                src={`${urlApi}uploads/banner/${photo}`}
+                alt={photo}
+              />
             ))
           : ""}
       </Carousel>

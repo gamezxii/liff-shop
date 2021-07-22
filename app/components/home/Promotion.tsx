@@ -6,6 +6,7 @@ import Fade from "@material-ui/core/Fade";
 import IconButton from "@material-ui/core/IconButton";
 import CancelIcon from "@material-ui/icons/Cancel";
 import { urlApi } from "@/context/urlapi";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,15 +62,27 @@ const Promotion = ({ photo }: Props) => {
         <Fade in={open}>
           <div className={classes.paper}>
             <div className={classes.close}>
-              <IconButton name="close-promotion" className={classes.icon} onClick={handleClose}>
+              <IconButton
+                name="close-promotion"
+                className={classes.icon}
+                onClick={handleClose}
+              >
                 <CancelIcon />
               </IconButton>
             </div>
-            <img
+            <LazyLoadImage
+              effect="blur"
               src={`${urlApi}uploads/promotion/${photo}`}
+              alt={"รูปภาพเกี่ยวกับโปรโมชั่น"}
               width="400"
               height="400"
             />
+            {/*  <img
+              src={`${urlApi}uploads/promotion/${photo}`}
+              width="400"
+              height="400"
+              alt={photo}
+            /> */}
           </div>
         </Fade>
       </Modal>

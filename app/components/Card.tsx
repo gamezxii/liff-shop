@@ -9,7 +9,10 @@ import { useRouter } from "next/router";
 import Rating from "@material-ui/lab/Rating";
 import { numberWithCommas } from "@/utils/service";
 import { urlApi } from "@/context/urlapi";
-
+import {
+  LazyLoadImage,
+  trackWindowScroll,
+} from "react-lazy-load-image-component";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -72,11 +75,17 @@ const CardItem = (props) => {
   return (
     <Card className={classes.root} onClick={handlePush}>
       <CardActionArea>
-        <CardMedia
+        {/* <CardMedia
           component="img"
           className={`${classes.media} ${classes.image}`}
           src={`${urlApi}uploads/${props.images[0]}`}
           title={props.title}
+          alt={props.title}
+        /> */}
+        <LazyLoadImage
+          effect="blur"
+          src={`${urlApi}uploads/${props.images[0]}`}
+          className={`${classes.media} ${classes.image}`}
           alt={props.title}
         />
         <CardContent>
