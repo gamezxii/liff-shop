@@ -2,8 +2,6 @@ import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { urlApi } from "@/context/urlapi";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
 
 const ImageSlider = ({ photos }: any) => {
   return (

@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Container from "@material-ui/core/Container";
 import Appbar from "app/layouts/Appbar";
-import Typography from "@material-ui/core/Typography";
-import Banner from "@/components/Banner";
 import { urlApi } from "@/context/urlapi";
-import Grid, { GridSpacing } from "@material-ui/core/Grid";
-import CardItem from "@/components/Card";
 import { useSelector, useDispatch } from "react-redux";
 import * as aboutAction from "@/actions/about.action";
-import * as authCustomerActions from "@/actions/authCustomer.action";
 import { useRouter } from "next/router";
 import {
   Theme,

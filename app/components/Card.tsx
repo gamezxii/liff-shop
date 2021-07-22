@@ -3,14 +3,13 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { useRouter } from "next/router";
 import Rating from "@material-ui/lab/Rating";
 import { numberWithCommas } from "@/utils/service";
 import { urlApi } from "@/context/urlapi";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import 'react-lazy-load-image-component/src/effects/blur.css';
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -74,13 +73,6 @@ const CardItem = (props) => {
   return (
     <Card className={classes.root} onClick={handlePush}>
       <CardActionArea>
-        {/* <CardMedia
-          component="img"
-          className={`${classes.media} ${classes.image}`}
-          src={`${urlApi}uploads/${props.images[0]}`}
-          title={props.title}
-          alt={props.title}
-        /> */}
         <LazyLoadImage
           effect="blur"
           src={`${urlApi}uploads/${props.images[0]}`}
@@ -88,7 +80,6 @@ const CardItem = (props) => {
           alt={props.title}
           width="100%"
           height="345"
-          placeholderSrc={process.env.PUBLIC_URL + 'vercel.svg'}
         />
         <CardContent>
           <Typography
