@@ -9,10 +9,9 @@ import { useRouter } from "next/router";
 import Rating from "@material-ui/lab/Rating";
 import { numberWithCommas } from "@/utils/service";
 import { urlApi } from "@/context/urlapi";
-import {
-  LazyLoadImage,
-  trackWindowScroll,
-} from "react-lazy-load-image-component";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -87,6 +86,9 @@ const CardItem = (props) => {
           src={`${urlApi}uploads/${props.images[0]}`}
           className={`${classes.media} ${classes.image}`}
           alt={props.title}
+          width="100%"
+          height="345"
+          placeholderSrc={process.env.PUBLIC_URL + 'vercel.svg'}
         />
         <CardContent>
           <Typography
