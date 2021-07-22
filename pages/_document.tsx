@@ -14,8 +14,6 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;400;500;700&display=swap"
             rel="stylesheet"
           />
-          <script src="https://cdn.omise.co/omise.js"></script>
-
         </Head>
         <body>
           <Main />

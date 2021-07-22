@@ -61,7 +61,7 @@ const Promotion = ({ photo }: Props) => {
         <Fade in={open}>
           <div className={classes.paper}>
             <div className={classes.close}>
-              <IconButton className={classes.icon} onClick={handleClose}>
+              <IconButton name="close-promotion" className={classes.icon} onClick={handleClose}>
                 <CancelIcon />
               </IconButton>
             </div>
