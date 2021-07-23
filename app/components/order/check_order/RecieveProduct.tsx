@@ -208,7 +208,7 @@ const RecieveProduct = (props: any) => {
               </Grid>
               <Grid item xs={6} className={classes.defaultGrid}>
                 <p className={classes.statusText}>
-                  {pendingStatus[props.status]}
+                  {pendingStatus(props.status)}
                 </p>
               </Grid>
 
