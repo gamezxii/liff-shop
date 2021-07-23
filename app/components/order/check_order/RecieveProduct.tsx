@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as historyActions from "@/actions/history.action";
 import dayjs from "dayjs";
 import copy from "copy-to-clipboard";
-import { checkOrderStatus } from "@/utils/constans";
+import { checkPadding } from "@/utils/constans";
 
 function getModalStyle() {
   const top = 50;
@@ -208,13 +208,10 @@ const RecieveProduct = (props: any) => {
               </Grid>
               <Grid item xs={6} className={classes.defaultGrid}>
                 <p className={classes.statusText}>
-                  {checkOrderStatus(props.status)}
+                  {checkPadding(props.status)}
                 </p>
               </Grid>
 
-              {/* <Grid item xs={2} className={classes.quantityGrid}>
-              <p className={classes.quantity}>{props.quantity}</p>
-            </Grid> */}
               <Grid item xs={3} className={classes.priceGrid}>
                 <Button
                   type="submit"
@@ -374,7 +371,7 @@ const RecieveProduct = (props: any) => {
                   product={item.products}
                   image={item.products[0].productId.images[0]}
                   sCode={item._id}
-                  status={item.orderStatus}
+                  status={item.paidStatus}
                   discount={item.discount}
                 />
               );
