@@ -129,7 +129,7 @@ export default function Aboutus() {
                   </React.Fragment>
                 );
               })
-            : "ไม่มีบทความ"}
+            : ""}
 
           <br />
         </Container>
