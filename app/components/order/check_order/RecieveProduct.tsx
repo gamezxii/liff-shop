@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as historyActions from "@/actions/history.action";
 import dayjs from "dayjs";
 import copy from "copy-to-clipboard";
-import { pendingStatus } from "@/utils/constans";
+import { checkPadding } from "@/utils/constans";
 
 function getModalStyle() {
   const top = 50;
@@ -208,7 +208,7 @@ const RecieveProduct = (props: any) => {
               </Grid>
               <Grid item xs={6} className={classes.defaultGrid}>
                 <p className={classes.statusText}>
-                  {pendingStatus(props.status)}
+                  {checkPadding(props.status)}
                 </p>
               </Grid>
 
