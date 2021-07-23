@@ -232,7 +232,18 @@ export default function PrimarySearchAppBar() {
                     className={`${classes.title} ${
                       activeLink == menu.pathname ? classes.active : ""
                     }`}
-                    onClick={() => router.push({ pathname: menu.pathname })}
+                    onClick={() => {
+                      handleMenuClose();
+                      if (menu.pathname == "/order") {
+                        if (authCustomer.user.id != undefined) {
+                          router.push({ pathname: menu.pathname });
+                        } else {
+                          router.push({ pathname: "/login" });
+                        }
+                      } else {
+                        router.push({ pathname: menu.pathname });
+                      }
+                    }}
                   >
                     {menu.title}
                   </Button>
