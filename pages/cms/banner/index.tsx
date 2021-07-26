@@ -104,7 +104,7 @@ const BannerIndex = () => {
   }, []);
 
   useEffect(() => {
-    if (bannerReducer.photos.length > 0) {
+    if (bannerReducer.photos.length >= 0) {
       if (bannerReducer.photos.length < 5) {
         let newPhoto = [];
         newPhoto = bannerReducer.photos;
