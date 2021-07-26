@@ -61,7 +61,7 @@ export const feedBanner = () => {
 export const uploadImage = (photo: FormData) => {
   return async (dispatch) => {
     try {
-      dispatch(setStateToUpLoading);
+      dispatch(setStateToUpLoading());
       const postBanner = await axios.post(`${urlApi}banner`, photo);
       const { status, message, photos } = await postBanner.data;
       dispatch(setStateToUploadSuccess({ status, message, photos }));
@@ -78,7 +78,7 @@ export const uploadImage = (photo: FormData) => {
 export const deleteImage = (objectId: string) => {
   return async (dispatch) => {
     try {
-      dispatch(setStateToUpLoading);
+      dispatch(setStateToUpLoading());
       const decreateBanner = await axios.delete(`${urlApi}banner/${objectId}`);
       const { status, message, photos } = await decreateBanner.data;
       if (status == 200) {

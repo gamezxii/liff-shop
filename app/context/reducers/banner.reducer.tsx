@@ -47,7 +47,7 @@ const bannerReducer = (state = initialState, action) => {
         isLoading: false,
         isError: false,
         isUploading: true,
-        photos: action.payload,
+        photos: state.photos,
         message: "",
         status: 0,
       };

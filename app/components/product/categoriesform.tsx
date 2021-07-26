@@ -140,34 +140,40 @@ export default function FormCategoriesDialog({ open, handleClose }: Open) {
                 </CardContent>
               </Card>
               {categories
-                ? categories.map((cate) => (
-                    <Card key={cate._id} style={{ marginBottom: 2 }}>
-                      <CardContent className={classes.boxcard}>
-                        <Typography
-                          className={classes.firstItem}
-                          variant="body2"
-                          gutterBottom
-                        >
-                          {cate.categoriesName}
-                        </Typography>
-                        <Button
-                          onClick={() =>
-                            setEditCategories({
-                              ...editCategories,
-                              id: cate._id,
-                              categoriesName: cate.categoriesName,
-                              edit: !editCategories.edit,
-                            })
-                          }
-                        >
-                          แก้ไข
-                        </Button>
-                        <Button onClick={() => handleDelete(cate._id)}>
-                          ลบ
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))
+                ? categories.map((cate) =>
+                    {
+                      if (cate._id != "60fe5ad3d09ecb0015939779") {
+                        return (
+                          <Card key={cate._id} style={{ marginBottom: 2 }}>
+                            <CardContent className={classes.boxcard}>
+                              <Typography
+                                className={classes.firstItem}
+                                variant="body2"
+                                gutterBottom
+                              >
+                                {cate.categoriesName}
+                              </Typography>
+                              <Button
+                                onClick={() =>
+                                  setEditCategories({
+                                    ...editCategories,
+                                    id: cate._id,
+                                    categoriesName: cate.categoriesName,
+                                    edit: !editCategories.edit,
+                                  })
+                                }
+                              >
+                                แก้ไข
+                              </Button>
+                              <Button onClick={() => handleDelete(cate._id)}>
+                                ลบ
+                              </Button>
+                            </CardContent>
+                          </Card>
+                        );
+                      }
+                    }
+                  )
                 : "ไม่พบรายการประเภทสินค้า"}
               <TextField
                 autoFocus
