@@ -66,6 +66,19 @@ export default function Home() {
     }
   };
 
+  const MyLoaderBanner = (props) => (
+    <ContentLoader
+      speed={2}
+      width={1200}
+      viewBox="0 0 400 160"
+      backgroundColor="#f3f3f3"
+      foregroundColor="#ecebeb"
+      {...props}
+    >
+      <rect x="0" y="0" rx="5" ry="5" width="1200" height="600" />
+    </ContentLoader>
+  );
+
   const MyLoader = (props) => (
     <ContentLoader
       speed={2}
@@ -102,7 +115,11 @@ export default function Home() {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               {/* <ImageSlider /> */}
-              <ImageSlider photos={bannerReducer.photos} />
+              {bannerReducer.isLoading ? (
+                <MyLoaderBanner />
+              ) : (
+                <ImageSlider photos={bannerReducer.photos} />
+              )}
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h5" gutterBottom>
