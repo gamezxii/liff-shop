@@ -17,7 +17,6 @@ import { useSelector, useDispatch } from "react-redux";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
 import Button from "@material-ui/core/Button";
 import { green } from "@material-ui/core/colors";
 import Select from "@material-ui/core/Select";
@@ -335,6 +334,8 @@ const Edit = ({ id }) => {
               SetonChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setProductObject({ ...productObject, title: e.target.value })
               }
+              error={false}
+              helperText={""}
             />
             <InputText
               type="text"
@@ -345,6 +346,8 @@ const Edit = ({ id }) => {
               SetonChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setProductObject({ ...productObject, sku: e.target.value })
               }
+              error={false}
+              helperText={""}
             />
             <InputText
               type="number"
@@ -355,6 +358,8 @@ const Edit = ({ id }) => {
               SetonChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setProductObject({ ...productObject, quantity: e.target.value })
               }
+              error={false}
+              helperText={""}
             />
 
             <InputText
@@ -369,6 +374,8 @@ const Edit = ({ id }) => {
                   price: Number(e.target.value),
                 })
               }
+              error={false}
+              helperText={""}
             />
 
             <InputText
@@ -383,12 +390,14 @@ const Edit = ({ id }) => {
                   saleprice: Number(e.target.value),
                 })
               }
+              error={false}
+              helperText={""}
             />
 
             <InputText
               type="text"
               id="size"
-              label="ขนาดสินค้า"
+              label="ประเภทสินค้า"
               classes={classes.textfield}
               value={productObject.size}
               SetonChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -396,6 +405,10 @@ const Edit = ({ id }) => {
                   ...productObject,
                   size: e.target.value as string,
                 })
+              }
+              error={false}
+              helperText={
+                "ประเภทสินค้า ยกตัวอย่างเช่นสี กรณีมีหลายสีให้ใส่ , ด้านหลังเช่น ดำ, ขาว, น้ำเงิน "
               }
             />
             <InputText
@@ -410,17 +423,19 @@ const Edit = ({ id }) => {
                   averageRating: e.target.value,
                 })
               }
+              error={false}
+              helperText={""}
             />
 
             {/* ประเภทสินค้า */}
             <FormControl fullWidth variant="outlined" size="small">
-              <InputLabel id="categories">ประเภทสินค้า</InputLabel>
+              <InputLabel id="categories">หมวดหมู่สินค้า</InputLabel>
               <Select
                 labelId="categories"
                 id="categories"
                 value={productObject.categoriesId}
                 onChange={handleChangeCategories}
-                label="ประเภทสินค้า"
+                label="หมวดหมู่สินค้า"
                 className={classes.textfield}
               >
                 {categories

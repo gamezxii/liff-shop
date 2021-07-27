@@ -45,7 +45,7 @@ export default function ProductIndex() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const router = useRouter();
-  const { products, isLoading } = useSelector(({ product }: any) => product);
+  const { products,popularproducts, isLoading } = useSelector(({ product }: any) => product);
   const [activeButton, setActiveButton] = useState("");
 
   const [sortPrice, setsortPrice] = useState<string | number>("None");
@@ -107,43 +107,6 @@ export default function ProductIndex() {
   };
   useEffect(() => {
     doFeedProduct();
-  }, []);
-
-  const getUserProfile = async (liff) => {
-    await liff
-      .getProfile()
-      .then(async (profile) => {
-        const payload = {
-          liffId: profile.userId,
-          fullName: profile.displayName,
-          email: liff.getDecodedIDToken().email,
-        };
-        if (profile) {
-          dispatch(authCustomerActions.signinCustomer(payload, router));
-        }
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
-  };
-
-  const loginLiff = async () => {
-    //e.preventDefault();
-    const liff = (await import("@line/liff")).default;
-    try {
-      await liff.init({ liffId: "1656163029-MZ9wqevR" });
-    } catch (error) {
-      console.error("liff init error", error.message);
-    }
-    if (liff.isLoggedIn()) {
-      getUserProfile(liff);
-    }
-  };
-
-  useEffect(() => {
-    if (authCustomer.user == "") {
-      loginLiff();
-    }
   }, []);
 
   return (

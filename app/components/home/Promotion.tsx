@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     close: {
       flexGrow: 1,
       textAlign: "right",
-      background: "#D3D3D3",
+      background: "#ff9100",
     },
     icon: {
       color: "red",
@@ -77,12 +77,6 @@ const Promotion = ({ photo }: Props) => {
               width="400"
               height="400"
             />
-            {/*  <img
-              src={`${urlApi}uploads/promotion/${photo}`}
-              width="400"
-              height="400"
-              alt={photo}
-            /> */}
           </div>
         </Fade>
       </Modal>

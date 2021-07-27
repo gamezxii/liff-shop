@@ -335,7 +335,7 @@ const Basket = () => {
                     src={`${urlApi}uploads/${
                       productId ? productId.images[0] : ""
                     } `}
-                    alt={productId ? productId.description : ""}
+                    alt={productId ? productId.title : ""}
                   />
                   <div>
                     <Typography
@@ -452,7 +452,7 @@ const Basket = () => {
                       src={`${urlApi}uploads/${
                         productId ? productId.images[0] : ""
                       } `}
-                      alt={productId ? productId.description : ""}
+                      alt={productId ? productId.title : ""}
                     />
                   </div>
                   <div className={classes.boxDescriptionMobile}>

@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Layout from "@/layout";
 import Paper from "@material-ui/core/Paper";
-import {
-  Theme,
-  createStyles,
-  makeStyles,
-} from "@material-ui/core/styles";
+import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import FormControl from "@material-ui/core/FormControl";
@@ -27,6 +23,7 @@ import ButtonBack from "@/components/ButtonBack";
 import FormEditer from "../../../app/components/product/FormEditer";
 import MultipleSelect from "@/components/product/MultipleSelect";
 import InputText from "@/components/InputText";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,6 +51,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     noLabel: {
       marginTop: theme.spacing(3),
+    },
+    dropZone: {
+      padding: theme.spacing(0, 5),
     },
   })
 );
@@ -161,18 +161,27 @@ const Addproduct = () => {
 
   const onSubmit = (e: any) => {
     e.preventDefault();
+    let errorMessage = "";
     if (product.images.length <= 0) {
-      return alert("กรุณาเลือกรูปภาพ");
+      errorMessage = "กรุณาเลือกรูปภาพ";
     } else if (product.title == "") {
-      return alert("กรุณาใส่ชื่อสินค้า");
+      errorMessage = "กรุณาใส่ชื่อสินค้า";
     } else if (product.price == 0 || product.price <= 0) {
-      return alert("ราคาไม่ถูกต้อง หรือ ราคาต้องมีค่ามาก 0");
+      errorMessage = "ราคาไม่ถูกต้อง หรือ ราคาต้องมีค่ามาก 0";
     } else if (product.saleprice > product.price) {
-      return alert("ราคาส่วนลดต้องน้อยกว่าราคาขาย");
+      errorMessage = "ราคาส่วนลดต้องน้อยกว่าราคาขาย";
     } else if (product.categoriesId == "") {
-      return alert("กรุณาเลือกประเภทสินค้า");
+      errorMessage = "กรุณาเลือกประเภทสินค้า";
     } else if (product.sku == "") {
-      return alert("กรุณาใส่รหัสสินค้า");
+      errorMessage = "กรุณาใส่รหัสสินค้า";
+    }
+
+    if (errorMessage != "") {
+      return Swal.fire({
+        icon: "error",
+        title: "ตรวจสอบข้อมูล",
+        text: errorMessage,
+      });
     }
 
     let newSize: string[];
@@ -271,24 +280,26 @@ const Addproduct = () => {
             <InputText
               type="text"
               id="title"
-              label="ชื่อสินค้า"
+              label="*ชื่อสินค้า"
               classes={classes.textfield}
               value={product.title}
               SetonChange={(e) =>
                 setProduct({ ...product, title: e.target.value })
               }
+              error={false}
+              helperText={""}
             />
             {/*  */}
             <FormControl fullWidth variant="outlined" size="small">
               <InputLabel id="demo-simple-select-outlined-label">
-                ประเภทสินค้า
+                หมวดหมู่สินค้า
               </InputLabel>
               <Select
                 labelId="demo-simple-select-outlined-label"
                 id="demo-simple-select-outlined"
                 value={categoriesv}
                 onChange={handleChangeCategories}
-                label="ประเภทสินค้า"
+                label="หมวดหมู่สินค้า"
                 className={classes.textfield}
               >
                 <MenuItem value="0">โปรดเลือกรายการ</MenuItem>
@@ -327,22 +338,29 @@ const Addproduct = () => {
               SetonChange={(e) =>
                 setProduct({ ...product, averageRating: e.target.value })
               }
+              error={false}
+              helperText={""}
             />
             {/*  */}
             <DropzoneArea
+              dropzoneClass={classes.dropZone}
               initialFiles={product.images}
-              acceptedFiles={["image/*", "application/*"]}
+              acceptedFiles={["image/*"]}
               onChange={handleChangeFiles.bind(this)}
               onDelete={handleDeleteFiles.bind(this)}
               showFileNames
               dropzoneText="เพิ่มรูปภาพ"
               showAlerts={true}
               filesLimit={5}
+              maxFileSize={3000000}
               getFileLimitExceedMessage={(filesLimit) => {
                 return `สามารถเพิ่มรูปได้ ${filesLimit} รูปเท่านั้น `;
               }}
               alertSnackbarProps={{
                 anchorOrigin: { vertical: "bottom", horizontal: "center" },
+              }}
+              getDropRejectMessage={(reject: File) => {
+                return `ขนาดไฟล์รูปต้องไม่เกิน 3mb  `;
               }}
             />
           </Grid>
@@ -350,22 +368,26 @@ const Addproduct = () => {
             <InputText
               type="text"
               id="sku"
-              label="รหัสสินค้า"
+              label="*รหัสสินค้า"
               classes={classes.textfield}
               value={product.sku}
               SetonChange={(e) =>
                 setProduct({ ...product, sku: e.target.value })
               }
+              error={false}
+              helperText={""}
             />
             <InputText
               type="number"
               id="quantity"
-              label="จำนวนสินค้า"
+              label="*จำนวนสินค้า"
               classes={classes.textfield}
               value={product.quantity}
               SetonChange={(e) =>
                 setProduct({ ...product, quantity: Number(e.target.value) })
               }
+              error={false}
+              helperText={""}
             />
             <InputText
               type="number"
@@ -376,6 +398,8 @@ const Addproduct = () => {
               SetonChange={(e) =>
                 setProduct({ ...product, price: Number(e.target.value) })
               }
+              error={false}
+              helperText={""}
             />
             <InputText
               type="number"
@@ -386,6 +410,8 @@ const Addproduct = () => {
               SetonChange={(e) =>
                 setProduct({ ...product, saleprice: Number(e.target.value) })
               }
+              error={false}
+              helperText={""}
             />
             {/*select multiple items  */}
             <FormControl fullWidth>
@@ -418,11 +444,15 @@ const Addproduct = () => {
             <InputText
               type="text"
               id="size"
-              label="ขนาดสินค้า"
+              label="ประเภทสินค้า"
               classes={classes.textfield}
               value={product.size}
               SetonChange={(e) =>
                 setProduct({ ...product, size: e.target.value as string })
+              }
+              error={false}
+              helperText={
+                "ประเภทสินค้า ยกตัวอย่างเช่นสี กรณีมีหลายสีให้ใส่ , ด้านหลังเช่น ดำ, ขาว, น้ำเงิน "
               }
             />
             <FormControl fullWidth>

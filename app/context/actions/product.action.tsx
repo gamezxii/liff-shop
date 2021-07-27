@@ -15,6 +15,7 @@ export enum productActionType {
   LOADING_PRODUCTID_SUCCESS = "LOADING_PRODUCTID",
   UPLOADING_PRODUCTID_SUCCESS = "UPLOADING_PRODUCTID_SUCCESS",
   PRODUCT_FILTER = "PRODUCT_FILTER",
+  LOADING_PRODUCT_CUSOMTER = "LOADING_PRODUCT_CUSOMTER",
 }
 
 interface ProductActionInterface {
@@ -28,15 +29,20 @@ export const feedProductCustomer = () => {
       type: productActionType.LOADING_PRODUCT,
       payload: null,
     };
-    const LoadingSuccess: ProductActionInterface = {
-      type: productActionType.LOADING_SUCCESS,
-      payload: null,
-    };
+
     dispatch(isLoading);
     try {
-      const result = await axios.get(`${urlApi}customerproduct`);
-      const { data } = result.data;
-      LoadingSuccess.payload = data;
+      const allprodcuct = await axios.get(`${urlApi}product`);
+      const result = await axios.get(`${urlApi}customer/product/popular`);
+      const popular = await axios.get(`${urlApi}customer/product`);
+      const { data } = await result.data;
+      const resultPopular = await popular.data;
+      const all = await allprodcuct.data.data;
+      let newproduct = await resultPopular.data;
+      const LoadingSuccess: ProductActionInterface = {
+        type: productActionType.LOADING_PRODUCT_CUSOMTER,
+        payload: { all, data, newproduct },
+      };
       dispatch(LoadingSuccess);
     } catch (error) {
       console.log(error);
@@ -171,7 +177,6 @@ export const feedProduct = () => {
 //handle createproduct
 export const createProduct = (product: any) => {
   return async (dispatch) => {
-    
     const isUploading: ProductActionInterface = {
       type: productActionType.UPLOADING_PRODUCT,
       payload: null,

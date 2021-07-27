@@ -49,7 +49,7 @@ const TableOrder = ({ orders }) => {
   };
 
   const columns = [
-    { title: "ชื่อ-นามสกุล", field: "name" },
+    { title: "ชื่อไลน์", field: "name" },
     { title: "หมายเหตุ", field: "note", sorting: false },
     { title: "สถานะการชำระ", field: "orderStatus" },
     { title: "สถานะการจัดส่ง", field: "paidStatus" },

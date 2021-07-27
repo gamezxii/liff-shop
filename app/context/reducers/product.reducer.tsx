@@ -10,6 +10,8 @@ interface productState {
   isUploading: boolean;
   productId: any[];
   filterProducts: any[];
+  newproducts: any[];
+  popularproducts: any[];
 }
 
 const initialState: productState = {
@@ -21,6 +23,8 @@ const initialState: productState = {
   isStatus: 0,
   isUploading: false,
   productId: [],
+  newproducts: [],
+  popularproducts: [],
 };
 
 const productReducer = (state = initialState, action) => {
@@ -49,7 +53,7 @@ const productReducer = (state = initialState, action) => {
         isLoading: false,
         isError: false,
         products: action.payload,
-        filterProducts:action.payload
+        filterProducts: action.payload,
       };
 
     case productActionType.LOADING_PRODUCTID_SUCCESS:
@@ -101,7 +105,7 @@ const productReducer = (state = initialState, action) => {
         products: action.payload.products,
         isStatus: action.payload.status,
         isMessage: action.payload.message,
-        filterProducts:action.payload.products
+        filterProducts: action.payload.products,
       };
 
     case productActionType.UPLOADING_PRODUCTID_SUCCESS:
@@ -141,6 +145,16 @@ const productReducer = (state = initialState, action) => {
         ...state,
         products: action.payload,
         filterProducts: state.filterProducts,
+      };
+
+    case productActionType.LOADING_PRODUCT_CUSOMTER:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        products: action.payload.all,
+        newproducts: action.payload.newproduct,
+        popularproducts: action.payload.data,
       };
     default:
       return state;

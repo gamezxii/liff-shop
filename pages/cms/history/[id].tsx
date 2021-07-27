@@ -6,12 +6,7 @@ import ButtonBack from "@/components/ButtonBack";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {
-  Theme,
-  createStyles,
-  makeStyles,
-  useTheme,
-} from "@material-ui/core/styles";
+import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -25,8 +20,11 @@ import { useDispatch, useSelector } from "react-redux";
 import * as orderActions from "@/actions/order.action";
 import * as historyActions from "@/actions/history.action";
 import { checkOrderStatus, checkPadding } from "@/utils/constans";
-import FormPaidstatus from "@/components/order/FormPaidstatus";
 import { numberWithCommas } from "@/utils/service";
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import ButtomSubmit from "@/components/ButtonSubmit";
+import Snackbars from "@/components/Snackbar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,8 +34,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       padding: theme.spacing(2),
-      // minHeight: "80vh",
-      //color: theme.palette.text.secondary,
     },
     table: {
       minWidth: 650,
@@ -46,6 +42,21 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "space-between",
     },
+    btnError: {
+      background: "#b71c1c",
+      color: "#fff",
+      "&:hover": {
+        background: "#b71c1c",
+      },
+    },
+    btnSuccess: {
+      background: "#43a047",
+      color: "#fff",
+      "&:hover": {
+        background: "#43a047",
+      },
+    },
+    btnWait: {},
   })
 );
 
@@ -60,18 +71,68 @@ const HistoryId = ({ id }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const historyReducer = useSelector((state: any) => state.history);
-  const [openFormPaid, setOpenFormPaid] = useState(false);
+  const [formEditTacking, setFormEditTacking] = useState(false);
+  const [shipping, setShipping] = useState({
+    id: "",
+    shippingName: "",
+    tackingNo: "",
+  });
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [typeSnackbar, setTypeSnackbar] = React.useState("error");
   const dofeed = () => {
     dispatch(historyActions.feedHistoriesWithId(id));
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormEditTacking(event.target.checked);
+  };
+
+  const handleSubmit = () => {
+    if (shipping.shippingName == "" && shipping.tackingNo == "")
+      return alert("กรุณากรอก");
+    dispatch(historyActions.editTrackingNo(shipping));
   };
 
   useEffect(() => {
     dofeed();
     return () => {};
   }, []);
+
+  useEffect(() => {
+    if (historyReducer.histories.length > 0) {
+      const { shippingName, tackingNo, _id } = historyReducer.histories[0];
+      setShipping({
+        id: _id,
+        shippingName: shippingName,
+        tackingNo: tackingNo,
+      });
+      setFormEditTacking(false);
+    }
+    if (historyReducer.status == 200 || historyReducer.status == 201) {
+      const { shippingName, tackingNo, _id } = historyReducer.histories[0];
+      setShipping({
+        id: _id,
+        shippingName: shippingName,
+        tackingNo: tackingNo,
+      });
+      setFormEditTacking(false);
+      setTypeSnackbar("success");
+      setOpenSnackbar(!openSnackbar);
+    } else if (historyReducer.status == 401 || historyReducer.status == 400) {
+      setTypeSnackbar("error");
+      setOpenSnackbar(!openSnackbar);
+    }
+  }, [historyReducer.histories]);
+
   return (
     <Layout>
       <Paper className={classes.root}>
+        <Snackbars
+          open={openSnackbar}
+          handleCloseSnakbar={setOpenSnackbar}
+          message={historyReducer.message}
+          type={typeSnackbar}
+        />
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <div className={classes.boxHeader}>
@@ -80,7 +141,14 @@ const HistoryId = ({ id }) => {
               </div>
               <div>
                 {historyReducer.histories.length > 0 ? (
-                  <Button variant="contained">
+                  <Button
+                    variant="contained"
+                    className={`${
+                      historyReducer.histories[0].orderStatus == 2
+                        ? classes.btnSuccess
+                        : classes.btnError
+                    }`}
+                  >
                     สถานะการชำระเงิน :{" "}
                     {checkOrderStatus(historyReducer.histories[0].orderStatus)}
                   </Button>
@@ -91,59 +159,110 @@ const HistoryId = ({ id }) => {
             </div>
           </Grid>
           <Grid item xs={12}>
-            <div className={classes.boxHeader}>
-              <div>
-                {historyReducer.histories.length > 0 ? (
-                  <FormPaidstatus
-                    open={openFormPaid}
-                    setOpen={setOpenFormPaid}
-                    paidStatus={historyReducer.histories[0].paidStatus}
-                    objectId={historyReducer.histories[0]._id}
-                  />
-                ) : (
-                  ""
-                )}
-              </div>
-              <div>
-                {historyReducer.histories.length > 0 ? (
+            {historyReducer.histories.length > 0 ? (
+              <div className={classes.boxHeader}>
+                <div></div>
+                <div>
                   <Button
                     variant="contained"
-                    onClick={() => setOpenFormPaid(!openFormPaid)}
+                    className={`${
+                      historyReducer.histories[0].paidStatus == 1
+                        ? classes.btnSuccess
+                        : classes.btnError
+                    }`}
                   >
-                    สถานะการจัดส่ง : {checkPadding(historyReducer.histories[0].paidStatus)}
-                    &nbsp;(แก้ไข)
+                    สถานะการจัดส่ง :{" "}
+                    {checkPadding(historyReducer.histories[0].paidStatus)}
                   </Button>
-                ) : (
-                  ""
-                )}
+                </div>
               </div>
-            </div>
+            ) : (
+              ""
+            )}
           </Grid>
+          {historyReducer.histories.length > 0 ? (
+            <Grid item xs={12}>
+              <Paper elevation={1} style={{ padding: 10 }}>
+                <form>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={formEditTacking}
+                        onChange={handleChange}
+                        name="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label="แก้ไข"
+                  />
+
+                  <TextField
+                    fullWidth
+                    variant={formEditTacking ? "outlined" : "filled"}
+                    value={shipping.shippingName}
+                    label="ชื่อขนส่ง"
+                    style={{ marginBottom: 10 }}
+                    InputProps={{
+                      readOnly: !formEditTacking,
+                    }}
+                    onChange={(e) =>
+                      setShipping({ ...shipping, shippingName: e.target.value })
+                    }
+                  />
+                  <TextField
+                    fullWidth
+                    variant={formEditTacking ? "outlined" : "filled"}
+                    value={shipping.tackingNo}
+                    label="TackingNo"
+                    style={{ marginBottom: 10 }}
+                    InputProps={{
+                      readOnly: !formEditTacking,
+                    }}
+                    onChange={(e) =>
+                      setShipping({ ...shipping, tackingNo: e.target.value })
+                    }
+                  />
+                  {formEditTacking ? (
+                    <ButtomSubmit
+                      handleSubmit={handleSubmit}
+                      isUploading={historyReducer.isLoading}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </form>
+              </Paper>
+            </Grid>
+          ) : (
+            ""
+          )}
           <Grid item xs={12}>
             {historyReducer.histories.length > 0
-              ? historyReducer.histories.map(({ shippingAddress, customerId }) => (
-                  <React.Fragment key={customerId._id}>
-                    <Grid container spacing={1}>
-                      <Grid item xs={12}>
-                        <div>
-                          <Typography variant="body1" gutterBottom>
-                            ที่อยู่จัดส่ง
-                          </Typography>
-                          <TextField
-                            fullWidth
-                            variant="outlined"
-                            value={` ${customerId.fullName} ${"\n"} ${
-                              customerId.tel
-                            } ${"\n"} ${shippingAddress.shippingAddress}`}
-                            multiline
-                            rows={4}
-                            inputProps={{ readOnly: true }}
-                          />
-                        </div>
+              ? historyReducer.histories.map(
+                  ({ shippingAddress, customerId }) => (
+                    <React.Fragment key={customerId._id}>
+                      <Grid container spacing={1}>
+                        <Grid item xs={12}>
+                          <div>
+                            <Typography variant="body1" gutterBottom>
+                              ที่อยู่จัดส่ง
+                            </Typography>
+                            <TextField
+                              fullWidth
+                              variant="outlined"
+                              value={` ${customerId.fullName} ${"\n"} ${
+                                customerId.tel
+                              } ${"\n"} ${shippingAddress.shippingAddress}`}
+                              multiline
+                              rows={4}
+                              inputProps={{ readOnly: true }}
+                            />
+                          </div>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </React.Fragment>
-                ))
+                    </React.Fragment>
+                  )
+                )
               : ""}
           </Grid>
           <Grid item xs={12}>
@@ -183,29 +302,31 @@ const HistoryId = ({ id }) => {
                     </React.Fragment>
                   ))}
                   {/* footer */}
-                  {historyReducer.histories.map(({ _id, totalprice, discount, total }) => (
-                    <React.Fragment key={_id}>
-                      <TableRow>
-                        <TableCell rowSpan={3} colSpan={4} />
-                        <TableCell colSpan={1}>รวม</TableCell>
-                        <TableCell align="right">
-                          {numberWithCommas(total)}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell colSpan={1}>ส่วนลด</TableCell>
-                        <TableCell align="right">
-                          {numberWithCommas(discount)}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell colSpan={1}>ราคาสุทธิ</TableCell>
-                        <TableCell align="right">
-                          {numberWithCommas(totalprice)}
-                        </TableCell>
-                      </TableRow>
-                    </React.Fragment>
-                  ))}
+                  {historyReducer.histories.map(
+                    ({ _id, totalprice, discount, total }) => (
+                      <React.Fragment key={_id}>
+                        <TableRow>
+                          <TableCell rowSpan={3} colSpan={4} />
+                          <TableCell colSpan={1}>รวม</TableCell>
+                          <TableCell align="right">
+                            {numberWithCommas(total)}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell colSpan={1}>ส่วนลด</TableCell>
+                          <TableCell align="right">
+                            {numberWithCommas(discount)}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell colSpan={1}>ราคาสุทธิ</TableCell>
+                          <TableCell align="right">
+                            {numberWithCommas(totalprice)}
+                          </TableCell>
+                        </TableRow>
+                      </React.Fragment>
+                    )
+                  )}
                   {/*  */}
                 </TableBody>
               </Table>

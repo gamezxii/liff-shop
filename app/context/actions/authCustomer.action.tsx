@@ -20,7 +20,7 @@ interface authCustomerActionInterface {
 interface Lineuser {
   liffId: string;
   email: string;
-  fullName: string;
+  liffName:string;
 }
 
 export const signinCustomer = (account: Lineuser, router: NextRouter) => {

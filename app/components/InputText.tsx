@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
-const InputText = ({ id, label, value, SetonChange, classes, type }) => {
+const InputText = ({ id, label, value, SetonChange, classes, type, helperText ,error }) => {
   return (
     <FormControl fullWidth>
       <TextField
@@ -14,6 +14,8 @@ const InputText = ({ id, label, value, SetonChange, classes, type }) => {
         onChange={SetonChange}
         type={type}
         autoComplete="off"
+        error={error}
+        helperText={helperText}
       />
     </FormControl>
   );

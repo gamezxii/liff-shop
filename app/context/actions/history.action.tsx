@@ -1,3 +1,4 @@
+import { dispatch } from "@line/liff/dist/lib/client/bridge";
 import axios from "axios";
 import { urlApi } from "../urlapi";
 
@@ -100,6 +101,24 @@ export const findHistoryWithCustomerId = (id: string, type: number) => {
   };
 };
 
+/* edit */
+interface Shipping {
+  id: string;
+  shippingName: string;
+  tackingNo: string;
+}
+export const editTrackingNo = (shipping: Shipping) => {
+  return async (dispatch) => {
+    setStateToupLoading(dispatch);
+    const upload = await axios.put(
+      `${urlApi}history/shipping/${shipping.id}`,
+      { ...shipping }
+    );
+    const { message, status, history } = await upload.data;
+    setStateToupLoadingSuccess(dispatch, { message, status, history });
+  };
+};
+
 /* setState */
 
 const setStateToisLoading = (dispatch) => {
@@ -121,6 +140,30 @@ const setStateToisLoadingError = (dispatch, error) => {
 const setStateToisLoadingSuccess = (dispatch, payload) => {
   const isLoadingSuccess: historiesActionInterface = {
     type: historiesActiontype.LOADING_HISTORIES_SUCCESS,
+    payload: payload,
+  };
+  dispatch(isLoadingSuccess);
+};
+
+const setStateToupLoading = (dispatch) => {
+  const isLoading: historiesActionInterface = {
+    type: historiesActiontype.UPLOADING_HISTORIES,
+    payload: null,
+  };
+  dispatch(isLoading);
+};
+
+const setStateToupLoadingError = (dispatch, error) => {
+  const isLoadingError: historiesActionInterface = {
+    type: historiesActiontype.UPLOADING_HISTORIES_ERROR,
+    payload: null,
+  };
+  dispatch(isLoadingError);
+};
+
+const setStateToupLoadingSuccess = (dispatch, payload) => {
+  const isLoadingSuccess: historiesActionInterface = {
+    type: historiesActiontype.UPLOADING_HISTORIES_SUCCESS,
     payload: payload,
   };
   dispatch(isLoadingSuccess);
