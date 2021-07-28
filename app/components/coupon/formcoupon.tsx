@@ -236,7 +236,7 @@ export default function FormCoupon({
               <option value={1}>เปิด</option>
             </Select>
           </FormControl>
-          <TextField
+          {/* <TextField
             required={true}
             autoFocus
             margin="dense"
@@ -253,7 +253,7 @@ export default function FormCoupon({
                 percentSale: e.target.value,
               })
             }
-          />
+          /> */}
           <TextField
             required={true}
             autoFocus

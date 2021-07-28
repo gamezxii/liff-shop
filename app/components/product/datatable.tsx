@@ -31,6 +31,7 @@ import * as productAction from "@/actions/product.action";
 import { useRouter } from "next/router";
 import _ from "lodash";
 import TextField from "@material-ui/core/TextField";
+import Swal from "sweetalert2";
 
 interface categories {
   _id: string;
@@ -219,7 +220,16 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const { numSelected, selectedIds } = props;
   const dispatch = useDispatch();
   const handleDelete = () => {
-    dispatch(productAction.deleteProduct(selectedIds));
+    Swal.fire({
+      title: "คุณแน่ใจต้องการลบรายการที่เลือก?",
+      showCancelButton: true,
+      confirmButtonText: `ตกลง`,
+      cancelButtonText: "ยกเลิก",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(productAction.deleteProduct(selectedIds));
+      }
+    });
   };
   const { adminPermission } = useSelector(({ permission }: any) => permission);
 

@@ -20,6 +20,8 @@ import { wrapper } from "@/wapper/store";
 import dayjs from "dayjs";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
+import { CsvBuilder } from "filefy";
+
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, req }) => {
     let user = await parseCookies(req);
@@ -82,7 +84,6 @@ interface couponState {
 const columns = [
   { title: "รหัสคูปอง", field: "code" },
   { title: "เปิดใช้งานคูปอง", field: "statusOpen" },
-  { title: "กำหนดส่วนลดเป็น %", field: "percentSale" },
   { title: "ส่วนลด", field: "priceSale" },
   { title: "สินค้าที่นำคูปองไปใช้ได้", field: "nameproductrelations" },
   { title: "จำนวนคูปองคงเหลือ", field: "couponLimit" },
@@ -111,13 +112,13 @@ const Coupon = () => {
     action: 0,
   });
   const [couponData, setCouponData] = useState<any[]>([]);
+  const [exportDatas, setexportDatas] = useState([]);
   /* handle toggle form create or edit */
   const toggleCreateform = () => {
     setTitleform("สร้างคูปอง");
     setOpenform(!openform);
   };
   const toggleEditform = (itemObject: couponState) => {
-    console.log(itemObject);
     let productAvaliableItems = [];
     itemObject.productAvaliable.map((product) => {
       productAvaliableItems.push(product._id);
@@ -169,6 +170,32 @@ const Coupon = () => {
     }
   };
 
+  const exportData = (rows) => {
+    let exportsData = [];
+    rows.map((item) => {
+      let status = item.action == 1 ? "เปิด" : "ปิด";
+      exportsData.push([
+        item.code,
+        status,
+        item.priceSale,
+        item.nameproductrelations,
+        item.couponLimit,
+        item.createdAt,
+      ]);
+    });
+    var csvBuilder = new CsvBuilder("coupon_list.csv")
+      .setColumns([
+        "รหัสคูปอง",
+        "เปิดใช้งานคูปอง",
+        "ส่วนลด",
+        "สินค้าที่นำคูปองไปใช้ได้",
+        "จำนวนคูปองคงเหลือ",
+        "สร้างเมื่อ",
+      ])
+      .addRows(exportsData)
+      .exportFile();
+  };
+
   useEffect(() => {
     dispatch(couponActions.feedCoupons());
   }, []);
@@ -198,7 +225,7 @@ const Coupon = () => {
       setCouponData([]);
       coupons.map((row) => {
         let nameProduct = "";
-        let icon = <CheckIcon style={{ color: "green" }}  />;
+        let icon = <CheckIcon style={{ color: "green" }} />;
         if (row.action == 0) {
           icon = <CloseIcon style={{ color: "#FF0000" }} />;
         }
@@ -256,6 +283,7 @@ const Coupon = () => {
               columns={columns}
               rows={couponData}
               handleDelete={handleSelected}
+              exportData={exportData}
             />
           </Grid>
         </Grid>

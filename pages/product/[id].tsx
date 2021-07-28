@@ -210,22 +210,26 @@ const ProductId = ({ id }) => {
                       <div>฿{product.price}</div>
                     </div>
                     <div className={classes.boxVariation}>
-                      <Typography variant="h5" gutterBottom>
-                        Size, color
-                      </Typography>
                       {/* fetch size */}
                       <div>
                         {product.size.length > 0
                           ? product.size.map((row, index) => (
-                              <Button
-                                key={index}
-                                variant={row == size ? "outlined" : "contained"}
-                                color="primary"
-                                style={{ marginRight: 5, marginBottom: 5 }}
-                                onClick={() => handleChangeSize(row)}
-                              >
-                                {row}
-                              </Button>
+                              <React.Fragment>
+                                <Typography variant="h5" gutterBottom>
+                                  Size, color
+                                </Typography>
+                                <Button
+                                  key={index}
+                                  variant={
+                                    row == size ? "outlined" : "contained"
+                                  }
+                                  color="primary"
+                                  style={{ marginRight: 5, marginBottom: 5 }}
+                                  onClick={() => handleChangeSize(row)}
+                                >
+                                  {row}
+                                </Button>
+                              </React.Fragment>
                             ))
                           : ""}
                       </div>
@@ -297,10 +301,10 @@ const ProductId = ({ id }) => {
           {/* รายละเอียดสินค้า relatedProducts */}
           <br />
           {products.length > 0
-            ? products.map((product) => 
-                {
-                  if(product.relatedProducts.length > 0) {
-                    return (<Paper elevation={0} key={product._id}>
+            ? products.map((product) => {
+                if (product.relatedProducts.length > 0) {
+                  return (
+                    <Paper elevation={0} key={product._id}>
                       <Grid
                         container
                         spacing={1}
@@ -327,13 +331,12 @@ const ProductId = ({ id }) => {
                           </Grid>
                         </Grid>
                       </Grid>
-                    </Paper>)
-                  } else {
-                    return (<div></div>)
-                  }
-                  
+                    </Paper>
+                  );
+                } else {
+                  return <div></div>;
                 }
-              )
+              })
             : ""}
 
           <br />

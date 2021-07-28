@@ -193,8 +193,6 @@ const Addproduct = () => {
       for (const siz of newSize) {
         formData.append("size", siz);
       }
-    } else {
-      formData.append("size", "");
     }
     formData.append("title", product.title);
     formData.append("price", product.price as string);

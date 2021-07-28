@@ -18,6 +18,7 @@ import { wrapper } from "@/wapper/store";
 import { filterAddress } from "@/utils/service";
 import Swal from "sweetalert2";
 import Snackbars from "@/components/Snackbar";
+import { CsvBuilder } from "filefy";
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, req }) => {
@@ -104,7 +105,7 @@ const Customer = () => {
 
   const columns = [
     { title: "ชื่อ", field: "fullName" },
-    { title: "เบอร์โทร", field: "tel" },
+    { title: "เบอร์โทรศัพท์", field: "tel" },
     { title: "อีเมล์", field: "email" },
     { title: "ระดับ", field: "role" },
     { title: "เพศ", field: "sex" },
@@ -112,6 +113,36 @@ const Customer = () => {
     { title: "ที่อยู่สำหรับจัดส่ง", field: "shippingAddress" },
     { title: "แก้ไข", field: "edit", sorting: false },
   ];
+
+  const exportData = (rows) => {
+    let exportsData = [];
+    rows.map((item) => {
+      exportsData.push([
+        item.liffName,
+        item.fullName,
+        item.tel,
+        item.email,
+        item.row,
+        item.sex,
+        item.age,
+        item.shippingAddress,
+      ]);
+    });
+
+    var csvBuilder = new CsvBuilder("coupon_list.csv")
+      .setColumns([
+        "ชื่อไลน์",
+        "ชื่อ-นามสกุล",
+        "เบอร์โทรศัพท์",
+        "อีเมล์",
+        "ระดับ",
+        "เพศ",
+        "อายุ",
+        "ที่อยู่สำหรับจัดส่ง",
+      ])
+      .addRows(exportsData)
+      .exportFile();
+  };
 
   useEffect(() => {
     dispatch(customerActions.feedCustomers());
@@ -179,6 +210,7 @@ const Customer = () => {
               columns={columns}
               rows={customerData}
               handleDelete={handleSelected}
+              exportData={exportData}
             />
           </Grid>
         </Grid>

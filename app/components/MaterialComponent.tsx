@@ -4,6 +4,7 @@ import MaterialTable from "material-table";
 import { tableIcons } from "@/utils/icons";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 /*  */
+import SaveAlt from "@material-ui/icons/SaveAlt";
 
 interface Props {
   columns: any[];
@@ -11,6 +12,7 @@ interface Props {
   rows: any[];
   selectionBoolean: boolean;
   handleDelete: (any) => void;
+  exportData: (any) => void;
 }
 
 const TableOrder = ({
@@ -19,6 +21,7 @@ const TableOrder = ({
   rows,
   selectionBoolean,
   handleDelete,
+  exportData
 }: Props) => {
   return (
     <React.Fragment>
@@ -37,6 +40,11 @@ const TableOrder = ({
             tooltip: "ลบข้อมูลที่เลือกทั้งหมด",
             icon: () => <DeleteOutline />,
             onClick: (evt, data) => handleDelete(data),
+          },
+          {
+            position: "toolbarOnSelect",
+            icon: () => <SaveAlt />,
+            onClick: (evt, data) => exportData(data),
           },
         ]}
       />

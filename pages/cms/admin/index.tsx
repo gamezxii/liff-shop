@@ -17,6 +17,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import IconButton from "@material-ui/core/IconButton";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
+import { CsvBuilder } from "filefy";
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, req }) => {
@@ -166,6 +167,32 @@ const AdminIndex = () => {
     { title: "แก้ไข", field: "edit" },
   ];
 
+  const exportData = (rows) => {
+    let exportsData = [];
+    rows.map((item) => {
+      exportsData.push([
+        item.fullName,
+        item.userName,
+        item.email,
+        item.role,
+        item.tel,
+        item.createdAt,
+      ]);
+    });
+
+    var csvBuilder = new CsvBuilder("coupon_list.csv")
+      .setColumns([
+        "ชื่อ-นามสกุล",
+        "ชื่อผู้ใช้",
+        "อีเมล์",
+        "เบอร์โทรศัพท์",
+        "ระดับ",
+        "สร้างเมื่อ",
+      ])
+      .addRows(exportsData)
+      .exportFile();
+  };
+
   useEffect(() => {
     dofeed();
   }, []);
@@ -244,6 +271,7 @@ const AdminIndex = () => {
               columns={columns}
               rows={adminData}
               handleDelete={handleSelected}
+              exportData={exportData}
             />
           </Grid>
         </Grid>
