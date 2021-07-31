@@ -33,6 +33,7 @@ import Collapse from "@material-ui/core/Collapse";
 import StarBorder from "@material-ui/icons/StarBorder";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import PersonIcon from "@material-ui/icons/Person";
@@ -46,7 +47,7 @@ import AssessmentIcon from "@material-ui/icons/Assessment";
 import HistoryIcon from "@material-ui/icons/History";
 import ContactlessIcon from "@material-ui/icons/Contactless";
 import ControlCameraIcon from "@material-ui/icons/ControlCamera";
-import ViewQuiltIcon from "@material-ui/icons/ViewQuilt";
+import ViewQuiltIcon from '@material-ui/icons/ViewQuilt';
 /*  */
 const drawerWidth = 240;
 
@@ -58,7 +59,6 @@ const useStyles = makeStyles((theme: Theme) =>
     appBar: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
-      backgroundColor:'#39b549'
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -165,6 +165,11 @@ export default function PersistentDrawerLeft({ children }) {
       path: "/cms/banner",
     },
     {
+      name: "จัดการค่าส่งสินค้า",
+      icon: <LocalShippingIcon />,
+      path: "/cms/shipping",
+    },
+    {
       name: "Help Center",
       icon: <ContactMailIcon />,
       path: "/cms/product/list",
@@ -201,7 +206,7 @@ export default function PersistentDrawerLeft({ children }) {
             className={classes.iconMene}
           ></Typography>
           <Typography variant="body1" component="p">
-            {/* {authAdmin.user.fullName} */}
+           {/* {authAdmin.user.fullName} */}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -215,7 +220,10 @@ export default function PersistentDrawerLeft({ children }) {
       >
         <div className={classes.toolbar}>
           <div className={classes.titleStore}>
-            <Avatar src="/firstshoplogo08.png" />
+            <Avatar
+              alt="Cindy Baker"
+              src="/firstshoplogo08.png"
+            />
             <Typography>FIRST SHOP</Typography>
           </div>
         </div>
