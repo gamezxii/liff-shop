@@ -91,9 +91,22 @@ export default function ManageShippingCost(shippingcost: Prop) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
-  const handleChange = () => {
-    setcheckedB((prev) => !prev);
-    setcheckedA((prev) => !prev);
+  const handleChangeSelectA = async () => {
+    setcheckedA(true);
+    setcheckedB(false);
+    setShipping({
+      ...shippingprice,
+      status: 0
+    });
+  };
+  const handleChangeSelectB = () => {
+    setcheckedA(false);
+    setcheckedB(true);
+    setShipping({
+      ...shippingprice,
+      status: 1
+    });
+
   };
   const handleClickOpen = () => {
     setOpen(true);
@@ -101,20 +114,27 @@ export default function ManageShippingCost(shippingcost: Prop) {
 
   const handleSubmit = () => {
     // return console.log(about);
+    // alert(shippingprice.status)
     dispatch(shippingActions.AddShippingCost(shippingprice));
   };
   const handleClose = () => {
     setOpen(false);
   };
   useEffect(() => {
-
     setShipping({
-      ...shippingprice, 
+      ...shippingprice,
       anyCost: shippingcost.anyCost,
       status: shippingcost.status,
       fixedCost: shippingcost.fixedCost,
       firstCost: shippingcost.firstCost,
     })
+    if (shippingcost.status == 0) {
+      setcheckedA(true);
+      setcheckedB(false);
+    } else {
+      setcheckedA(false);
+      setcheckedB(true);
+    }
   }, [shippingcost]);
   return (
     <div>
@@ -126,14 +146,14 @@ export default function ManageShippingCost(shippingcost: Prop) {
       <Card className={classes.root} variant="outlined">
         <CardContent>
           <Typography variant="h5" component="h2">
-            จัดค่าส่งสินค้า 
+            จัดค่าส่งสินค้า
           </Typography>
           <br />
           <Typography variant="h6" component="h2">
             ค่าส่งเท่ากัน
             <Switch
               checked={checkedA}
-              onChange={handleChange}
+              onChange={handleChangeSelectA}
               color="primary"
               name="checkedA"
               inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -156,7 +176,7 @@ export default function ManageShippingCost(shippingcost: Prop) {
             ค่าส่งแบบแตกต่าง
             <Switch
               checked={checkedB}
-              onChange={handleChange}
+              onChange={handleChangeSelectB}
               color="primary"
 
               name="checkedB"
