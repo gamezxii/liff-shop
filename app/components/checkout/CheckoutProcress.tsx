@@ -152,6 +152,8 @@ const CheckoutProcress = ({
         });
         setCouponCode(code);
       } else {
+        feedWithShippingCost();
+        const { priceSale, code } = couponReducer.coupons[0];
         setSubTotal({
           total: total,
           discount: resultDiscount,
