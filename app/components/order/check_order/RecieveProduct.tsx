@@ -164,10 +164,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const RecieveProduct = (props: any) => {
   const classes = useStyles();
-  // const [id, setId] = useState("60dc8456b6acdf24d0a806d2");
+  const [user, setUser] = useState({ id: props.id });
   const dispatch = useDispatch();
   const { histories } = useSelector(({ history }: any) => history);
-  const { user } = useSelector(({ authCustomer }: any) => authCustomer);
+  // const { user } = useSelector(({ authCustomer }: any) => authCustomer);
   const [modalStyles] = useState(getModalStyle);
 
   const feedWithId = async () => {

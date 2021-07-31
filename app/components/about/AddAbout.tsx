@@ -6,41 +6,25 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Card from "@material-ui/core/Card";
+import FormControl from "@material-ui/core/FormControl";
+
 import {
   createStyles,
   makeStyles,
-  withStyles,
   Theme,
   useTheme,
+  withStyles
 } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import ButtonSubmit from "@/components/ButtonSubmit";
+import CardActionArea from "@material-ui/core/CardActionArea";
 //call redux
+import { grey } from "@material-ui/core/colors";
 import { useSelector, useDispatch } from "react-redux";
 import * as allbankActions from "@/actions/allbank.action";
 import * as aboutActions from "@/actions/about.action";
-
-interface Props {
-  _id: string;
-  bankAccName: string;
-  bankAccNo: string;
-  bankId: any;
-}
-interface Payment {
-  _id: string;
-  bankName: string;
-  bankId: string;
-  customerId: string;
-  bankAccName: string;
-  bankAccNo: string;
-  paymentStatus: Number;
-}
-
 interface About {
   title: string;
   detail: string;
@@ -73,7 +57,19 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
+const CardArea = withStyles((theme: Theme) => ({
+  spaceWidth: {
+    maxWidth: 345,
+  },
+  root: {
+    color: "#fff",
+    backgroundColor: grey[500],
+    "&:hover": {
+      backgroundColor: grey[700],
+    },
+    padding: theme.spacing(1, 5),
+  },
+}))(Card);
 export default function DialogEditPayment() {
   //useState
   const { isUploading, allbanks } = useSelector(({ allbank }: any) => allbank);
@@ -82,7 +78,6 @@ export default function DialogEditPayment() {
     dispatch(allbankActions.getAllbanks());
   };
   const [previewPhoto, setPreviewPhoto] = useState(null);
-  const [image, setPhotos] = useState(null);
   const theme = useTheme();
   const classes = useStyles();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -114,13 +109,15 @@ export default function DialogEditPayment() {
       setPreviewPhoto(reader.result);
     }.bind(this);
   };
+
+
   const handleSubmit = () => {
     // return console.log(about);
     if (about.image == null) {
       return alert(about);
     } else {
       const form = new FormData();
-      form.append("image", about.image);
+      form.append("image", about.image[0]);
       form.append("title", about.title);
       form.append("detail", about.detail);
       dispatch(aboutActions.createAbout(form));
@@ -148,40 +145,55 @@ export default function DialogEditPayment() {
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">{"ข้อมูลบัญชี"}</DialogTitle>
+        <DialogTitle id="responsive-dialog-title">{"เพิ่มบทความ"}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             <div className={classes.paper}>
               <form className={classes.form} noValidate>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      autoComplete="aboutTitle"
-                      name="aboutTitle"
-                      variant="outlined"
-                      required
-                      fullWidth
-                      onChange={handleTitle}
-                      id="aboutTitle"
-                      label="หัวข้อบทความ"
-                      autoFocus
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      autoComplete="aboutDetail"
-                      name="aboutDetail"
-                      variant="outlined"
-                      required
-                      fullWidth
-                      onChange={handleDetail}
-                      id="aboutDetail"
-                      label="รายละเอียดบทความ"
+                  <TextField
+                    required={true}
+                    autoFocus
+                    margin="dense"
+                    id="code"
+                    label="หัวข้อบทความ"
+                    helperText="ชื่อที่อยู่ เช่น บ้าน อพาร์ทเม้นท์"
+                    fullWidth
+                    autoComplete="off"
+                    variant="outlined"
+                    value={about.title}
+                    onChange={handleTitle}
+                    inputProps={{
+                      maxLength: 8,
+                    }}
+                    style={{ width: "90%" }}
+                  />
+                  <TextField
+                    required={true}
+                    autoFocus
+                    multiline
+                    rows={5}
+                    rowsMax={5}
+                    margin="dense"
+                    id="code"
+                    label="รายละเอียดบทความ"
+                    placeholder="เพิ่มรายละเอียดบทความ"
+                    type="number"
+                    fullWidth
+                    autoComplete="off"
+                    variant="outlined"
+                    value={about.detail}
+                    onChange={handleDetail}
+                    inputProps={{
+                      maxLength: 10,
+                    }}
+                    style={{ width: "90%" }}
+                  />
 
-                      autoFocus
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12}>
+                </Grid>
+                <br />
+
+                   <Grid item xs={12} sm={12}>
                     <FormControl className={classes.formControl}>
                       <Button
                         variant="contained"
@@ -207,7 +219,8 @@ export default function DialogEditPayment() {
                         : ""
                     }
                   </Grid>
-                </Grid>
+              
+
               </form>
             </div>
           </DialogContentText>

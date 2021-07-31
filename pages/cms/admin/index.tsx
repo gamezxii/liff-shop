@@ -180,7 +180,7 @@ const AdminIndex = () => {
       ]);
     });
 
-    var csvBuilder = new CsvBuilder("coupon_list.csv")
+    var csvBuilder = new CsvBuilder("admin_list.csv")
       .setColumns([
         "ชื่อ-นามสกุล",
         "ชื่อผู้ใช้",

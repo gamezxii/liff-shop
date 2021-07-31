@@ -22,6 +22,9 @@ import FormPaidstatus from "@/components/order/FormPaidstatus";
 import { numberWithCommas } from "@/utils/service";
 import Snackbars from "@/components/Snackbar";
 
+// component slip preview modal
+import SlipModal from "@/components/modal/slipModal";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -39,6 +42,9 @@ const useStyles = makeStyles((theme: Theme) =>
     boxHeader: {
       display: "flex",
       justifyContent: "space-between",
+    },
+    slipButton: {
+      textAlign: "right",
     },
   })
 );
@@ -117,6 +123,13 @@ const OrderId = ({ id }) => {
               </div>
             </div>
           </Grid>
+          {orders.orders[0].slip ? (
+            <Grid item xs={12} className={classes.slipButton}>
+              <SlipModal orderId={id} imgURL={orders.orders[0].slip} />
+            </Grid>
+          ) : (
+            ""
+          )}
           <Grid item xs={12}>
             <div className={classes.boxHeader}>
               <div>

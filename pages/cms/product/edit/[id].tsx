@@ -131,7 +131,7 @@ interface editProduct {
   description: any;
   averageRating: number;
   size: string;
-  sku: string;
+  sku: string; 
   statusNewProduct: number;
 }
 

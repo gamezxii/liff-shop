@@ -48,6 +48,13 @@ export function totalCheckoutDiscount(totals) {
     0
   );
 }
+export function productQuantity(totals) {
+  let totalQuantity = 0;
+  totals.forEach(rows => {
+    totalQuantity += rows.quantity
+  });
+  return totalQuantity;
+}
 //ใส่ - เลขบัญชีธนาคาร
 export function numberWithDat(number) {
   const number1 = number.toString().substring(0, 3);

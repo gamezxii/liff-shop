@@ -17,8 +17,6 @@ import Button from "@material-ui/core/Button";
 import DialogEditAddress from "@/components/profile/edit/DialogEditAddress";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "@/components/Loading";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import * as addressActions from "@/actions/address.action";
 import theme from "@/utils/theme";
 import Snackbars from "@/components/Snackbar";

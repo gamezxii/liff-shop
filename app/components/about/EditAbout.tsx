@@ -10,38 +10,19 @@ import { urlApi } from "@/context/urlapi";
 import {
   createStyles,
   makeStyles,
-  withStyles,
+
   Theme,
   useTheme,
 } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import ButtonSubmit from "@/components/ButtonSubmit";
 //call redux
-import * as aboutAction from "@/actions/about.action";
 import { useSelector, useDispatch } from "react-redux";
 import * as allbankActions from "@/actions/allbank.action";
 import * as aboutActions from "@/actions/about.action";
 
-interface Props {
-  _id: string;
-  bankAccName: string;
-  bankAccNo: string;
-  bankId: any;
-}
-interface Payment {
-  _id: string;
-  bankName: string;
-  bankId: string;
-  customerId: string;
-  bankAccName: string;
-  bankAccNo: string;
-  paymentStatus: Number;
-}
 
 interface About {
   title: string;
@@ -85,7 +66,6 @@ export default function EditAbout({data}) {
   };
   
   const [previewPhoto, setPreviewPhoto] = useState(null);
-  const [image, setPhotos] = useState(null);
   const theme = useTheme();
   const classes = useStyles();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -133,11 +113,7 @@ export default function EditAbout({data}) {
     setOpen(false);
   };
   useEffect(() => {
-    // dispatch(productAction.feedProduct());
 
-  }, []);
-  useEffect(() => {
-    // setProductObject(productReducer.products[0]);
     feedWithId();
   }, []);
 

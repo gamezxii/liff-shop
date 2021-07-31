@@ -107,12 +107,13 @@ const Checkout = ({ id, code }) => {
           cancelButtonText: "ไม่",
         }).then(async (result) => {
           if (result.isConfirmed) {
-            router.push({ pathname: `/profile/edit/${customers._id}` });
+            router.push({ pathname: `/profile/edit/60f54f56f13b0d0015512be3` });
           } else {
             router.push({ pathname: `/cart` });
           }
         });
-      } else if (customers.tel == "") {
+      } 
+      else if (customers.tel == "") {
         const r = confirm("กรุณาเพิ่มเบอร์โทรศัพท์!");
         if (r == true) {
           router.push({ pathname: `/profile/edit/${customers._id}` });

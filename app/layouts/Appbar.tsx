@@ -42,13 +42,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       display: "none",
-      color: "#d3d3d3",
+      color: "#39b549",
       [theme.breakpoints.up("sm")]: {
         display: "block",
       },
     },
     active: {
-      color: "#fff",
+      color: "#000D",
     },
     search: {
       position: "relative",
@@ -113,6 +113,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     activeIcon: {
       color: "#fff",
+    },
+    colorAppbar: {
+      backgroundColor: "#fff",
     },
   })
 );
@@ -212,7 +215,7 @@ export default function PrimarySearchAppBar() {
   return (
     <React.Fragment>
       <div className={classes.grow}>
-        <AppBar position="fixed">
+        <AppBar position="fixed" className={classes.colorAppbar}>
           <Container maxWidth="lg">
             <Toolbar className={classes.toolbar}>
               <div className={classes.sectionDesktop}>
@@ -223,7 +226,7 @@ export default function PrimarySearchAppBar() {
                   aria-label="open drawer"
                   onClick={() => router.push({ pathname: "/" })}
                 >
-                  <Avatar src="https://pht.qoo-static.com/LG2FwWONiUvcePpMJHhoxqPqg5eCT12VAKl2809iTUmvPiH9bC9YvYDsoq_nRkCk54w=w300" />
+                  <Avatar src="/firstshoplogo08.png" />
                 </IconButton>
                 {menuItems.map((menu, index) => (
                   <Button

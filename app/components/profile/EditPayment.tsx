@@ -75,13 +75,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface State {
-  amount: string;
-  password: string;
-  weight: string;
-  weightRange: string;
-  showPassword: boolean;
-}
 interface Props {
   id: string;
 }

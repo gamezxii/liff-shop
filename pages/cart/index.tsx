@@ -23,14 +23,14 @@ import Swal from "sweetalert2";
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, req }) => {
     let user = await parseCookiesCustomer(req);
-    if (!user) {
+    /* if (!user) {
       return {
         redirect: {
           permanent: false,
           destination: "/login",
         },
       };
-    }
+    } */
     return {
       props: { user, data: { props: { user } } },
     };
@@ -417,22 +417,6 @@ const Basket = () => {
 
         {/* render Mobile */}
         <Grid container spacing={0}>
-          {/* <Grid item xs={4}>
-            <Checkbox
-              indeterminate={
-                selected.length > 0 && selected.length < baskets.length
-              }
-              checked={baskets.length > 0 && selected.length === baskets.length}
-              color="primary"
-              inputProps={{ "aria-label": "secondary checkbox" }}
-              onChange={handleChangeItemsAllClick}
-            />
-          </Grid>
-          <Grid item xs={8}>
-            <Typography variant="body1" gutterBottom>
-              เลือกทั้งหมด
-            </Typography>
-          </Grid> */}
           <Grid item xs={12}>
             {baskets.map((item, index) => {
               const isItemSelected = isSelected(item._id as string);

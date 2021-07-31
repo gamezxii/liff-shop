@@ -18,6 +18,7 @@ import allbankReducer from "./allbank.reducer";
 import addressReducer from "./address.reducer";
 import historiesReducer from "./history.reducer";
 import dashboardReducer from "./dashboard.reducer";
+import shippingReducer from "./shipping.reducer";
 import promotionReducer from "./promotion.reducer";
 import bannerReducer from "./banner.reducer";
 /*  */
@@ -41,6 +42,7 @@ export default combineReducers({
   history: historiesReducer,
   dashboard: dashboardReducer,
   about: aboutReducer,
+  shipping: shippingReducer,
   promotion: promotionReducer,
   banner: bannerReducer,
 });

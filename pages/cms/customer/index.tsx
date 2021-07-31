@@ -129,7 +129,7 @@ const Customer = () => {
       ]);
     });
 
-    var csvBuilder = new CsvBuilder("coupon_list.csv")
+    var csvBuilder = new CsvBuilder("customer_list.csv")
       .setColumns([
         "ชื่อไลน์",
         "ชื่อ-นามสกุล",

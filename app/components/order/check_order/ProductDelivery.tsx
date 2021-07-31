@@ -1,4 +1,5 @@
 import React, { useState, useEffect, FC } from "react";
+import { useRouter } from "next/router";
 import Grid from "@material-ui/core/Grid";
 // import { GetServerSideProps } from "next";
 // import Button from "@material-ui/core/Button";
@@ -19,13 +20,15 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-
+//icon from @material-ui/icons
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import Swal from "sweetalert2";
+
+import * as slipAction from "@/context/actions/slip.action";
 
 function getModalStyle() {
   const top = 50;
   const left = 50;
-
   return {
     top: `${top}%`,
     left: `${left}%`,
@@ -65,8 +68,9 @@ const useStyles = makeStyles((theme: Theme) =>
       borderColor: "#AD00FF",
     },
     bankImg: {
-      paddingTop: "6px",
       textAlign: "center",
+      alignItems: "center",
+      display: "flex",
     },
     bankInfo: {
       display: "flex",
@@ -132,17 +136,40 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: "12px",
       fontAlign: "left",
     },
+    changeAddress: {
+      textAlign: "right",
+    },
+    cancelButton: {
+      padding: 5,
+      backgroundColor: "#FF1111",
+      color: "#FFF",
+      borderRadius: "10px",
+      marginTop: "20px",
+      margin: 10,
+    },
+    uploadButtonAlign: {
+      marginTop: 10,
+      textAlign: "right",
+    },
+    input: {
+      display: "none",
+    },
+    previewIMG: {
+      background: "50% 50% no-repeat",
+      maxWidth: "100%",
+      height: "auto",
+      paddingRight: "6px",
+      margin: "auto",
+    },
   })
 );
 
 const deliveryProduct = (props: any) => {
-  console.log(props);
+  const router = useRouter();
   const classes = useStyles();
-  // const [id, setId] = useState("60dc8456b6acdf24d0a806d2");
-  const { user } = useSelector(({ authCustomer }: any) => authCustomer);
+  const [user, setUser] = useState({ id: props.id });
   const dispatch = useDispatch();
   const { orders, orderAddress } = useSelector(({ orders }: any) => orders);
-
   const [modalStyles] = useState(getModalStyle);
 
   const feedWithId = async () => {
@@ -161,7 +188,8 @@ const deliveryProduct = (props: any) => {
       props.shippingAddress
     );
     const [openSwitch, setOpenSwitch] = useState(false);
-    const imageURL: string = `http://192.168.1.2:9000/uploads/${props.image}`;
+    const [file, setFile] = useState(null);
+    const slipURL: string = `http://localhost:9000/uploads/${props.image}`;
     const copyText = () => {
       handleOpen();
     };
@@ -174,16 +202,13 @@ const deliveryProduct = (props: any) => {
     const handleSwitchOpen = () => {
       setOpenSwitch(true);
     };
-
     const handleSwitchClose = () => {
       setOpenSwitch(false);
     };
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSelectedShipping((event.target as HTMLInputElement).value);
       console.log(selectedShipping);
     };
-
     const handleCancelUpdate = (orderid: string) => {
       handleClose();
       Swal.fire({
@@ -203,12 +228,30 @@ const deliveryProduct = (props: any) => {
       });
     };
 
+    //upload new photo banner
+    const handleChangePhoto = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const filesImage = event.currentTarget.files[0];
+      if (filesImage) {
+        setFile(filesImage);
+      }
+    };
+    const submitSlip = async () => {
+      const formData = new FormData();
+      formData.append("photo", file);
+      console.log(file, formData);
+      if (file) {
+        await dispatch(slipAction.uploadImage(formData, props.orderId));
+      }
+      router.reload();
+    };
+
     const handleAddressSubmit = async () => {
       console.log(user.id, selectedShipping, "184 send sub mit");
       await dispatch(
         orderActions.updateShippingAddress(props.orderId, selectedShipping)
       );
       await dispatch(orderActions.getAllOrder(user.id));
+      router.reload();
     };
     if (props.orderStatus == 3) {
       return <div></div>;
@@ -217,18 +260,25 @@ const deliveryProduct = (props: any) => {
         <div key={props.key}>
           <Card className={classes.addressCard} variant="outlined">
             <Grid container>
-              <Grid item xs={1} className={classes.bankImg}>
-                <img src={imageURL} alt="product" width="100" height="100" />
+              <Grid item xs={2} className={classes.bankImg}>
+                <img
+                  className={classes.previewIMG}
+                  src={slipURL}
+                  alt="product"
+                  width="100"
+                  height="100"
+                />
               </Grid>
-              <Grid item xs={3} className={classes.bankInfo}>
+              <Grid item xs={5} md={3} className={classes.bankInfo}>
                 <Typography variant="body2">
-                  order no. {props.orderNo} <br /> วันที่: {props.date}
+                  order no. {props.orderNo}
+                  <br /> วันที่: {props.date}
                 </Typography>
               </Grid>
-              <Grid item xs={6} className={classes.defaultGrid}>
+              <Grid item xs={2} md={5} className={classes.defaultGrid}>
                 {props.category}
               </Grid>
-              <Grid item xs={3} className={classes.priceGrid}>
+              <Grid item xs={3} md={2} className={classes.priceGrid}>
                 <Button
                   type="submit"
                   variant="contained"
@@ -236,7 +286,7 @@ const deliveryProduct = (props: any) => {
                   className={classes.copyButton}
                   onClick={() => copyText()}
                 >
-                  ดูรายละเอียด
+                  ออเดอร์
                 </Button>
               </Grid>
             </Grid>
@@ -246,6 +296,20 @@ const deliveryProduct = (props: any) => {
               <Avatar className={classes.avtPosition}>
                 <CheckIcon />
               </Avatar>
+              <Grid container>
+                <Grid xs={6}>
+                  <p>สถานะการชำระ</p>
+                  <p>รอการชำระ</p>
+                </Grid>
+                <Grid xs={6} className={classes.changeAddress}>
+                  <Button
+                    className={classes.copyCheck}
+                    onClick={() => handleSwitchOpen()}
+                  >
+                    เปลี่ยนที่อยู่จัดส่ง
+                  </Button>
+                </Grid>
+              </Grid>
               <Button
                 className={classes.copyCheck}
                 onClick={() => handleSwitchOpen()}
@@ -256,7 +320,8 @@ const deliveryProduct = (props: any) => {
                 <Grid item xs={12}>
                   <h5>รายละเอียด</h5>
                   <p className={classes.textDetail}>
-                    ORDER NO. {props.orderNo}
+                    ORDER NO.
+                    {props.orderNo}
                   </p>
                 </Grid>
                 <Grid item xs={12}>
@@ -343,6 +408,26 @@ const deliveryProduct = (props: any) => {
                     <p className={classes.textDetail}>{props.price}</p>
                   </Grid>
                 </Grid>
+                <Grid item xs={12} className={classes.uploadButtonAlign}>
+                  <input
+                    accept="image/*"
+                    className={classes.input}
+                    id="contained-button-file"
+                    type="file"
+                    onChange={handleChangePhoto}
+                  />
+                  <label htmlFor="contained-button-file">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      component="span"
+                    >
+                      <CameraAltIcon />
+                      &ensp; อัพโหลดสลิป
+                    </Button>
+                  </label>
+                  {file ? <Button onClick={submitSlip}>บันทึกสลิป</Button> : ""}
+                </Grid>
               </Grid>
 
               <Button
@@ -352,7 +437,7 @@ const deliveryProduct = (props: any) => {
                 ปิด
               </Button>
               <Button
-                className={classes.copyCheck}
+                className={classes.cancelButton}
                 onClick={() => handleCancelUpdate(props.orderId)}
               >
                 ยกเลิกรายการ
@@ -417,7 +502,7 @@ const deliveryProduct = (props: any) => {
           let transformDate = dayjs(date).format("DD/MM/YYYY");
           return (
             <ProductCard
-              orderNo={item._id}
+              orderNo={index + 1}
               date={transformDate}
               quantity={item.products.length}
               price={item.totalprice}

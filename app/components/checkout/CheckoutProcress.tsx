@@ -1,16 +1,15 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import Grid from "@material-ui/core/Grid";
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import Paper from "@material-ui/core/Paper";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
 import FormAddress from "./FormAddress";
 import {
   numberWithCommas,
   totalCheckout,
   totalCheckoutDiscount,
+  productQuantity,
 } from "@/utils/service";
 import { useRouter } from "next/router";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
@@ -18,6 +17,8 @@ import * as bankActions from "@/actions/bank.action";
 import { useDispatch, useSelector } from "react-redux";
 import BankRadio from "./Bankradio";
 import * as orderActions from "@/actions/order.action";
+import * as shippingActions from "@/actions/shipping.action";
+
 import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,7 +55,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
 interface Customer {
   _id: string;
   fullName: string;
@@ -67,7 +67,6 @@ interface Customer {
   billingAddress: string;
   shippingAddress: string;
 }
-
 interface Props {
   checkouts: any[];
   note: string;
@@ -75,7 +74,6 @@ interface Props {
   setOpenFormAddress: Dispatch<SetStateAction<boolean>>;
   customer: Customer;
 }
-
 //checkout ของ หน้า checkout
 const CheckoutProcress = ({
   checkouts,
@@ -90,25 +88,30 @@ const CheckoutProcress = ({
   const [subTotal, setSubTotal] = useState({
     total: 0,
     discount: 0,
+    shippingcost: 0,
     totalprice: 0,
   });
+  
   const { banks } = useSelector(({ bank }: any) => bank);
+  const { cost } = useSelector(({ shipping }: any) => shipping);
   const couponReducer = useSelector((state: any) => state.coupon);
   const [changeBank, setChangeBank] = useState("");
   const [couponCode, setCouponCode] = useState<string>("");
 
-  /*  */
-
   const handleFeedBanks = () => {
     dispatch(bankActions.feedBanks());
   };
-
+  const feedWithShippingCost = async () => {
+    const quantity = productQuantity(checkouts);
+    await dispatch(shippingActions.getShippingCost(quantity));
+  };
+  
   const handleSubmit = () => {
     if (changeBank == "") {
       Swal.fire({
         icon: "error",
         text: "กรุณาเลือกธนาคาร!",
-        confirmButtonText:'ตกลง'
+        confirmButtonText: "ตกลง",
       });
       return;
     }
@@ -127,6 +130,7 @@ const CheckoutProcress = ({
       orderStatus: 0,
       paidStatus: 0,
       code: couponCode,
+      slip: "",
     };
     console.log(reqCreateOrder);
     dispatch(orderActions.createOrder(reqCreateOrder, router));
@@ -134,6 +138,7 @@ const CheckoutProcress = ({
 
   useEffect(() => {
     if (checkouts.length > 0) {
+      feedWithShippingCost();
       const total = totalCheckout(checkouts);
       const resultDiscount = totalCheckoutDiscount(checkouts);
       console.log(checkouts);
@@ -143,25 +148,25 @@ const CheckoutProcress = ({
         setSubTotal({
           total: total,
           discount: discount,
-          totalprice: total - discount,
+          shippingcost:cost,
+          totalprice: total + cost - discount,
         });
         setCouponCode(code);
       } else {
         setSubTotal({
           total: total,
           discount: resultDiscount,
-          totalprice: total - resultDiscount,
+          shippingcost:cost,
+          totalprice: total + cost - resultDiscount,
         });
       }
     }
-  }, [checkouts, couponReducer.coupons]);
-  /*  */
-
-  /*  */
+  }, [checkouts, couponReducer.coupons,cost]);
 
   useEffect(() => {
     handleFeedBanks();
   }, []);
+
   return (
     <Paper className={classes.root} elevation={1}>
       <Grid container spacing={0}>
@@ -179,14 +184,12 @@ const CheckoutProcress = ({
               ชำระเงิน
             </Typography>
           </div>
-
           {/* Select Bank */}
           <BankRadio
             banks={banks}
             changeBank={changeBank}
             setChangeBank={setChangeBank}
           />
-          {/*  */}
           <div className={classes.subTotal}>
             <Typography variant="body1" gutterBottom>
               ราคารวม :
@@ -197,7 +200,7 @@ const CheckoutProcress = ({
             <Typography variant="body1" gutterBottom>
               ค่าจัดส่ง :
             </Typography>
-            <span>{numberWithCommas(subTotal.discount)}฿</span>
+            <span>{numberWithCommas(subTotal.shippingcost)}฿</span>
           </div>
           <div className={classes.subTotal}>
             <Typography variant="body1" gutterBottom>

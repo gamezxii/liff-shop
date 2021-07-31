@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { GetServerSideProps } from "next";
-import Layout from "@/layout";
 import SwipeableViews from "react-swipeable-views";
 import AppBar from "@material-ui/core/AppBar";
 import EditProfile from "@/components/profile/EditProfile";
@@ -8,8 +7,6 @@ import EditPayment from "@/components/profile/EditPayment";
 import EditAddress from "@/components/profile/EditAddress";
 import DialogAddAddress from "@/components/profile/DialogAddAddress";
 import DialogAddPayment from "@/components/profile/DialogAddPayment";
-import * as paymentActions from "@/actions/payment.action";
-import { useSelector, useDispatch } from "react-redux";
 // import DialogAddProfile from "@/components/profile/DialogAddProfile";
 import {
   Theme,
@@ -67,20 +64,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface editProduct {
-  title: string;
-  price: number;
-  saleprice: number;
-  quantity: number;
-  images: any[];
-  categoriesId: string;
-  relatedIds: string[];
-  ispopulated: number;
-  description: string;
-  averageRating: number;
-  size: string;
-  sku: string;
-}
 interface TabPanelProps {
   children?: React.ReactNode;
   dir?: string;
@@ -115,12 +98,7 @@ function a11yProps(index: any) {
 }
 
 const Edit = ({ id }) => {
-  const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState(id);
-
   const classes = useStyles();
-  const dispatch = useDispatch();
-
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   // const productReducer = useSelector(({ product }: any) => product);
@@ -130,20 +108,6 @@ const Edit = ({ id }) => {
   const handleChangeIndex = (index: number) => {
     setValue(index);
   };
-  const [productObject, setProductObject] = useState<editProduct>({
-    title: "",
-    price: 1,
-    saleprice: 0,
-    quantity: 0,
-    images: [],
-    categoriesId: "",
-    relatedIds: [],
-    ispopulated: 0,
-    description: "",
-    averageRating: 0,
-    size: "",
-    sku: "",
-  });
   useEffect(() => {
     // setProductObject(productReducer.products[0]);
     // feedWithId();

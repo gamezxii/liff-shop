@@ -18,6 +18,7 @@ const TableOrder = ({ orders }) => {
     if (orders.length > 0) {
       setTableData([]);
       orders.map((row) => {
+        console.log(row);
         let rows = {
           name: row.customerId.fullName,
           note: row.note,
