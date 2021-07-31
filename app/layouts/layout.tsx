@@ -46,7 +46,7 @@ import AssessmentIcon from "@material-ui/icons/Assessment";
 import HistoryIcon from "@material-ui/icons/History";
 import ContactlessIcon from "@material-ui/icons/Contactless";
 import ControlCameraIcon from "@material-ui/icons/ControlCamera";
-import ViewQuiltIcon from '@material-ui/icons/ViewQuilt';
+import ViewQuiltIcon from "@material-ui/icons/ViewQuilt";
 /*  */
 const drawerWidth = 240;
 
@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
     appBar: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
+      backgroundColor:'#39b549'
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -200,7 +201,7 @@ export default function PersistentDrawerLeft({ children }) {
             className={classes.iconMene}
           ></Typography>
           <Typography variant="body1" component="p">
-            Hi, {/* {authAdmin.user.fullName} */}
+            {/* {authAdmin.user.fullName} */}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -214,11 +215,8 @@ export default function PersistentDrawerLeft({ children }) {
       >
         <div className={classes.toolbar}>
           <div className={classes.titleStore}>
-            <Avatar
-              alt="Cindy Baker"
-              src="https://pht.qoo-static.com/LG2FwWONiUvcePpMJHhoxqPqg5eCT12VAKl2809iTUmvPiH9bC9YvYDsoq_nRkCk54w=w300"
-            />
-            <Typography>KAKAO WEBTOON</Typography>
+            <Avatar src="/firstshoplogo08.png" />
+            <Typography>FIRST SHOP</Typography>
           </div>
         </div>
         <Divider />
