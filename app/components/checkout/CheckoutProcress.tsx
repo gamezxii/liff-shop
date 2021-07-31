@@ -132,19 +132,18 @@ const CheckoutProcress = ({
       code: couponCode,
       slip: "",
     };
-    console.log(reqCreateOrder);
     dispatch(orderActions.createOrder(reqCreateOrder, router));
   };
 
   useEffect(() => {
     if (checkouts.length > 0) {
-      feedWithShippingCost();
       const total = totalCheckout(checkouts);
       const resultDiscount = totalCheckoutDiscount(checkouts);
-      console.log(checkouts);
+      feedWithShippingCost();
       if (couponReducer.coupons.length > 0) {
         const { priceSale, code } = couponReducer.coupons[0];
         let discount = resultDiscount + priceSale;
+        
         setSubTotal({
           total: total,
           discount: discount,
