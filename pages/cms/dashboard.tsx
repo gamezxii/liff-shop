@@ -68,7 +68,7 @@ function Dashboard() {
   const doFeed = () => {
     dispatch(dashboardActions.feedDayofMonth(activeButton));
   };
-  const [activeButton, setActiveButton] = useState("Month");
+  const [activeButton, setActiveButton] = useState("Day");
 
   const newArrays = [
     {
