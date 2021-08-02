@@ -239,6 +239,7 @@ const Coupon = () => {
         row.statusOpen = icon;
         setCouponData((pre) => [...pre, row]);
       });
+      console.log(couponData)
     }
   }, [coupons]);
 

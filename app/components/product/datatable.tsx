@@ -43,6 +43,7 @@ interface categories {
 interface Product {
   _id: string;
   title: string;
+  quantity: number;
   price: number;
   saleprice: number;
   categoriesId: categories | any;
@@ -104,6 +105,12 @@ const headCells: HeadCell[] = [
     numeric: false,
     disablePadding: true,
     label: "รายการ",
+  },
+  {
+    id: "quantity",
+    numeric: true,
+    disablePadding: false,
+    label: "จำนวนสิ้นค้า",
   },
   { id: "price", numeric: true, disablePadding: false, label: "ราคา" },
   { id: "saleprice", numeric: true, disablePadding: false, label: "ส่วนลด" },
@@ -465,6 +472,9 @@ export default function EnhancedTable({ products }: Props) {
                         padding="none"
                       >
                         {row.title}
+                      </TableCell>
+                      <TableCell align="center">
+                        {numberWithCommas(row.quantity.toFixed(2))}
                       </TableCell>
                       <TableCell align="center">
                         {numberWithCommas(row.price.toFixed(2))}

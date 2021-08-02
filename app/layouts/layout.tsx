@@ -172,7 +172,7 @@ export default function PersistentDrawerLeft({ children }) {
     {
       name: "Help Center",
       icon: <ContactMailIcon />,
-      path: "/cms/product/list",
+      path: "/cms/helpcenter",
     },
   ];
   const router = useRouter();

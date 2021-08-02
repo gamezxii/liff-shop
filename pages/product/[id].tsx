@@ -213,9 +213,13 @@ const ProductId = ({ id }) => {
                       {/* fetch size */}
                       <div>
                         <React.Fragment>
-                          <Typography variant="h5" gutterBottom>
-                            ประเภทของสินค้า
-                          </Typography>
+                          {product.size.length > 0 ? (
+                            <Typography variant="h5" gutterBottom>
+                              ประเภทของสินค้า
+                            </Typography>
+                          ) : (
+                            ""
+                          )}
                           {product.size.length > 0
                             ? product.size.map((row, index) => (
                                 <Button

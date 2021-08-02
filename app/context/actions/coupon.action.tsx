@@ -87,7 +87,11 @@ export const createCoupon = (coupon: couponState) => {
 
 export const updateCoupon = (objectCoupon: couponState) => {
   return async (dispatch) => {
-    console.log(objectCoupon);
+    const isUploading: couponActionInterface = {
+      type: couponActiontype.UPLOADING_COUPON,
+      payload: null,
+    };
+    dispatch(isUploading);
     try {
       const updateCoupon = await axios.put(
         `${urlApi}coupon/${objectCoupon._id}`,
