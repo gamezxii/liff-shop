@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "@/layout/";
 import ChartIncome from "@/components/dashboard/LineChart";
-import Chartproduct from "app/components/dashboard/Chartproduct";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,6 +17,12 @@ import { useSelector, useDispatch } from "react-redux";
 import * as dashboardActions from "@/actions/dashboard.action";
 import { numberWithCommas } from "@/utils/service";
 import Loading from "@/components/Loading";
+import dynamic from "next/dynamic";
+
+const ApexChartArea = dynamic(
+  () => import("@/components/dashboard/ApexChartArea"),
+  { ssr: false }
+);
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, req }) => {
@@ -131,11 +136,8 @@ function Dashboard() {
                 </ButtonGroup>
               </div>
             </div>
-            {dashboard.dashboards.length > 0 ? (
-              <ChartIncome charts={dashboard.dashboards} label={activeButton} />
-            ) : (
-              ""
-            )}
+            {/* <ChartIncome charts={dashboard.dashboards} label={activeButton} /> */}
+            <ApexChartArea charts={dashboard.dashboards} label={activeButton} />
           </Paper>
         </Grid>
       </Grid>

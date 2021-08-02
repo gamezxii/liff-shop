@@ -22,20 +22,22 @@ const Chartincome = ({ charts, label }: Props) => {
       display: false,
     },
     scales: {
-      xAxes: [
-        {
-          gridLines: {
-            display: false,
-          },
+      x: {
+        grid: {
+          display: false,
+          drawBorder: false,
+          drawOnChartArea: false,
+          drawTicks: false,
         },
-      ],
-      yAxes: [
-        {
-          gridLines: {
-            display: false,
-          },
+      },
+      y: {
+        grid: {
+          display: false,
+          drawBorder: true,
+          drawOnChartArea: true,
+          drawTicks: true,
         },
-      ],
+      },
     },
   };
 
@@ -52,7 +54,7 @@ const Chartincome = ({ charts, label }: Props) => {
   return (
     <div>
       <Line
-        type="line"
+        type="area"
         data={{
           labels: title,
           datasets: [
