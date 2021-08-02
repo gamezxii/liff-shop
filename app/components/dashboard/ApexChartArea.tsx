@@ -29,7 +29,8 @@ const ApexChartArea = ({ charts, label }) => {
     if (charts.length > 0) {
       let labels = [];
       let data = [];
-      for (const iterator of charts) {
+      let newItems = charts.sort(compare)
+      for (const iterator of newItems) {
         const { _id, total } = iterator;
         labels.push(_id);
         data.push(total);
@@ -43,6 +44,17 @@ const ApexChartArea = ({ charts, label }) => {
       setOptions({ ...options, xaxis: { categories: labels } });
     }
   }, [charts]);
+
+  function compare( a, b ) {
+    if ( a._id < b._id ){
+      return -1;
+    }
+    if ( a._id > b._id ){
+      return 1;
+    }
+    return 0;
+  }
+  
 
   return (
     <div>
