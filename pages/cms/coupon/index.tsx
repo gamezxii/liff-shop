@@ -7,7 +7,6 @@ import Button from "@material-ui/core/Button";
 import Formcoupon from "@/components/coupon/formcoupon";
 import Loading from "@/components/Loading";
 import Snackbar from "@/components/Snackbar";
-import MaterialComponent from "@/components/MaterialComponent";
 import Swal from "sweetalert2";
 import EditIcon from "@material-ui/icons/Edit";
 import IconButton from "@material-ui/core/IconButton";
@@ -21,6 +20,13 @@ import dayjs from "dayjs";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import { CsvBuilder } from "filefy";
+import dynamic from 'next/dynamic'
+const MaterialComponent = dynamic(
+  () => import("@/components/MaterialComponent"),
+  {
+    ssr: false,
+  }
+);
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, req }) => {

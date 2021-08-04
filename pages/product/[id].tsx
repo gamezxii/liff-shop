@@ -16,10 +16,24 @@ import * as productActions from "@/actions/product.action";
 import { GetServerSideProps } from "next";
 import Alertcart from "@/components/product/Alertcart";
 import { useRouter } from "next/router";
-import EditerView from "../../app/components/product/EditerView";
 import _ from "lodash";
 import Swal from "sweetalert2";
-import CardItem from "@/components/Card";
+//import CardItem from "@/components/Card";
+
+import dynamic from "next/dynamic";
+const EditerView = dynamic(
+  () => import("../../app/components/product/EditerView"),
+  {
+    ssr: false,
+  }
+);
+
+const CardItem = dynamic(
+  () => import("@/components/Card"),
+  {
+    ssr: false,
+  }
+);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

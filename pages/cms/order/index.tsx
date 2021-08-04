@@ -3,7 +3,11 @@ import { useRouter } from "next/router";
 import Layout from "@/layout";
 import { useDispatch, useSelector } from "react-redux";
 import * as orderActions from "@/actions/order.action";
-import TableOrder from "@/components/order/TableOrder";
+import dynamic from "next/dynamic";
+const TableOrder = dynamic(() => import("@/components/order/TableOrder"), {
+  ssr: false,
+});
+
 const List = () => {
   const router = useRouter();
   const dispatch = useDispatch();

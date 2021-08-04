@@ -108,40 +108,6 @@ const SignIn = () => {
               Sign in
             </Typography>
             <form className={classes.form} noValidate>
-              {/* <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="ชื่อผู้ใช้"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="รหัสผ่าน"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="จำรหัสผ่าน"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                className={classes.submit}
-              >
-                เข้าสู่ระบบ
-              </Button> */}
               <Button
                 type="submit"
                 fullWidth
@@ -153,18 +119,6 @@ const SignIn = () => {
                 <img alt="line-icon" src="./icon/line.svg" width="30" />
                 เข้าสู่ระบบผ่านไลน์
               </Button>
-              {/* <Grid container className={classes.registerSpace}>
-                <Grid item xs>
-                  <Link href="/forget-password" variant="body2">
-                    ลืมรหัสผ่าน
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="/register" variant="body2">
-                    {"สมัครสมาชิก"}
-                  </Link>
-                </Grid>
-              </Grid> */}
             </form>
           </div>
           <Box mt={8}>

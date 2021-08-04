@@ -11,7 +11,6 @@ import Loading from "@/components/Loading";
 import { useSelector, useDispatch } from "react-redux";
 import * as customerActions from "@/actions/customer.action";
 /*  */
-import MaterialComponent from "@/components/MaterialComponent";
 
 import { parseCookies } from "@/utils/token";
 import { wrapper } from "@/wapper/store";
@@ -19,6 +18,13 @@ import { filterAddress } from "@/utils/service";
 import Swal from "sweetalert2";
 import Snackbars from "@/components/Snackbar";
 import { CsvBuilder } from "filefy";
+import dynamic from 'next/dynamic'
+const MaterialComponent = dynamic(
+  () => import("@/components/MaterialComponent"),
+  {
+    ssr: false,
+  }
+);
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, req }) => {

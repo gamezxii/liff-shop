@@ -10,8 +10,13 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import ReportSuccess from "@/components/history/ReportSuccess";
-import ReportCancel from "@/components/history/ReportCancel";
+import dynamic from "next/dynamic";
+const ReportSuccess = dynamic(() => import("@/components/history/ReportSuccess"), {
+  ssr: false,
+});
+const ReportCancel = dynamic(() => import("@/components/history/ReportCancel"), {
+  ssr: false,
+});
 
 interface TabPanelProps {
   children?: React.ReactNode;

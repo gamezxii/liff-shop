@@ -12,12 +12,19 @@ import * as adminActions from "@/actions/admin.action";
 
 import { parseCookies } from "@/utils/token";
 import { wrapper } from "@/wapper/store";
-import MaterialComponent from "@/components/MaterialComponent";
 import EditIcon from "@material-ui/icons/Edit";
 import IconButton from "@material-ui/core/IconButton";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import { CsvBuilder } from "filefy";
+
+import dynamic from "next/dynamic";
+const MaterialComponent = dynamic(
+  () => import("@/components/MaterialComponent"),
+  {
+    ssr: false,
+  }
+);
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, req }) => {
